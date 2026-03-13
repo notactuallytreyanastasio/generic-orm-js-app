@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="Mocha Tests" time="0.015" tests="56" failures="0">
-  <testsuite name="Root Suite" timestamp="2026-03-13T03:58:49" tests="56" time="0.013" failures="0">
+<testsuites name="Mocha Tests" time="0.014" tests="56" failures="0">
+  <testsuite name="Root Suite" timestamp="2026-03-13T04:02:11" tests="56" time="0.014" failures="0">
     <testcase name="cast whitelists allowed fields" time="0.001" classname="cast whitelists allowed fields">
     </testcase>
-    <testcase name="cast is replacing not additive — second call resets whitelist" time="0.001" classname="cast is replacing not additive — second call resets whitelist">
+    <testcase name="cast is replacing not additive — second call resets whitelist" time="0.000" classname="cast is replacing not additive — second call resets whitelist">
     </testcase>
     <testcase name="cast ignores empty string values" time="0.000" classname="cast ignores empty string values">
     </testcase>
-    <testcase name="validateRequired passes when field present" time="0.000" classname="validateRequired passes when field present">
+    <testcase name="validateRequired passes when field present" time="0.001" classname="validateRequired passes when field present">
     </testcase>
-    <testcase name="validateRequired fails when field missing" time="0.001" classname="validateRequired fails when field missing">
+    <testcase name="validateRequired fails when field missing" time="0.000" classname="validateRequired fails when field missing">
     </testcase>
     <testcase name="validateLength passes within range" time="0.000" classname="validateLength passes within range">
     </testcase>
-    <testcase name="validateLength fails when too short" time="0.000" classname="validateLength fails when too short">
+    <testcase name="validateLength fails when too short" time="0.001" classname="validateLength fails when too short">
     </testcase>
     <testcase name="validateLength fails when too long" time="0.000" classname="validateLength fails when too long">
     </testcase>
-    <testcase name="validateInt passes for valid integer" time="0.001" classname="validateInt passes for valid integer">
+    <testcase name="validateInt passes for valid integer" time="0.000" classname="validateInt passes for valid integer">
     </testcase>
     <testcase name="validateInt fails for non-integer" time="0.000" classname="validateInt fails for non-integer">
     </testcase>
-    <testcase name="validateFloat passes for valid float" time="0.000" classname="validateFloat passes for valid float">
+    <testcase name="validateFloat passes for valid float" time="0.001" classname="validateFloat passes for valid float">
     </testcase>
-    <testcase name="validateInt64 passes for valid 64-bit integer" time="0.001" classname="validateInt64 passes for valid 64-bit integer">
+    <testcase name="validateInt64 passes for valid 64-bit integer" time="0.000" classname="validateInt64 passes for valid 64-bit integer">
     </testcase>
     <testcase name="validateInt64 fails for non-integer" time="0.000" classname="validateInt64 fails for non-integer">
     </testcase>
@@ -31,29 +31,29 @@
     </testcase>
     <testcase name="validateBool accepts false/0/no/off" time="0.000" classname="validateBool accepts false/0/no/off">
     </testcase>
-    <testcase name="validateBool rejects ambiguous values" time="0.001" classname="validateBool rejects ambiguous values">
+    <testcase name="validateBool rejects ambiguous values" time="0.000" classname="validateBool rejects ambiguous values">
     </testcase>
-    <testcase name="toInsertSql escapes Bobby Tables" time="0.000" classname="toInsertSql escapes Bobby Tables">
+    <testcase name="toInsertSql escapes Bobby Tables" time="0.001" classname="toInsertSql escapes Bobby Tables">
     </testcase>
-    <testcase name="toInsertSql produces correct SQL for string field" time="0.001" classname="toInsertSql produces correct SQL for string field">
+    <testcase name="toInsertSql produces correct SQL for string field" time="0.000" classname="toInsertSql produces correct SQL for string field">
     </testcase>
     <testcase name="toInsertSql produces correct SQL for int field" time="0.000" classname="toInsertSql produces correct SQL for int field">
     </testcase>
-    <testcase name="toInsertSql bubbles on invalid changeset" time="0.000" classname="toInsertSql bubbles on invalid changeset">
+    <testcase name="toInsertSql bubbles on invalid changeset" time="0.001" classname="toInsertSql bubbles on invalid changeset">
     </testcase>
     <testcase name="toInsertSql enforces non-nullable fields independently of isValid" time="0.000" classname="toInsertSql enforces non-nullable fields independently of isValid">
     </testcase>
-    <testcase name="toUpdateSql produces correct SQL" time="0.001" classname="toUpdateSql produces correct SQL">
+    <testcase name="toUpdateSql produces correct SQL" time="0.000" classname="toUpdateSql produces correct SQL">
     </testcase>
     <testcase name="toUpdateSql bubbles on invalid changeset" time="0.000" classname="toUpdateSql bubbles on invalid changeset">
     </testcase>
     <testcase name="bare from produces SELECT *" time="0.000" classname="bare from produces SELECT *">
     </testcase>
-    <testcase name="select restricts columns" time="0.000" classname="select restricts columns">
+    <testcase name="select restricts columns" time="0.001" classname="select restricts columns">
     </testcase>
     <testcase name="where adds condition with int value" time="0.000" classname="where adds condition with int value">
     </testcase>
-    <testcase name="where adds condition with bool value" time="0.001" classname="where adds condition with bool value">
+    <testcase name="where adds condition with bool value" time="0.000" classname="where adds condition with bool value">
     </testcase>
     <testcase name="chained where uses AND" time="0.000" classname="chained where uses AND">
     </testcase>
@@ -61,7 +61,7 @@
     </testcase>
     <testcase name="orderBy DESC" time="0.000" classname="orderBy DESC">
     </testcase>
-    <testcase name="limit and offset" time="0.001" classname="limit and offset">
+    <testcase name="limit and offset" time="0.000" classname="limit and offset">
     </testcase>
     <testcase name="limit bubbles on negative" time="0.000" classname="limit bubbles on negative">
     </testcase>
@@ -93,7 +93,7 @@
     </testcase>
     <testcase name="FieldDef nullable flag" time="0.000" classname="FieldDef nullable flag">
     </testcase>
-    <testcase name="string escaping" time="0.001" classname="string escaping">
+    <testcase name="string escaping" time="0.000" classname="string escaping">
     </testcase>
     <testcase name="string edge cases" time="0.000" classname="string edge cases">
     </testcase>
