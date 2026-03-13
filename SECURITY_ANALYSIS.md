@@ -1,9 +1,9 @@
 # SQL Security Analysis: JavaScript Todo App
 
-SQL injection analysis of the JavaScript todo app built on the Generic Temper ORM. This analysis focuses exclusively on SQL generation and execution -- the core value proposition of the ORM.
+SQL security analysis of the JavaScript todo app built on the Generic Temper ORM. This analysis focuses exclusively on SQL generation and execution -- the core value proposition of the ORM.
 
 **Analysis Date:** 2026-03-12
-**Updated:** 2026-03-13 (MITRE ATT&CK / CWE Top 25 mapping, JOIN feature analysis)
+**Updated:** 2026-03-13 (JOIN feature analysis, SQL-focused scope)
 **Framework:** Express + EJS + better-sqlite3
 **ORM:** Generic Temper ORM (compiled to JavaScript)
 
@@ -86,18 +86,13 @@ Schema creation uses hardcoded `CREATE TABLE` statements with no dynamic content
 
 ---
 
-## Findings
+## SQL Findings
 
 | # | Severity | CWE | Finding |
 |---|----------|-----|---------|
 | JS-SQL-1 | LOW | CWE-20 | `parseInt(req.params.id)` can return `NaN`. If passed to `SqlBuilder.appendInt32()`, behavior depends on Temper's `Int32` handling. In practice, `NaN` would fail at the ORM level (not a valid Int32), but the app doesn't check for `NaN` before calling ORM functions. |
 | JS-SQL-2 | INFO | CWE-89 | ORM-generated SQL is executed via `db.prepare(sql).run()` -- the rendered string is passed as the full statement. While escaping is correct, using `db.prepare()` with `?` placeholders for ORM output too would add defense-in-depth. |
 | JS-SQL-3 | INFO | CWE-400 | All SELECT queries use `toSql()` instead of `safeToSql(defaultLimit)`. The ORM provides bounded queries via `safeToSql()` but this app doesn't use them. |
-| JS-WEB-1 | HIGH | CWE-352 | No CSRF protection. No `csurf`, `csrf-csrf`, or any CSRF token middleware is installed. All POST routes (create list, delete list, add todo, toggle todo, delete todo, edit todo) are vulnerable to cross-site request forgery. |
-| JS-WEB-2 | MEDIUM | CWE-693 | No security headers. `helmet` or equivalent middleware is not installed. Missing `Content-Security-Policy`, `X-Content-Type-Options`, `X-Frame-Options`, `Strict-Transport-Security`, and other standard security headers. |
-| JS-WEB-3 | MEDIUM | CWE-862 | No authentication or authorization. Any network-reachable client can create, read, update, and delete all lists and todos. No session, no login, no access control. |
-| JS-WEB-4 | LOW | CWE-400 | No rate limiting. No `express-rate-limit` or equivalent. An attacker can issue unlimited requests to create lists/todos or trigger database operations. |
-| JS-WEB-5 | INFO | CWE-1004 | No cookie-based session exists, so cookie flags (HttpOnly, Secure, SameSite) are moot, but if sessions are added later, these must be configured. |
 
 ### ORM-Level Concerns (shared across all apps)
 
@@ -106,53 +101,6 @@ Schema creation uses hardcoded `CREATE TABLE` statements with no dynamic content
 | ORM-1 | MEDIUM | CWE-89 | `toInsertSql`/`toUpdateSql` pass `pair.key` (a `String`) to `appendSafe`. Safe by construction -- keys come from `cast()` which requires `SafeIdentifier` -- but the type system doesn't enforce this at the call site. |
 | ORM-2 | LOW | CWE-89 | `SqlDate.formatTo` wraps `value.toString()` in quotes without escaping. Safe because date format is `YYYY-MM-DD`. |
 | ORM-3 | LOW | CWE-20 | `SqlFloat64.formatTo` can produce `NaN`/`Infinity` -- not valid SQL literals. |
-
----
-
-## MITRE Top 25 CWE Analysis (2024)
-
-Full mapping of the MITRE/CWE Top 25 Most Dangerous Software Weaknesses (2024 edition) against this application.
-
-| Rank | CWE ID | CWE Name | Status | Details |
-|------|--------|----------|--------|---------|
-| 1 | CWE-787 | Out-of-bounds Write | N/A | JavaScript/Node.js is memory-managed. No native buffer operations in this app. Not applicable. |
-| 2 | CWE-79 | Improper Neutralization of Input During Web Page Generation (XSS) | **Mitigated** | EJS templates use `<%= ... %>` (HTML-escaped output) for all user-controlled values (`l.name`, `t.title`, `l.id`, `t.id`, counts). No use of `<%- ... %>` (unescaped) for user data -- only used for template includes (`<%- include('header') %>`). The `value="<%= t.title %>"` in edit forms is also properly escaped by EJS. |
-| 3 | CWE-89 | Improper Neutralization of Special Elements used in an SQL Command (SQL Injection) | **Mitigated** | All user input to SQL goes through either (a) the ORM's `SafeIdentifier` + `SqlString`/`SqlInt32` escaping pipeline or (b) better-sqlite3 parameterized queries (`?` placeholders). No string concatenation of user input into SQL. See detailed SQL analysis above. |
-| 4 | CWE-416 | Use After Free | N/A | JavaScript is garbage-collected. Not applicable. |
-| 5 | CWE-78 | Improper Neutralization of Special Elements used in an OS Command (OS Command Injection) | N/A | No `child_process`, `exec`, `spawn`, or shell commands anywhere in the application. |
-| 6 | CWE-20 | Improper Input Validation | **Partially Mitigated** | `parseInt()` is used for route parameter IDs but `NaN` results are not explicitly checked (see JS-SQL-1). Form inputs are trimmed and checked for emptiness. The ORM's changeset validates required fields and type constraints. However, no length limits are enforced on user-provided `name` or `title` strings at the app level. |
-| 7 | CWE-125 | Out-of-bounds Read | N/A | JavaScript/Node.js is memory-managed. Not applicable. |
-| 8 | CWE-22 | Improper Limitation of a Pathname to a Restricted Directory (Path Traversal) | N/A | No file read/write operations based on user input. Static files are served from a fixed `public/` directory via `express.static()`. The database path is hardcoded. No user-controlled file paths. |
-| 9 | CWE-352 | Cross-Site Request Forgery (CSRF) | **VULNERABLE** | No CSRF protection of any kind. No CSRF tokens, no `SameSite` cookie attributes (no cookies at all), no custom header checks. All 6 POST endpoints (`/lists`, `/lists/:id/delete`, `/lists/:id/todos`, `/todos/:id/toggle`, `/todos/:id/delete`, `/todos/:id/edit`) accept unauthenticated form submissions from any origin. A malicious page could submit forms to create/delete lists or todos if the app is running on the user's machine. See JS-WEB-1. |
-| 10 | CWE-434 | Unrestricted Upload of File with Dangerous Type | N/A | No file upload functionality. No `multer` or file handling middleware. |
-| 11 | CWE-862 | Missing Authorization | **VULNERABLE** | No authentication or authorization exists. All routes are publicly accessible. Any client on the network can perform all CRUD operations on all data. See JS-WEB-3. |
-| 12 | CWE-476 | NULL Pointer Dereference | N/A | JavaScript throws `TypeError` on null/undefined property access, which Express catches as a 500. The app checks `if (!list)` before accessing list properties. Not a meaningful risk. |
-| 13 | CWE-287 | Improper Authentication | **VULNERABLE** | No authentication mechanism exists. No login, no sessions, no tokens. This is by design for a demo/local app, but it means the app has zero authentication. |
-| 14 | CWE-190 | Integer Overflow or Wraparound | **Mitigated** | JavaScript's `parseInt()` with radix 10 returns `NaN` for overflow values rather than wrapping. SQLite's INTEGER type handles large values natively. The ORM's `appendInt32()` renders via `.toString()` which produces the correct decimal. |
-| 15 | CWE-502 | Deserialization of Untrusted Data | N/A | No `JSON.parse` of user-controlled data, no `eval`, no `unserialize`. Express's `urlencoded` parser only produces flat string key-value pairs from form data. |
-| 16 | CWE-77 | Improper Neutralization of Special Elements used in a Command (Command Injection) | N/A | No command execution. No `eval()`, no `Function()` constructor, no template string execution of user input. |
-| 17 | CWE-119 | Improper Restriction of Operations within the Bounds of a Memory Buffer | N/A | JavaScript is memory-safe. Not applicable. |
-| 18 | CWE-798 | Use of Hard-coded Credentials | N/A | No credentials in the codebase. SQLite is file-based with no authentication. No API keys, no passwords, no secrets in source. |
-| 19 | CWE-918 | Server-Side Request Forgery (SSRF) | N/A | No outbound HTTP requests. No `fetch`, `axios`, `http.get`, or URL-based resource loading from user input. |
-| 20 | CWE-306 | Missing Authentication for Critical Function | **VULNERABLE** | Same as CWE-287/862 above. All critical functions (delete list, delete todo, edit todo) lack authentication. |
-| 21 | CWE-362 | Concurrent Execution using Shared Resource with Improper Synchronization (Race Condition) | **Partially Mitigated** | better-sqlite3 is synchronous and single-threaded. SQLite's WAL mode provides good concurrency for reads. However, the toggle-and-redirect pattern (`read todo -> toggle -> redirect`) is not atomic at the application level, though SQLite serializes writes. Low practical risk. |
-| 22 | CWE-269 | Improper Privilege Management | N/A | Single-tier app with no privilege levels. No admin/user distinction exists. |
-| 23 | CWE-94 | Improper Control of Generation of Code (Code Injection) | N/A | No `eval()`, no dynamic code generation, no template compilation from user input. EJS templates are loaded from the filesystem, not from user data. |
-| 24 | CWE-863 | Incorrect Authorization | N/A (prerequisite missing) | No authorization logic exists to be incorrect. This is subsumed by CWE-862 (missing authorization entirely). |
-| 25 | CWE-276 | Incorrect Default Permissions | **Partially Mitigated** | The SQLite database file (`todo.db`) is created with Node.js default permissions (typically 0644 on Unix). On a multi-user system, other users could read the database. No explicit permission setting is performed. |
-
-### Summary
-
-| Status | Count | CWEs |
-|--------|-------|------|
-| **Mitigated** | 4 | CWE-79, CWE-89, CWE-190, CWE-14 (covered by JS memory safety) |
-| **Partially Mitigated** | 3 | CWE-20, CWE-362, CWE-276 |
-| **Vulnerable** | 4 | CWE-352, CWE-862, CWE-287, CWE-306 |
-| **N/A** | 14 | Memory safety (787, 416, 125, 119), no file ops (22, 434), no commands (78, 77, 94), no deser (502), no creds (798), no SSRF (918), no privs (269, 476), no authz logic (863) |
-
-### Risk Assessment
-
-The app's **core data-handling security is strong**: SQL injection is comprehensively mitigated through the ORM's type-safe SQL generation, and XSS is mitigated by EJS's default HTML escaping. The primary vulnerabilities are **infrastructure-level concerns** (missing CSRF, missing authentication, missing security headers) that are typical of demo/prototype applications not yet hardened for production deployment.
 
 ---
 
@@ -239,22 +187,42 @@ The `col()` helper function is a positive security addition -- it provides a con
 
 ---
 
+## SQL-Relevant CWE Mapping
+
+This section maps SQL-related Common Weakness Enumerations (CWE) to this application's status.
+
+| CWE ID | CWE Name | Status | Details |
+|--------|----------|--------|---------|
+| CWE-89 | Improper Neutralization of Special Elements used in an SQL Command (SQL Injection) | **Mitigated** | All user input to SQL goes through either (a) the ORM's `SafeIdentifier` + `SqlString`/`SqlInt32` escaping pipeline or (b) better-sqlite3 parameterized queries (`?` placeholders). No string concatenation of user input into SQL. See detailed SQL analysis above. |
+| CWE-20 | Improper Input Validation | **Partially Mitigated** | `parseInt()` is used for route parameter IDs but `NaN` results are not explicitly checked (see JS-SQL-1). Form inputs are trimmed and checked for emptiness. The ORM's changeset validates required fields and type constraints. However, no length limits are enforced on user-provided `name` or `title` strings at the app level. |
+| CWE-400 | Uncontrolled Resource Consumption | **Partially Mitigated** | All SELECT queries use `toSql()` instead of `safeToSql(defaultLimit)`. The ORM provides bounded queries via `safeToSql()` but this app doesn't use them (see JS-SQL-3). JOIN operations can amplify result set sizes but table sizes are small in this app (see JOIN-4). |
+| CWE-915 | Improperly Controlled Modification of Dynamically-Determined Object Attributes | **Mitigated** | Changeset field whitelisting via `cast([safeIdentifier("title"), safeIdentifier("list_id")])` ensures only whitelisted columns appear in INSERT/UPDATE. Mass assignment attacks are prevented by the ORM's explicit field list requirement. |
+| CWE-190 | Integer Overflow or Wraparound | **Mitigated** | JavaScript's `parseInt()` with radix 10 returns `NaN` for overflow values rather than wrapping. SQLite's INTEGER type handles large values natively. The ORM's `appendInt32()` renders via `.toString()` which produces the correct decimal. |
+
+### Summary
+
+| Status | Count | CWEs |
+|--------|-------|------|
+| **Mitigated** | 3 | CWE-89, CWE-915, CWE-190 |
+| **Partially Mitigated** | 2 | CWE-20, CWE-400 |
+
+---
+
 ## Verdict
 
 **No SQL injection vulnerabilities found.** The ORM's type-safe generation covers all user-input-to-SQL paths, and raw SQL consistently uses parameterized queries. The app achieves 100% parameterized raw SQL.
 
-**4 web-layer vulnerabilities identified** (CSRF, missing auth, missing authentication, missing security headers) that are typical of demo/prototype applications.
-
-**Total findings: 13** (5 app-level from original + new, 3 ORM-level, 5 JOIN-specific)
+**Total SQL-related findings: 11** (3 app-level, 3 ORM-level, 5 JOIN-specific)
 
 | Category | Critical | High | Medium | Low | Info |
 |----------|----------|------|--------|-----|------|
 | SQL Injection | 0 | 0 | 0 | 0 | 2 |
 | Input Validation | 0 | 0 | 0 | 1 | 0 |
-| Web Security | 0 | 1 | 2 | 1 | 1 |
 | ORM Core | 0 | 0 | 1 | 2 | 0 |
 | JOIN Feature | 0 | 0 | 0 | 1 | 4 |
-| **Total** | **0** | **1** | **3** | **5** | **7** |
+| **Total** | **0** | **0** | **1** | **4** | **6** |
+
+The app's **SQL security is strong**: SQL injection is comprehensively mitigated through the ORM's type-safe SQL generation. The primary areas for improvement are input validation edge cases (NaN handling) and adopting the ORM's `safeToSql()` method for bounded queries.
 
 ---
 
