@@ -1,0 +1,65 @@
+<%- include('header', { pageTitle: 'TodoApp - Overdue' }) %>
+
+    <div class="win95-window">
+      <div class="win95-titlebar">
+        <span class="title-text">Overdue & Undated Todos</span>
+        <span class="lang-badge">JS</span>
+        <div class="win95-titlebar-buttons">
+          <button class="win95-titlebar-btn">_</button>
+          <button class="win95-titlebar-btn">&square;</button>
+          <button class="win95-titlebar-btn">X</button>
+        </div>
+      </div>
+      <div class="win95-body">
+        <div class="section-header">ORM: whereNot, whereNotNull, whereNull, orderBy</div>
+        <div class="nav-bar">
+          <a href="/" class="win95-btn">&laquo; Back</a>
+        </div>
+
+        <fieldset class="win95-groupbox">
+          <legend>Overdue (whereNot completed, whereNotNull due_date, due_date &lt; '<%= today %>')</legend>
+          <div class="win95-sunken" style="min-height: 80px;">
+            <% if (todos.length === 0) { %>
+              <div class="empty-message">No overdue todos. Great job!</div>
+            <% } else { %>
+              <% todos.forEach(function(t) { %>
+                <div class="todo-item">
+                  <span class="todo-text">
+                    <%= t.title %>
+                    <span class="priority-badge p<%= t.priority %>">P<%= t.priority %></span>
+                    <span class="due-date overdue"><%= t.due_date %></span>
+                  </span>
+                  <a href="/lists/<%= t.list_id %>" style="font-size:12px">View List</a>
+                </div>
+              <% }) %>
+            <% } %>
+          </div>
+        </fieldset>
+
+        <fieldset class="win95-groupbox">
+          <legend>No Due Date (whereNull due_date)</legend>
+          <div class="win95-sunken" style="min-height: 80px;">
+            <% if (noDueDateTodos.length === 0) { %>
+              <div class="empty-message">All incomplete todos have due dates.</div>
+            <% } else { %>
+              <% noDueDateTodos.forEach(function(t) { %>
+                <div class="todo-item">
+                  <span class="todo-text">
+                    <%= t.title %>
+                    <span class="priority-badge p<%= t.priority %>">P<%= t.priority %></span>
+                    <span class="due-date">No date</span>
+                  </span>
+                  <a href="/lists/<%= t.list_id %>" style="font-size:12px">View List</a>
+                </div>
+              <% }) %>
+            <% } %>
+          </div>
+        </fieldset>
+      </div>
+      <div class="win95-statusbar">
+        <span class="status-section"><%= todos.length %> overdue</span>
+        <span class="status-section"><%= noDueDateTodos.length %> undated</span>
+      </div>
+    </div>
+
+<%- include('footer') %>

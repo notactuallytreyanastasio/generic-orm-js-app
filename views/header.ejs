@@ -64,16 +64,106 @@
     .todo-text-display.hidden {
       display: none;
     }
+    .nav-bar {
+      display: flex;
+      gap: 4px;
+      padding: 4px;
+      flex-wrap: wrap;
+    }
+    .nav-bar a {
+      text-decoration: none;
+    }
+    .priority-badge {
+      display: inline-block;
+      padding: 1px 6px;
+      font-size: 12px;
+      border: 1px solid var(--win95-btn-shadow);
+      background: var(--win95-field-bg);
+      margin-left: 4px;
+    }
+    .priority-badge.p5 { background: #ff6666; color: #fff; }
+    .priority-badge.p4 { background: #ff9933; color: #fff; }
+    .priority-badge.p3 { background: #ffcc00; }
+    .priority-badge.p2 { background: #99cc66; }
+    .priority-badge.p1 { background: #66aacc; color: #fff; }
+    .tag-badge {
+      display: inline-block;
+      padding: 1px 4px;
+      font-size: 11px;
+      border: 1px solid #999;
+      background: #e8e8ff;
+      margin-left: 2px;
+    }
+    .due-date {
+      font-size: 12px;
+      color: var(--win95-btn-shadow);
+      margin-left: 4px;
+    }
+    .due-date.overdue {
+      color: #cc0000;
+      font-weight: bold;
+    }
+    table.stats-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    table.stats-table th, table.stats-table td {
+      border: 1px solid var(--win95-btn-shadow);
+      padding: 4px 8px;
+      text-align: left;
+    }
+    table.stats-table th {
+      background: var(--win95-btn-face);
+    }
+    .sql-display {
+      background: #1a1a2e;
+      color: #00ff00;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      padding: 8px;
+      margin: 4px 0;
+      white-space: pre-wrap;
+      word-break: break-all;
+      border: 2px inset var(--win95-btn-shadow);
+    }
+    .section-header {
+      background: var(--win95-btn-face);
+      padding: 4px 8px;
+      border-bottom: 1px solid var(--win95-btn-shadow);
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .error-msg {
+      color: #cc0000;
+      font-size: 13px;
+      padding: 2px 0;
+    }
+    .success-msg {
+      color: #006600;
+      font-size: 13px;
+      padding: 2px 0;
+    }
+    .pagination {
+      display: flex;
+      gap: 4px;
+      padding: 4px;
+      align-items: center;
+      justify-content: center;
+    }
   </style>
 </head>
 <body>
   <!-- Mac System 6 Menu Bar -->
   <div class="mac-menubar">
     <span class="apple-logo">&#63743;</span>
-    <span class="menu-item app-name">TodoApp</span>
-    <span class="menu-item">File</span>
-    <span class="menu-item">Edit</span>
-    <span class="menu-item">Help</span>
+    <a href="/" class="menu-item app-name" style="text-decoration:none;color:inherit">TodoApp</a>
+    <a href="/stats" class="menu-item" style="text-decoration:none;color:inherit">Stats</a>
+    <a href="/search" class="menu-item" style="text-decoration:none;color:inherit">Search</a>
+    <a href="/overdue" class="menu-item" style="text-decoration:none;color:inherit">Overdue</a>
+    <a href="/reports/combined" class="menu-item" style="text-decoration:none;color:inherit">Reports</a>
+    <a href="/joins-demo" class="menu-item" style="text-decoration:none;color:inherit">Joins</a>
+    <a href="/validation-demo" class="menu-item" style="text-decoration:none;color:inherit">Validate</a>
   </div>
 
   <!-- Desktop Area -->

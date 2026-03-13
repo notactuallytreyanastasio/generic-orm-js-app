@@ -11,8 +11,10 @@
         </div>
       </div>
       <div class="win95-body">
+        <div class="section-header">ORM: leftJoin, groupBy, selectExpr, countCol, sumCol, col, orderBy</div>
         <form action="/lists" method="POST" class="win95-toolbar">
-          <input type="text" name="name" class="win95-input" placeholder="New list name..." required>
+          <input type="text" name="name" class="win95-input" placeholder="New list name..." required style="flex:2">
+          <input type="text" name="description" class="win95-input" placeholder="Description (optional)" style="flex:3">
           <button type="submit" class="win95-btn primary">New List</button>
         </form>
         <div class="win95-sunken" style="min-height: 200px; margin-top: 8px;">
@@ -21,9 +23,15 @@
           <% } else { %>
             <% lists.forEach(function(l) { %>
               <div class="list-row">
-                <a href="/lists/<%= l.id %>">&#128193; <%= l.name %></a>
+                <a href="/lists/<%= l.list_id %>">&#128193; <%= l.name %></a>
+                <% if (l.description) { %>
+                  <span style="font-size:12px;color:#666;flex:1"><%= l.description %></span>
+                <% } %>
                 <span class="count-badge"><%= l.done_count %>/<%= l.todo_count %> done</span>
-                <form action="/lists/<%= l.id %>/delete" method="POST" style="margin:0" onsubmit="return confirm('Delete this list and all its todos?')">
+                <a href="/lists/<%= l.list_id %>/has-completed" class="win95-btn" style="min-width:auto;padding:2px 6px;font-size:12px;text-decoration:none">?</a>
+                <a href="/lists/<%= l.list_id %>/todos/page/1" class="win95-btn" style="min-width:auto;padding:2px 6px;font-size:12px;text-decoration:none">Pg</a>
+                <a href="/lists/<%= l.list_id %>/todos/high-priority" class="win95-btn" style="min-width:auto;padding:2px 6px;font-size:12px;text-decoration:none">Hi</a>
+                <form action="/lists/<%= l.list_id %>/delete" method="POST" style="margin:0" onsubmit="return confirm('Delete this list and all its todos?')">
                   <button type="submit" class="win95-btn danger" style="min-width:auto;padding:2px 8px;font-size:13px">Del</button>
                 </form>
               </div>
@@ -33,7 +41,7 @@
       </div>
       <div class="win95-statusbar">
         <span class="status-section"><%= lists.length %> list<%= lists.length !== 1 ? 's' : '' %></span>
-        <span class="status-section">Ready</span>
+        <span class="status-section">Alloy ORM Demo</span>
       </div>
     </div>
 

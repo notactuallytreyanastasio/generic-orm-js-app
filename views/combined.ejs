@@ -1,0 +1,77 @@
+<%- include('header', { pageTitle: 'TodoApp - Combined Reports' }) %>
+
+    <div class="win95-window" style="max-width:720px">
+      <div class="win95-titlebar">
+        <span class="title-text">Combined Reports - Set Operations</span>
+        <span class="lang-badge">JS</span>
+        <div class="win95-titlebar-buttons">
+          <button class="win95-titlebar-btn">_</button>
+          <button class="win95-titlebar-btn">&square;</button>
+          <button class="win95-titlebar-btn">X</button>
+        </div>
+      </div>
+      <div class="win95-body">
+        <div class="section-header">ORM: unionSql, unionAllSql, intersectSql, exceptSql</div>
+        <div class="nav-bar">
+          <a href="/" class="win95-btn">&laquo; Back</a>
+        </div>
+
+        <fieldset class="win95-groupbox">
+          <legend>UNION: High Priority OR Completed (no duplicates)</legend>
+          <div class="win95-sunken" style="max-height:150px;overflow:auto">
+            <% unionResults.forEach(function(t) { %>
+              <div class="todo-item<%= t.completed ? ' completed' : '' %>">
+                <span class="todo-text"><%= t.title %> <span class="priority-badge p<%= t.priority %>">P<%= t.priority %></span></span>
+              </div>
+            <% }) %>
+            <% if (unionResults.length === 0) { %><div class="empty-message">No results</div><% } %>
+          </div>
+          <div style="font-size:12px;color:#666;padding:2px 4px"><%= unionResults.length %> rows</div>
+        </fieldset>
+
+        <fieldset class="win95-groupbox">
+          <legend>UNION ALL: High Priority OR Completed (with duplicates)</legend>
+          <div class="win95-sunken" style="max-height:150px;overflow:auto">
+            <% unionAllResults.forEach(function(t) { %>
+              <div class="todo-item<%= t.completed ? ' completed' : '' %>">
+                <span class="todo-text"><%= t.title %> <span class="priority-badge p<%= t.priority %>">P<%= t.priority %></span></span>
+              </div>
+            <% }) %>
+            <% if (unionAllResults.length === 0) { %><div class="empty-message">No results</div><% } %>
+          </div>
+          <div style="font-size:12px;color:#666;padding:2px 4px"><%= unionAllResults.length %> rows</div>
+        </fieldset>
+
+        <fieldset class="win95-groupbox">
+          <legend>INTERSECT: High Priority AND Completed</legend>
+          <div class="win95-sunken" style="max-height:150px;overflow:auto">
+            <% intersectResults.forEach(function(t) { %>
+              <div class="todo-item completed">
+                <span class="todo-text"><%= t.title %> <span class="priority-badge p<%= t.priority %>">P<%= t.priority %></span></span>
+              </div>
+            <% }) %>
+            <% if (intersectResults.length === 0) { %><div class="empty-message">No results</div><% } %>
+          </div>
+          <div style="font-size:12px;color:#666;padding:2px 4px"><%= intersectResults.length %> rows</div>
+        </fieldset>
+
+        <fieldset class="win95-groupbox">
+          <legend>EXCEPT: High Priority but NOT Completed</legend>
+          <div class="win95-sunken" style="max-height:150px;overflow:auto">
+            <% exceptResults.forEach(function(t) { %>
+              <div class="todo-item">
+                <span class="todo-text"><%= t.title %> <span class="priority-badge p<%= t.priority %>">P<%= t.priority %></span></span>
+              </div>
+            <% }) %>
+            <% if (exceptResults.length === 0) { %><div class="empty-message">No results</div><% } %>
+          </div>
+          <div style="font-size:12px;color:#666;padding:2px 4px"><%= exceptResults.length %> rows</div>
+        </fieldset>
+      </div>
+      <div class="win95-statusbar">
+        <span class="status-section">4 set operations</span>
+        <span class="status-section">SQL Set Theory</span>
+      </div>
+    </div>
+
+<%- include('footer') %>

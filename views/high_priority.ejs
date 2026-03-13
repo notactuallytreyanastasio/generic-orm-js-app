@@ -1,0 +1,52 @@
+<%- include('header', { pageTitle: 'TodoApp - High Priority' }) %>
+
+    <div class="win95-window">
+      <div class="win95-titlebar">
+        <span class="title-text">High Priority - <%= list.name %></span>
+        <span class="lang-badge">JS</span>
+        <div class="win95-titlebar-buttons">
+          <button class="win95-titlebar-btn">_</button>
+          <button class="win95-titlebar-btn">&square;</button>
+          <button class="win95-titlebar-btn">X</button>
+        </div>
+      </div>
+      <div class="win95-body">
+        <div class="section-header">ORM: whereBetween(priority 4-5), whereNotNull(due_date), limit, offset</div>
+        <div class="nav-bar">
+          <a href="/lists/<%= list.id %>" class="win95-btn">&laquo; Back to List</a>
+          <a href="/" class="win95-btn">Home</a>
+        </div>
+        <div class="win95-sunken" style="min-height: 150px; margin-top: 8px;">
+          <% if (todos.length === 0) { %>
+            <div class="empty-message">No high-priority todos with due dates in this list.</div>
+          <% } else { %>
+            <% todos.forEach(function(t) { %>
+              <div class="todo-item<%= t.completed ? ' completed' : '' %>">
+                <span class="todo-text">
+                  <%= t.title %>
+                  <span class="priority-badge p<%= t.priority %>">P<%= t.priority %></span>
+                  <% if (t.due_date) { %>
+                    <span class="due-date"><%= t.due_date %></span>
+                  <% } %>
+                </span>
+              </div>
+            <% }) %>
+          <% } %>
+        </div>
+        <div class="pagination">
+          <% if (page > 1) { %>
+            <a href="/lists/<%= list.id %>/todos/high-priority?page=<%= page - 1 %>" class="win95-btn" style="min-width:auto;padding:2px 8px">Prev</a>
+          <% } %>
+          <span>Page <%= page %></span>
+          <% if (todos.length >= 10) { %>
+            <a href="/lists/<%= list.id %>/todos/high-priority?page=<%= page + 1 %>" class="win95-btn" style="min-width:auto;padding:2px 8px">Next</a>
+          <% } %>
+        </div>
+      </div>
+      <div class="win95-statusbar">
+        <span class="status-section"><%= todos.length %> high-priority todo<%= todos.length !== 1 ? 's' : '' %></span>
+        <span class="status-section">whereBetween + whereNotNull</span>
+      </div>
+    </div>
+
+<%- include('footer') %>

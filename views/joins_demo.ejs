@@ -1,0 +1,61 @@
+<%- include('header', { pageTitle: 'TodoApp - Joins Demo' }) %>
+
+    <div class="win95-window" style="max-width:720px">
+      <div class="win95-titlebar">
+        <span class="title-text">JOIN Types Demo</span>
+        <span class="lang-badge">JS</span>
+        <div class="win95-titlebar-buttons">
+          <button class="win95-titlebar-btn">_</button>
+          <button class="win95-titlebar-btn">&square;</button>
+          <button class="win95-titlebar-btn">X</button>
+        </div>
+      </div>
+      <div class="win95-body">
+        <div class="section-header">ORM: rightJoin, fullJoin, crossJoin (+ leftJoin, innerJoin used elsewhere)</div>
+        <div class="nav-bar">
+          <a href="/" class="win95-btn">&laquo; Back</a>
+        </div>
+
+        <fieldset class="win95-groupbox">
+          <legend>RIGHT JOIN SQL (lists RIGHT JOIN todos)</legend>
+          <div class="sql-display"><%= rightJoinSql %></div>
+          <div style="font-size:12px;color:#666;padding:2px 4px">Note: RIGHT JOIN may not be supported in older SQLite versions.</div>
+        </fieldset>
+
+        <fieldset class="win95-groupbox">
+          <legend>FULL JOIN SQL (lists FULL JOIN todos)</legend>
+          <div class="sql-display"><%= fullJoinSql %></div>
+          <div style="font-size:12px;color:#666;padding:2px 4px">Note: FULL OUTER JOIN requires SQLite 3.39+.</div>
+        </fieldset>
+
+        <fieldset class="win95-groupbox">
+          <legend>CROSS JOIN (lists x tags) - Executed</legend>
+          <div class="sql-display"><%= crossJoinSql %></div>
+          <div class="win95-sunken" style="max-height:200px;overflow:auto;margin-top:4px">
+            <% if (crossJoinResults.length === 0) { %>
+              <div class="empty-message">No results (cross join may have column name collision).</div>
+            <% } else { %>
+              <table class="stats-table">
+                <tr>
+                  <th>List Name</th>
+                  <th>Tag Name</th>
+                </tr>
+                <% crossJoinResults.forEach(function(r) { %>
+                  <tr>
+                    <td><%= r.name || '-' %></td>
+                    <td><%= r['name:1'] || r.name || '-' %></td>
+                  </tr>
+                <% }) %>
+              </table>
+            <% } %>
+          </div>
+          <div style="font-size:12px;color:#666;padding:2px 4px"><%= crossJoinResults.length %> rows (cartesian product)</div>
+        </fieldset>
+      </div>
+      <div class="win95-statusbar">
+        <span class="status-section">5 join types total</span>
+        <span class="status-section">SQL JOIN Demo</span>
+      </div>
+    </div>
+
+<%- include('footer') %>

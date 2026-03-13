@@ -1,6 +1,6 @@
 <%- include('header', { pageTitle: 'TodoApp - ' + list.name }) %>
 
-    <div class="win95-window">
+    <div class="win95-window" style="max-width:720px">
       <div class="win95-titlebar">
         <span class="title-text"><%= list.name %></span>
         <span class="lang-badge">JS</span>
@@ -11,40 +11,89 @@
         </div>
       </div>
       <div class="win95-body">
+        <div class="section-header">ORM: from, where, select, orderBy, orderByNulls(NullsLast), innerJoin, countSql</div>
         <div class="win95-toolbar">
           <a href="/" class="win95-btn">&laquo; Back</a>
-          <form action="/lists/<%= list.id %>/todos" method="POST" style="display:flex;gap:4px;flex:1;margin:0">
-            <input type="text" name="title" class="win95-input" placeholder="Add a new todo..." required>
-            <button type="submit" class="win95-btn primary">Add</button>
-          </form>
+          <a href="/lists/<%= list.id %>/todos/high-priority" class="win95-btn" style="min-width:auto;padding:4px 8px;font-size:13px">High Priority</a>
+          <a href="/lists/<%= list.id %>/todos/page/1" class="win95-btn" style="min-width:auto;padding:4px 8px;font-size:13px">Paginated</a>
         </div>
-        <div class="win95-sunken" style="min-height: 250px; margin-top: 8px;">
-          <% if (todos.length === 0) { %>
-            <div class="empty-message">No todos yet. Add one above!</div>
-          <% } else { %>
-            <% todos.forEach(function(t) { %>
-              <div class="todo-item<%= t.completed ? ' completed' : '' %>">
-                <form action="/todos/<%= t.id %>/toggle" method="POST" style="margin:0;display:flex;align-items:center">
-                  <input type="checkbox" class="win95-checkbox"
-                    <%= t.completed ? 'checked' : '' %>
-                    onchange="this.form.submit()" title="Toggle complete">
-                </form>
-                <span class="todo-text todo-text-display" id="text-<%= t.id %>"><%= t.title %></span>
-                <form class="edit-form" id="edit-<%= t.id %>" action="/todos/<%= t.id %>/edit" method="POST">
-                  <input type="text" name="title" class="win95-input" value="<%= t.title %>">
-                  <button type="submit" class="win95-btn">OK</button>
-                  <button type="button" class="win95-btn" onclick="toggleEdit(<%= t.id %>)">X</button>
-                </form>
-                <div class="todo-actions">
-                  <button type="button" class="win95-btn" onclick="toggleEdit(<%= t.id %>)">Edit</button>
-                  <form action="/todos/<%= t.id %>/delete" method="POST" style="margin:0" onsubmit="return confirm('Delete this todo?')">
-                    <button type="submit" class="win95-btn danger">Del</button>
-                  </form>
-                </div>
-              </div>
-            <% }) %>
+
+        <!-- Add Todo Form: changeset, cast, validateRequired, validateLength, validateInt, validateNumber, validateInclusion -->
+        <form action="/lists/<%= list.id %>/todos" method="POST" style="display:flex;gap:4px;padding:4px;flex-wrap:wrap;align-items:center;border-bottom:1px solid var(--win95-btn-shadow)">
+          <input type="text" name="title" class="win95-input" placeholder="Add a new todo..." required style="flex:3;min-width:150px">
+          <select name="priority" class="win95-input" style="flex:0;min-width:80px;width:auto">
+            <option value="1">P1 Low</option>
+            <option value="2">P2</option>
+            <option value="3" selected>P3 Med</option>
+            <option value="4">P4</option>
+            <option value="5">P5 High</option>
+          </select>
+          <input type="date" name="due_date" class="win95-input" style="flex:0;min-width:130px;width:auto">
+          <% if (typeof allTags !== 'undefined' && allTags.length > 0) { %>
+            <select name="tags" multiple class="win95-input" style="flex:0;min-width:100px;width:auto;height:40px" title="Hold Ctrl to select multiple tags">
+              <% allTags.forEach(function(tag) { %>
+                <option value="<%= tag.id %>"><%= tag.name %></option>
+              <% }) %>
+            </select>
           <% } %>
-        </div>
+          <button type="submit" class="win95-btn primary">Add</button>
+        </form>
+
+        <!-- Bulk complete form -->
+        <form action="/todos/bulk-complete" method="POST" id="bulk-form">
+          <input type="hidden" name="list_id" value="<%= list.id %>">
+          <div class="win95-sunken" style="min-height: 250px; margin-top: 8px;">
+            <% if (todos.length === 0) { %>
+              <div class="empty-message">No todos yet. Add one above!</div>
+            <% } else { %>
+              <% var today = new Date().toISOString().split('T')[0]; %>
+              <% todos.forEach(function(t) { %>
+                <div class="todo-item<%= t.completed ? ' completed' : '' %>">
+                  <input type="checkbox" name="todo_ids" value="<%= t.id %>" class="win95-checkbox" style="margin-right:2px" title="Select for bulk complete">
+                  <form action="/todos/<%= t.id %>/toggle" method="POST" style="margin:0;display:flex;align-items:center">
+                    <input type="checkbox" class="win95-checkbox"
+                      <%= t.completed ? 'checked' : '' %>
+                      onchange="this.form.submit()" title="Toggle complete">
+                  </form>
+                  <span class="todo-text todo-text-display" id="text-<%= t.id %>">
+                    <%= t.title %>
+                    <span class="priority-badge p<%= t.priority %>">P<%= t.priority %></span>
+                    <% if (t.due_date) { %>
+                      <span class="due-date<%= t.due_date < today && !t.completed ? ' overdue' : '' %>"><%= t.due_date %></span>
+                    <% } %>
+                    <% if (typeof tagsByTodo !== 'undefined' && tagsByTodo[t.id]) { %>
+                      <% tagsByTodo[t.id].forEach(function(tag) { %>
+                        <span class="tag-badge"><%= tag %></span>
+                      <% }) %>
+                    <% } %>
+                  </span>
+                  <form class="edit-form" id="edit-<%= t.id %>" action="/todos/<%= t.id %>/edit" method="POST">
+                    <input type="text" name="title" class="win95-input" value="<%= t.title %>">
+                    <select name="priority" class="win95-input" style="width:60px">
+                      <% for (var p = 1; p <= 5; p++) { %>
+                        <option value="<%= p %>" <%= t.priority === p ? 'selected' : '' %>><%= p %></option>
+                      <% } %>
+                    </select>
+                    <input type="date" name="due_date" class="win95-input" value="<%= t.due_date || '' %>" style="width:120px">
+                    <button type="submit" class="win95-btn">OK</button>
+                    <button type="button" class="win95-btn" onclick="toggleEdit(<%= t.id %>)">X</button>
+                  </form>
+                  <div class="todo-actions">
+                    <button type="button" class="win95-btn" onclick="toggleEdit(<%= t.id %>)">Edit</button>
+                    <form action="/todos/<%= t.id %>/delete" method="POST" style="margin:0" onsubmit="return confirm('Delete this todo?')">
+                      <button type="submit" class="win95-btn danger">Del</button>
+                    </form>
+                  </div>
+                </div>
+              <% }) %>
+            <% } %>
+          </div>
+          <% if (todos.length > 0) { %>
+            <div style="padding:4px;text-align:right">
+              <button type="submit" class="win95-btn primary" style="min-width:auto;padding:3px 12px">Bulk Complete Selected</button>
+            </div>
+          <% } %>
+        </form>
       </div>
       <div class="win95-statusbar">
         <span class="status-section"><%= counts.done || 0 %>/<%= counts.total %> completed</span>

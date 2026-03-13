@@ -1,0 +1,93 @@
+<%- include('header', { pageTitle: 'TodoApp - Stats' }) %>
+
+    <div class="win95-window" style="max-width:720px">
+      <div class="win95-titlebar">
+        <span class="title-text">Statistics Dashboard</span>
+        <span class="lang-badge">JS</span>
+        <div class="win95-titlebar-buttons">
+          <button class="win95-titlebar-btn">_</button>
+          <button class="win95-titlebar-btn">&square;</button>
+          <button class="win95-titlebar-btn">X</button>
+        </div>
+      </div>
+      <div class="win95-body">
+        <div class="section-header">ORM: selectExpr, countAll, sumCol, avgCol, minCol, maxCol, groupBy, having, orHaving, distinct, countSql</div>
+
+        <div class="nav-bar">
+          <a href="/" class="win95-btn">&laquo; Back</a>
+        </div>
+
+        <!-- Overall Stats -->
+        <fieldset class="win95-groupbox">
+          <legend>Overall Statistics (countAll, sumCol, avgCol, minCol, maxCol)</legend>
+          <table class="stats-table">
+            <tr>
+              <th>Total Todos</th>
+              <th>Completed</th>
+              <th>Avg Priority</th>
+              <th>Min Priority</th>
+              <th>Max Priority</th>
+            </tr>
+            <tr>
+              <td><%= overall.total_todos %></td>
+              <td><%= overall.completed_todos || 0 %></td>
+              <td><%= overall.avg_priority ? Number(overall.avg_priority).toFixed(1) : '-' %></td>
+              <td><%= overall.min_priority || '-' %></td>
+              <td><%= overall.max_priority || '-' %></td>
+            </tr>
+          </table>
+        </fieldset>
+
+        <!-- Per-List Stats -->
+        <fieldset class="win95-groupbox">
+          <legend>Per-List Stats (groupBy, having, orHaving, innerJoin)</legend>
+          <table class="stats-table">
+            <tr>
+              <th>List</th>
+              <th>Todos</th>
+              <th>Done</th>
+              <th>Avg Priority</th>
+            </tr>
+            <% perList.forEach(function(row) { %>
+              <tr>
+                <td><%= row.name %></td>
+                <td><%= row.todo_count %></td>
+                <td><%= row.done_count || 0 %></td>
+                <td><%= row.avg_priority ? Number(row.avg_priority).toFixed(1) : '-' %></td>
+              </tr>
+            <% }) %>
+          </table>
+        </fieldset>
+
+        <!-- Distinct Priorities -->
+        <fieldset class="win95-groupbox">
+          <legend>Distinct Priority Levels (distinct)</legend>
+          <div style="padding:4px">
+            <% priorities.forEach(function(p) { %>
+              <span class="priority-badge p<%= p.priority %>">P<%= p.priority %></span>
+            <% }) %>
+          </div>
+        </fieldset>
+
+        <!-- Count Totals -->
+        <fieldset class="win95-groupbox">
+          <legend>Counts (countSql)</legend>
+          <table class="stats-table">
+            <tr>
+              <th>Total Todos</th>
+              <th>Total Lists</th>
+            </tr>
+            <tr>
+              <td><%= totalCount %></td>
+              <td><%= totalLists %></td>
+            </tr>
+          </table>
+        </fieldset>
+      </div>
+      <div class="win95-statusbar">
+        <span class="status-section">Dashboard</span>
+        <span class="status-section">8 aggregate features</span>
+      </div>
+    </div>
+
+<%- include('footer') %>

@@ -1,0 +1,57 @@
+<%- include('header', { pageTitle: 'TodoApp - Completed Check' }) %>
+
+    <div class="win95-window">
+      <div class="win95-titlebar">
+        <span class="title-text">Completed Check - <%= list.name %></span>
+        <span class="lang-badge">JS</span>
+        <div class="win95-titlebar-buttons">
+          <button class="win95-titlebar-btn">_</button>
+          <button class="win95-titlebar-btn">&square;</button>
+          <button class="win95-titlebar-btn">X</button>
+        </div>
+      </div>
+      <div class="win95-body">
+        <div class="section-header">ORM: existsSql, subquery, whereInSubquery</div>
+        <div class="nav-bar">
+          <a href="/lists/<%= list.id %>" class="win95-btn">&laquo; Back to List</a>
+          <a href="/" class="win95-btn">Home</a>
+        </div>
+
+        <fieldset class="win95-groupbox">
+          <legend>EXISTS Check</legend>
+          <div style="padding:8px;font-size:15px">
+            <% if (hasCompleted) { %>
+              <span class="success-msg">Yes -- this list has completed todos.</span>
+            <% } else { %>
+              <span class="error-msg">No -- this list has no completed todos yet.</span>
+            <% } %>
+          </div>
+        </fieldset>
+
+        <fieldset class="win95-groupbox">
+          <legend>Completed Todos (via whereInSubquery)</legend>
+          <div class="win95-sunken" style="min-height:80px">
+            <% if (completedTodos.length === 0) { %>
+              <div class="empty-message">No completed todos.</div>
+            <% } else { %>
+              <% completedTodos.forEach(function(t) { %>
+                <div class="todo-item completed">
+                  <span class="todo-text"><%= t.title %></span>
+                </div>
+              <% }) %>
+            <% } %>
+          </div>
+        </fieldset>
+
+        <fieldset class="win95-groupbox">
+          <legend>Subquery Example (generated SQL)</legend>
+          <div class="sql-display"><%= subqueryExample %></div>
+        </fieldset>
+      </div>
+      <div class="win95-statusbar">
+        <span class="status-section"><%= completedTodos.length %> completed</span>
+        <span class="status-section">existsSql + subquery</span>
+      </div>
+    </div>
+
+<%- include('footer') %>

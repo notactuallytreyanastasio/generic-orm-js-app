@@ -1,0 +1,108 @@
+<%- include('header', { pageTitle: 'TodoApp - Validation Demo' }) %>
+
+    <div class="win95-window" style="max-width:720px">
+      <div class="win95-titlebar">
+        <span class="title-text">Changeset Validation Demo</span>
+        <span class="lang-badge">JS</span>
+        <div class="win95-titlebar-buttons">
+          <button class="win95-titlebar-btn">_</button>
+          <button class="win95-titlebar-btn">&square;</button>
+          <button class="win95-titlebar-btn">X</button>
+        </div>
+      </div>
+      <div class="win95-body">
+        <div class="section-header">ORM: validateLength, validateInt, validateInt64, validateFloat, validateBool, validateNumber, validateInclusion, validateExclusion, validateAcceptance, validateConfirmation, validateContains, validateStartsWith, validateEndsWith</div>
+        <div class="nav-bar">
+          <a href="/" class="win95-btn">&laquo; Back</a>
+        </div>
+
+        <% if (results) { %>
+          <fieldset class="win95-groupbox">
+            <legend>Validation Result</legend>
+            <div style="padding:4px">
+              <% if (results.isValid) { %>
+                <div class="success-msg" style="font-size:15px">All validations passed!</div>
+              <% } else { %>
+                <div class="error-msg" style="font-size:15px">Validation failed:</div>
+                <% if (errors && errors.length > 0) { %>
+                  <ul style="margin:4px 0;padding-left:20px">
+                    <% errors.forEach(function(e) { %>
+                      <li class="error-msg"><strong><%= e.field %></strong>: <%= e.message %></li>
+                    <% }) %>
+                  </ul>
+                <% } %>
+              <% } %>
+            </div>
+          </fieldset>
+        <% } %>
+
+        <form action="/validation-demo" method="POST">
+          <fieldset class="win95-groupbox">
+            <legend>Fill in all fields to test every validator</legend>
+
+            <div class="form-row">
+              <label>Title:</label>
+              <input type="text" name="title" class="win95-input" placeholder="Must be 2-100 chars, contain a space" value="<%= results ? results.inputValues.title : 'Hello World' %>">
+            </div>
+            <div style="font-size:11px;color:#666;padding:0 0 4px 72px">validateRequired, validateLength(2,100), validateContains(' '), validateStartsWith</div>
+
+            <div class="form-row">
+              <label>Priority:</label>
+              <input type="text" name="priority" class="win95-input" placeholder="Integer 1-5" value="<%= results ? results.inputValues.priority : '3' %>">
+            </div>
+            <div style="font-size:11px;color:#666;padding:0 0 4px 72px">validateInt, validateNumber(1-5), validateInclusion([1-5]), validateExclusion([0,6,99])</div>
+
+            <div class="form-row">
+              <label>Desc:</label>
+              <input type="text" name="description" class="win95-input" placeholder="Optional description" value="<%= results ? results.inputValues.description : 'A test' %>">
+            </div>
+
+            <div class="form-row">
+              <label>Terms:</label>
+              <select name="terms" class="win95-input" style="width:auto">
+                <option value="true" <%= (results && results.inputValues.terms === 'true') ? 'selected' : '' %>>true</option>
+                <option value="false" <%= (results && results.inputValues.terms === 'false') ? 'selected' : '' %>>false</option>
+                <option value="yes">yes</option>
+                <option value="">empty</option>
+              </select>
+            </div>
+            <div style="font-size:11px;color:#666;padding:0 0 4px 72px">validateBool, validateAcceptance (must be truthy)</div>
+
+            <div class="form-row">
+              <label>Email:</label>
+              <input type="text" name="email" class="win95-input" placeholder="Must end with .com" value="<%= results ? results.inputValues.email : 'user@example.com' %>">
+            </div>
+            <div style="font-size:11px;color:#666;padding:0 0 4px 72px">validateRequired, validateEndsWith('.com'), validateConfirmation</div>
+
+            <div class="form-row">
+              <label>Confirm:</label>
+              <input type="text" name="email_confirmation" class="win95-input" placeholder="Must match email" value="<%= results ? results.inputValues.email_confirmation : 'user@example.com' %>">
+            </div>
+            <div style="font-size:11px;color:#666;padding:0 0 4px 72px">validateConfirmation(email, email_confirmation)</div>
+
+            <div class="form-row">
+              <label>Score:</label>
+              <input type="text" name="score" class="win95-input" placeholder="Float value" value="<%= results ? results.inputValues.score : '3.14' %>">
+            </div>
+            <div style="font-size:11px;color:#666;padding:0 0 4px 72px">validateFloat</div>
+
+            <div class="form-row">
+              <label>Big Num:</label>
+              <input type="text" name="big_number" class="win95-input" placeholder="Int64 value" value="<%= results ? results.inputValues.big_number : '9999999999' %>">
+            </div>
+            <div style="font-size:11px;color:#666;padding:0 0 4px 72px">validateInt64</div>
+
+            <div class="form-actions">
+              <button type="submit" class="win95-btn primary">Validate All</button>
+              <a href="/validation-demo" class="win95-btn">Reset</a>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <div class="win95-statusbar">
+        <span class="status-section">13 validators</span>
+        <span class="status-section">Changeset Demo</span>
+      </div>
+    </div>
+
+<%- include('footer') %>

@@ -1,0 +1,58 @@
+<%- include('header', { pageTitle: 'TodoApp - Paginated' }) %>
+
+    <div class="win95-window">
+      <div class="win95-titlebar">
+        <span class="title-text">Paginated - <%= list.name %></span>
+        <span class="lang-badge">JS</span>
+        <div class="win95-titlebar-buttons">
+          <button class="win95-titlebar-btn">_</button>
+          <button class="win95-titlebar-btn">&square;</button>
+          <button class="win95-titlebar-btn">X</button>
+        </div>
+      </div>
+      <div class="win95-body">
+        <div class="section-header">ORM: limit, offset, countSql (pagination)</div>
+        <div class="nav-bar">
+          <a href="/lists/<%= list.id %>" class="win95-btn">&laquo; Back to List</a>
+          <a href="/" class="win95-btn">Home</a>
+        </div>
+        <div class="win95-sunken" style="min-height: 150px; margin-top: 8px;">
+          <% if (todos.length === 0) { %>
+            <div class="empty-message">No todos on this page.</div>
+          <% } else { %>
+            <% todos.forEach(function(t) { %>
+              <div class="todo-item<%= t.completed ? ' completed' : '' %>">
+                <span class="todo-text">
+                  <%= t.title %>
+                  <span class="priority-badge p<%= t.priority %>">P<%= t.priority %></span>
+                  <% if (t.due_date) { %>
+                    <span class="due-date"><%= t.due_date %></span>
+                  <% } %>
+                </span>
+              </div>
+            <% }) %>
+          <% } %>
+        </div>
+        <div class="pagination">
+          <% if (page > 1) { %>
+            <a href="/lists/<%= list.id %>/todos/page/<%= page - 1 %>" class="win95-btn" style="min-width:auto;padding:2px 8px">&laquo; Prev</a>
+          <% } %>
+          <% for (var i = 1; i <= totalPages; i++) { %>
+            <% if (i === page) { %>
+              <span class="win95-btn primary" style="min-width:auto;padding:2px 8px"><%= i %></span>
+            <% } else { %>
+              <a href="/lists/<%= list.id %>/todos/page/<%= i %>" class="win95-btn" style="min-width:auto;padding:2px 8px;text-decoration:none"><%= i %></a>
+            <% } %>
+          <% } %>
+          <% if (page < totalPages) { %>
+            <a href="/lists/<%= list.id %>/todos/page/<%= page + 1 %>" class="win95-btn" style="min-width:auto;padding:2px 8px">Next &raquo;</a>
+          <% } %>
+        </div>
+      </div>
+      <div class="win95-statusbar">
+        <span class="status-section">Page <%= page %>/<%= totalPages %></span>
+        <span class="status-section"><%= total %> total todos</span>
+      </div>
+    </div>
+
+<%- include('footer') %>

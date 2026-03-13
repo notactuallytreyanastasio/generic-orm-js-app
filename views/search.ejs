@@ -1,0 +1,49 @@
+<%- include('header', { pageTitle: 'TodoApp - Search' }) %>
+
+    <div class="win95-window">
+      <div class="win95-titlebar">
+        <span class="title-text">Search Todos</span>
+        <span class="lang-badge">JS</span>
+        <div class="win95-titlebar-buttons">
+          <button class="win95-titlebar-btn">_</button>
+          <button class="win95-titlebar-btn">&square;</button>
+          <button class="win95-titlebar-btn">X</button>
+        </div>
+      </div>
+      <div class="win95-body">
+        <div class="section-header">ORM: whereLike, orWhere, leftJoin, safeToSql (default limit 50)</div>
+        <form action="/search" method="GET" class="win95-toolbar">
+          <a href="/" class="win95-btn">&laquo; Back</a>
+          <input type="text" name="q" class="win95-input" placeholder="Search todos by title..." value="<%= query %>">
+          <button type="submit" class="win95-btn primary">Search</button>
+        </form>
+        <div class="win95-sunken" style="min-height: 200px; margin-top: 8px;">
+          <% if (!query) { %>
+            <div class="empty-message">Enter a search term above.</div>
+          <% } else if (todos.length === 0) { %>
+            <div class="empty-message">No todos found for "<%= query %>".</div>
+          <% } else { %>
+            <% todos.forEach(function(t) { %>
+              <div class="todo-item<%= t.completed ? ' completed' : '' %>">
+                <span class="todo-text">
+                  <%= t.title %>
+                  <span class="priority-badge p<%= t.priority %>">P<%= t.priority %></span>
+                  <% if (t.due_date) { %>
+                    <span class="due-date"><%= t.due_date %></span>
+                  <% } %>
+                </span>
+                <% if (t.name) { %>
+                  <a href="/lists/<%= t.list_id %>" style="font-size:12px;color:var(--win95-selection)"><%= t.name %></a>
+                <% } %>
+              </div>
+            <% }) %>
+          <% } %>
+        </div>
+      </div>
+      <div class="win95-statusbar">
+        <span class="status-section"><%= todos.length %> result<%= todos.length !== 1 ? 's' : '' %></span>
+        <span class="status-section">safeToSql(50)</span>
+      </div>
+    </div>
+
+<%- include('footer') %>
