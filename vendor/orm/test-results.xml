@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="Mocha Tests" time="0.014" tests="56" failures="0">
-  <testsuite name="Root Suite" timestamp="2026-03-13T03:49:34" tests="56" time="0.014" failures="0">
+  <testsuite name="Root Suite" timestamp="2026-03-13T03:52:58" tests="56" time="0.013" failures="0">
     <testcase name="cast whitelists allowed fields" time="0.000" classname="cast whitelists allowed fields">
     </testcase>
     <testcase name="cast is replacing not additive — second call resets whitelist" time="0.000" classname="cast is replacing not additive — second call resets whitelist">
     </testcase>
     <testcase name="cast ignores empty string values" time="0.000" classname="cast ignores empty string values">
     </testcase>
-    <testcase name="validateRequired passes when field present" time="0.000" classname="validateRequired passes when field present">
+    <testcase name="validateRequired passes when field present" time="0.001" classname="validateRequired passes when field present">
     </testcase>
     <testcase name="validateRequired fails when field missing" time="0.000" classname="validateRequired fails when field missing">
     </testcase>
@@ -29,7 +29,7 @@
     </testcase>
     <testcase name="validateBool accepts true/1/yes/on" time="0.000" classname="validateBool accepts true/1/yes/on">
     </testcase>
-    <testcase name="validateBool accepts false/0/no/off" time="0.000" classname="validateBool accepts false/0/no/off">
+    <testcase name="validateBool accepts false/0/no/off" time="0.001" classname="validateBool accepts false/0/no/off">
     </testcase>
     <testcase name="validateBool rejects ambiguous values" time="0.000" classname="validateBool rejects ambiguous values">
     </testcase>
@@ -51,7 +51,7 @@
     </testcase>
     <testcase name="select restricts columns" time="0.000" classname="select restricts columns">
     </testcase>
-    <testcase name="where adds condition with int value" time="0.000" classname="where adds condition with int value">
+    <testcase name="where adds condition with int value" time="0.001" classname="where adds condition with int value">
     </testcase>
     <testcase name="where adds condition with bool value" time="0.000" classname="where adds condition with bool value">
     </testcase>
@@ -59,7 +59,7 @@
     </testcase>
     <testcase name="orderBy ASC" time="0.000" classname="orderBy ASC">
     </testcase>
-    <testcase name="orderBy DESC" time="0.001" classname="orderBy DESC">
+    <testcase name="orderBy DESC" time="0.000" classname="orderBy DESC">
     </testcase>
     <testcase name="limit and offset" time="0.000" classname="limit and offset">
     </testcase>
@@ -75,7 +75,7 @@
     </testcase>
     <testcase name="safeToSql bubbles on negative defaultLimit" time="0.000" classname="safeToSql bubbles on negative defaultLimit">
     </testcase>
-    <testcase name="where with injection attempt in string value is escaped" time="0.000" classname="where with injection attempt in string value is escaped">
+    <testcase name="where with injection attempt in string value is escaped" time="0.001" classname="where with injection attempt in string value is escaped">
     </testcase>
     <testcase name="safeIdentifier rejects user-supplied table name with metacharacters" time="0.000" classname="safeIdentifier rejects user-supplied table name with metacharacters">
     </testcase>
@@ -93,7 +93,7 @@
     </testcase>
     <testcase name="FieldDef nullable flag" time="0.000" classname="FieldDef nullable flag">
     </testcase>
-    <testcase name="string escaping" time="0.000" classname="string escaping">
+    <testcase name="string escaping" time="0.001" classname="string escaping">
     </testcase>
     <testcase name="string edge cases" time="0.000" classname="string edge cases">
     </testcase>
