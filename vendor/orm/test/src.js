@@ -2,1522 +2,1289 @@ import {
   BoolField, FieldDef, FloatField, IntField, SafeIdentifier, SqlBuilder, SqlInt32, SqlString, StringField, TableDef, changeset, col, from, safeIdentifier
 } from "../src.js";
 import {
-  Test as Test_495
+  Test as Test_547
 } from "@temperlang/std/testing";
 import {
-  panic as panic_492, mapConstructor as mapConstructor_473, pairConstructor as pairConstructor_497, listedGet as listedGet_179
+  panic as panic_544, mapConstructor as mapConstructor_525, pairConstructor as pairConstructor_549, listedGet as listedGet_179
 } from "@temperlang/core";
 /**
- * @param {string} name_489
+ * @param {string} name_541
  * @returns {SafeIdentifier}
  */
-function csid_488(name_489) {
-  let return_490;
-  let t_491;
+function csid_540(name_541) {
+  let return_542;
+  let t_543;
   try {
-    t_491 = safeIdentifier(name_489);
-    return_490 = t_491;
+    t_543 = safeIdentifier(name_541);
+    return_542 = t_543;
   } catch {
-    return_490 = panic_492();
+    return_542 = panic_544();
   }
-  return return_490;
+  return return_542;
 }
 /** @returns {TableDef} */
-function userTable_493() {
-  return new TableDef(csid_488("users"), Object.freeze([new FieldDef(csid_488("name"), new StringField(), false), new FieldDef(csid_488("email"), new StringField(), false), new FieldDef(csid_488("age"), new IntField(), true), new FieldDef(csid_488("score"), new FloatField(), true), new FieldDef(csid_488("active"), new BoolField(), true)]));
+function userTable_545() {
+  return new TableDef(csid_540("users"), Object.freeze([new FieldDef(csid_540("name"), new StringField(), false), new FieldDef(csid_540("email"), new StringField(), false), new FieldDef(csid_540("age"), new IntField(), true), new FieldDef(csid_540("score"), new FloatField(), true), new FieldDef(csid_540("active"), new BoolField(), true)]));
 }
 it("cast whitelists allowed fields", function () {
-    const test_494 = new Test_495();
+    const test_546 = new Test_547();
     try {
-      const params_496 = mapConstructor_473(Object.freeze([pairConstructor_497("name", "Alice"), pairConstructor_497("email", "alice@example.com"), pairConstructor_497("admin", "true")]));
-      let t_498 = userTable_493();
-      let t_499 = csid_488("name");
-      let t_500 = csid_488("email");
-      const cs_501 = changeset(t_498, params_496).cast(Object.freeze([t_499, t_500]));
-      let t_502 = cs_501.changes.has("name");
-      function fn_503() {
+      const params_548 = mapConstructor_525(Object.freeze([pairConstructor_549("name", "Alice"), pairConstructor_549("email", "alice@example.com"), pairConstructor_549("admin", "true")]));
+      let t_550 = userTable_545();
+      let t_551 = csid_540("name");
+      let t_552 = csid_540("email");
+      const cs_553 = changeset(t_550, params_548).cast(Object.freeze([t_551, t_552]));
+      let t_554 = cs_553.changes.has("name");
+      function fn_555() {
         return "name should be in changes";
       }
-      test_494.assert(t_502, fn_503);
-      let t_504 = cs_501.changes.has("email");
-      function fn_505() {
+      test_546.assert(t_554, fn_555);
+      let t_556 = cs_553.changes.has("email");
+      function fn_557() {
         return "email should be in changes";
       }
-      test_494.assert(t_504, fn_505);
-      let t_506 = ! cs_501.changes.has("admin");
-      function fn_507() {
+      test_546.assert(t_556, fn_557);
+      let t_558 = ! cs_553.changes.has("admin");
+      function fn_559() {
         return "admin must be dropped (not in whitelist)";
       }
-      test_494.assert(t_506, fn_507);
-      let t_508 = cs_501.isValid;
-      function fn_509() {
+      test_546.assert(t_558, fn_559);
+      let t_560 = cs_553.isValid;
+      function fn_561() {
         return "should still be valid";
       }
-      test_494.assert(t_508, fn_509);
+      test_546.assert(t_560, fn_561);
       return;
     } finally {
-      test_494.softFailToHard();
+      test_546.softFailToHard();
     }
 });
 it("cast is replacing not additive — second call resets whitelist", function () {
-    const test_510 = new Test_495();
+    const test_562 = new Test_547();
     try {
-      const params_511 = mapConstructor_473(Object.freeze([pairConstructor_497("name", "Alice"), pairConstructor_497("email", "alice@example.com")]));
-      let t_512 = userTable_493();
-      let t_513 = csid_488("name");
-      const cs_514 = changeset(t_512, params_511).cast(Object.freeze([t_513])).cast(Object.freeze([csid_488("email")]));
-      let t_515 = ! cs_514.changes.has("name");
-      function fn_516() {
+      const params_563 = mapConstructor_525(Object.freeze([pairConstructor_549("name", "Alice"), pairConstructor_549("email", "alice@example.com")]));
+      let t_564 = userTable_545();
+      let t_565 = csid_540("name");
+      const cs_566 = changeset(t_564, params_563).cast(Object.freeze([t_565])).cast(Object.freeze([csid_540("email")]));
+      let t_567 = ! cs_566.changes.has("name");
+      function fn_568() {
         return "name must be excluded by second cast";
       }
-      test_510.assert(t_515, fn_516);
-      let t_517 = cs_514.changes.has("email");
-      function fn_518() {
+      test_562.assert(t_567, fn_568);
+      let t_569 = cs_566.changes.has("email");
+      function fn_570() {
         return "email should be present";
       }
-      test_510.assert(t_517, fn_518);
+      test_562.assert(t_569, fn_570);
       return;
     } finally {
-      test_510.softFailToHard();
+      test_562.softFailToHard();
     }
 });
 it("cast ignores empty string values", function () {
-    const test_519 = new Test_495();
+    const test_571 = new Test_547();
     try {
-      const params_520 = mapConstructor_473(Object.freeze([pairConstructor_497("name", ""), pairConstructor_497("email", "bob@example.com")]));
-      let t_521 = userTable_493();
-      let t_522 = csid_488("name");
-      let t_523 = csid_488("email");
-      const cs_524 = changeset(t_521, params_520).cast(Object.freeze([t_522, t_523]));
-      let t_525 = ! cs_524.changes.has("name");
-      function fn_526() {
+      const params_572 = mapConstructor_525(Object.freeze([pairConstructor_549("name", ""), pairConstructor_549("email", "bob@example.com")]));
+      let t_573 = userTable_545();
+      let t_574 = csid_540("name");
+      let t_575 = csid_540("email");
+      const cs_576 = changeset(t_573, params_572).cast(Object.freeze([t_574, t_575]));
+      let t_577 = ! cs_576.changes.has("name");
+      function fn_578() {
         return "empty name should not be in changes";
       }
-      test_519.assert(t_525, fn_526);
-      let t_527 = cs_524.changes.has("email");
-      function fn_528() {
+      test_571.assert(t_577, fn_578);
+      let t_579 = cs_576.changes.has("email");
+      function fn_580() {
         return "email should be in changes";
       }
-      test_519.assert(t_527, fn_528);
+      test_571.assert(t_579, fn_580);
       return;
     } finally {
-      test_519.softFailToHard();
+      test_571.softFailToHard();
     }
 });
 it("validateRequired passes when field present", function () {
-    const test_529 = new Test_495();
+    const test_581 = new Test_547();
     try {
-      const params_530 = mapConstructor_473(Object.freeze([pairConstructor_497("name", "Alice")]));
-      let t_531 = userTable_493();
-      let t_532 = csid_488("name");
-      const cs_533 = changeset(t_531, params_530).cast(Object.freeze([t_532])).validateRequired(Object.freeze([csid_488("name")]));
-      let t_534 = cs_533.isValid;
-      function fn_535() {
+      const params_582 = mapConstructor_525(Object.freeze([pairConstructor_549("name", "Alice")]));
+      let t_583 = userTable_545();
+      let t_584 = csid_540("name");
+      const cs_585 = changeset(t_583, params_582).cast(Object.freeze([t_584])).validateRequired(Object.freeze([csid_540("name")]));
+      let t_586 = cs_585.isValid;
+      function fn_587() {
         return "should be valid";
       }
-      test_529.assert(t_534, fn_535);
-      let t_536 = cs_533.errors.length === 0;
-      function fn_537() {
+      test_581.assert(t_586, fn_587);
+      let t_588 = cs_585.errors.length === 0;
+      function fn_589() {
         return "no errors expected";
       }
-      test_529.assert(t_536, fn_537);
+      test_581.assert(t_588, fn_589);
       return;
     } finally {
-      test_529.softFailToHard();
+      test_581.softFailToHard();
     }
 });
 it("validateRequired fails when field missing", function () {
-    const test_538 = new Test_495();
+    const test_590 = new Test_547();
     try {
-      const params_539 = mapConstructor_473(Object.freeze([]));
-      let t_540 = userTable_493();
-      let t_541 = csid_488("name");
-      const cs_542 = changeset(t_540, params_539).cast(Object.freeze([t_541])).validateRequired(Object.freeze([csid_488("name")]));
-      let t_543 = ! cs_542.isValid;
-      function fn_544() {
+      const params_591 = mapConstructor_525(Object.freeze([]));
+      let t_592 = userTable_545();
+      let t_593 = csid_540("name");
+      const cs_594 = changeset(t_592, params_591).cast(Object.freeze([t_593])).validateRequired(Object.freeze([csid_540("name")]));
+      let t_595 = ! cs_594.isValid;
+      function fn_596() {
         return "should be invalid";
       }
-      test_538.assert(t_543, fn_544);
-      let t_545 = cs_542.errors.length === 1;
-      function fn_546() {
+      test_590.assert(t_595, fn_596);
+      let t_597 = cs_594.errors.length === 1;
+      function fn_598() {
         return "should have one error";
       }
-      test_538.assert(t_545, fn_546);
-      let t_547 = listedGet_179(cs_542.errors, 0).field === "name";
-      function fn_548() {
+      test_590.assert(t_597, fn_598);
+      let t_599 = listedGet_179(cs_594.errors, 0).field === "name";
+      function fn_600() {
         return "error should name the field";
       }
-      test_538.assert(t_547, fn_548);
+      test_590.assert(t_599, fn_600);
       return;
     } finally {
-      test_538.softFailToHard();
+      test_590.softFailToHard();
     }
 });
 it("validateLength passes within range", function () {
-    const test_549 = new Test_495();
+    const test_601 = new Test_547();
     try {
-      const params_550 = mapConstructor_473(Object.freeze([pairConstructor_497("name", "Alice")]));
-      let t_551 = userTable_493();
-      let t_552 = csid_488("name");
-      const cs_553 = changeset(t_551, params_550).cast(Object.freeze([t_552])).validateLength(csid_488("name"), 2, 50);
-      let t_554 = cs_553.isValid;
-      function fn_555() {
+      const params_602 = mapConstructor_525(Object.freeze([pairConstructor_549("name", "Alice")]));
+      let t_603 = userTable_545();
+      let t_604 = csid_540("name");
+      const cs_605 = changeset(t_603, params_602).cast(Object.freeze([t_604])).validateLength(csid_540("name"), 2, 50);
+      let t_606 = cs_605.isValid;
+      function fn_607() {
         return "should be valid";
       }
-      test_549.assert(t_554, fn_555);
+      test_601.assert(t_606, fn_607);
       return;
     } finally {
-      test_549.softFailToHard();
+      test_601.softFailToHard();
     }
 });
 it("validateLength fails when too short", function () {
-    const test_556 = new Test_495();
+    const test_608 = new Test_547();
     try {
-      const params_557 = mapConstructor_473(Object.freeze([pairConstructor_497("name", "A")]));
-      let t_558 = userTable_493();
-      let t_559 = csid_488("name");
-      const cs_560 = changeset(t_558, params_557).cast(Object.freeze([t_559])).validateLength(csid_488("name"), 2, 50);
-      let t_561 = ! cs_560.isValid;
-      function fn_562() {
+      const params_609 = mapConstructor_525(Object.freeze([pairConstructor_549("name", "A")]));
+      let t_610 = userTable_545();
+      let t_611 = csid_540("name");
+      const cs_612 = changeset(t_610, params_609).cast(Object.freeze([t_611])).validateLength(csid_540("name"), 2, 50);
+      let t_613 = ! cs_612.isValid;
+      function fn_614() {
         return "should be invalid";
       }
-      test_556.assert(t_561, fn_562);
+      test_608.assert(t_613, fn_614);
       return;
     } finally {
-      test_556.softFailToHard();
+      test_608.softFailToHard();
     }
 });
 it("validateLength fails when too long", function () {
-    const test_563 = new Test_495();
+    const test_615 = new Test_547();
     try {
-      const params_564 = mapConstructor_473(Object.freeze([pairConstructor_497("name", "ABCDEFGHIJKLMNOPQRSTUVWXYZ")]));
-      let t_565 = userTable_493();
-      let t_566 = csid_488("name");
-      const cs_567 = changeset(t_565, params_564).cast(Object.freeze([t_566])).validateLength(csid_488("name"), 2, 10);
-      let t_568 = ! cs_567.isValid;
-      function fn_569() {
+      const params_616 = mapConstructor_525(Object.freeze([pairConstructor_549("name", "ABCDEFGHIJKLMNOPQRSTUVWXYZ")]));
+      let t_617 = userTable_545();
+      let t_618 = csid_540("name");
+      const cs_619 = changeset(t_617, params_616).cast(Object.freeze([t_618])).validateLength(csid_540("name"), 2, 10);
+      let t_620 = ! cs_619.isValid;
+      function fn_621() {
         return "should be invalid";
       }
-      test_563.assert(t_568, fn_569);
+      test_615.assert(t_620, fn_621);
       return;
     } finally {
-      test_563.softFailToHard();
+      test_615.softFailToHard();
     }
 });
 it("validateInt passes for valid integer", function () {
-    const test_570 = new Test_495();
+    const test_622 = new Test_547();
     try {
-      const params_571 = mapConstructor_473(Object.freeze([pairConstructor_497("age", "30")]));
-      let t_572 = userTable_493();
-      let t_573 = csid_488("age");
-      const cs_574 = changeset(t_572, params_571).cast(Object.freeze([t_573])).validateInt(csid_488("age"));
-      let t_575 = cs_574.isValid;
-      function fn_576() {
+      const params_623 = mapConstructor_525(Object.freeze([pairConstructor_549("age", "30")]));
+      let t_624 = userTable_545();
+      let t_625 = csid_540("age");
+      const cs_626 = changeset(t_624, params_623).cast(Object.freeze([t_625])).validateInt(csid_540("age"));
+      let t_627 = cs_626.isValid;
+      function fn_628() {
         return "should be valid";
       }
-      test_570.assert(t_575, fn_576);
+      test_622.assert(t_627, fn_628);
       return;
     } finally {
-      test_570.softFailToHard();
+      test_622.softFailToHard();
     }
 });
 it("validateInt fails for non-integer", function () {
-    const test_577 = new Test_495();
+    const test_629 = new Test_547();
     try {
-      const params_578 = mapConstructor_473(Object.freeze([pairConstructor_497("age", "not-a-number")]));
-      let t_579 = userTable_493();
-      let t_580 = csid_488("age");
-      const cs_581 = changeset(t_579, params_578).cast(Object.freeze([t_580])).validateInt(csid_488("age"));
-      let t_582 = ! cs_581.isValid;
-      function fn_583() {
+      const params_630 = mapConstructor_525(Object.freeze([pairConstructor_549("age", "not-a-number")]));
+      let t_631 = userTable_545();
+      let t_632 = csid_540("age");
+      const cs_633 = changeset(t_631, params_630).cast(Object.freeze([t_632])).validateInt(csid_540("age"));
+      let t_634 = ! cs_633.isValid;
+      function fn_635() {
         return "should be invalid";
       }
-      test_577.assert(t_582, fn_583);
+      test_629.assert(t_634, fn_635);
       return;
     } finally {
-      test_577.softFailToHard();
+      test_629.softFailToHard();
     }
 });
 it("validateFloat passes for valid float", function () {
-    const test_584 = new Test_495();
+    const test_636 = new Test_547();
     try {
-      const params_585 = mapConstructor_473(Object.freeze([pairConstructor_497("score", "9.5")]));
-      let t_586 = userTable_493();
-      let t_587 = csid_488("score");
-      const cs_588 = changeset(t_586, params_585).cast(Object.freeze([t_587])).validateFloat(csid_488("score"));
-      let t_589 = cs_588.isValid;
-      function fn_590() {
+      const params_637 = mapConstructor_525(Object.freeze([pairConstructor_549("score", "9.5")]));
+      let t_638 = userTable_545();
+      let t_639 = csid_540("score");
+      const cs_640 = changeset(t_638, params_637).cast(Object.freeze([t_639])).validateFloat(csid_540("score"));
+      let t_641 = cs_640.isValid;
+      function fn_642() {
         return "should be valid";
       }
-      test_584.assert(t_589, fn_590);
+      test_636.assert(t_641, fn_642);
       return;
     } finally {
-      test_584.softFailToHard();
+      test_636.softFailToHard();
     }
 });
 it("validateInt64 passes for valid 64-bit integer", function () {
-    const test_591 = new Test_495();
+    const test_643 = new Test_547();
     try {
-      const params_592 = mapConstructor_473(Object.freeze([pairConstructor_497("age", "9999999999")]));
-      let t_593 = userTable_493();
-      let t_594 = csid_488("age");
-      const cs_595 = changeset(t_593, params_592).cast(Object.freeze([t_594])).validateInt64(csid_488("age"));
-      let t_596 = cs_595.isValid;
-      function fn_597() {
+      const params_644 = mapConstructor_525(Object.freeze([pairConstructor_549("age", "9999999999")]));
+      let t_645 = userTable_545();
+      let t_646 = csid_540("age");
+      const cs_647 = changeset(t_645, params_644).cast(Object.freeze([t_646])).validateInt64(csid_540("age"));
+      let t_648 = cs_647.isValid;
+      function fn_649() {
         return "should be valid";
       }
-      test_591.assert(t_596, fn_597);
-      return;
-    } finally {
-      test_591.softFailToHard();
-    }
-});
-it("validateInt64 fails for non-integer", function () {
-    const test_598 = new Test_495();
-    try {
-      const params_599 = mapConstructor_473(Object.freeze([pairConstructor_497("age", "not-a-number")]));
-      let t_600 = userTable_493();
-      let t_601 = csid_488("age");
-      const cs_602 = changeset(t_600, params_599).cast(Object.freeze([t_601])).validateInt64(csid_488("age"));
-      let t_603 = ! cs_602.isValid;
-      function fn_604() {
-        return "should be invalid";
-      }
-      test_598.assert(t_603, fn_604);
-      return;
-    } finally {
-      test_598.softFailToHard();
-    }
-});
-it("validateBool accepts true/1/yes/on", function () {
-    const test_605 = new Test_495();
-    try {
-      function fn_606(v_607) {
-        const params_608 = mapConstructor_473(Object.freeze([pairConstructor_497("active", v_607)]));
-        let t_609 = userTable_493();
-        let t_610 = csid_488("active");
-        const cs_611 = changeset(t_609, params_608).cast(Object.freeze([t_610])).validateBool(csid_488("active"));
-        let t_612 = cs_611.isValid;
-        function fn_613() {
-          return "should accept: " + v_607;
-        }
-        test_605.assert(t_612, fn_613);
-        return;
-      }
-      Object.freeze(["true", "1", "yes", "on"]).forEach(fn_606);
-      return;
-    } finally {
-      test_605.softFailToHard();
-    }
-});
-it("validateBool accepts false/0/no/off", function () {
-    const test_614 = new Test_495();
-    try {
-      function fn_615(v_616) {
-        const params_617 = mapConstructor_473(Object.freeze([pairConstructor_497("active", v_616)]));
-        let t_618 = userTable_493();
-        let t_619 = csid_488("active");
-        const cs_620 = changeset(t_618, params_617).cast(Object.freeze([t_619])).validateBool(csid_488("active"));
-        let t_621 = cs_620.isValid;
-        function fn_622() {
-          return "should accept: " + v_616;
-        }
-        test_614.assert(t_621, fn_622);
-        return;
-      }
-      Object.freeze(["false", "0", "no", "off"]).forEach(fn_615);
-      return;
-    } finally {
-      test_614.softFailToHard();
-    }
-});
-it("validateBool rejects ambiguous values", function () {
-    const test_623 = new Test_495();
-    try {
-      function fn_624(v_625) {
-        const params_626 = mapConstructor_473(Object.freeze([pairConstructor_497("active", v_625)]));
-        let t_627 = userTable_493();
-        let t_628 = csid_488("active");
-        const cs_629 = changeset(t_627, params_626).cast(Object.freeze([t_628])).validateBool(csid_488("active"));
-        let t_630 = ! cs_629.isValid;
-        function fn_631() {
-          return "should reject ambiguous: " + v_625;
-        }
-        test_623.assert(t_630, fn_631);
-        return;
-      }
-      Object.freeze(["TRUE", "Yes", "maybe", "2", "enabled"]).forEach(fn_624);
-      return;
-    } finally {
-      test_623.softFailToHard();
-    }
-});
-it("toInsertSql escapes Bobby Tables", function () {
-    const test_632 = new Test_495();
-    try {
-      let t_633;
-      const params_634 = mapConstructor_473(Object.freeze([pairConstructor_497("name", "Robert'); DROP TABLE users;--"), pairConstructor_497("email", "bobby@evil.com")]));
-      let t_635 = userTable_493();
-      let t_636 = csid_488("name");
-      let t_637 = csid_488("email");
-      const cs_638 = changeset(t_635, params_634).cast(Object.freeze([t_636, t_637])).validateRequired(Object.freeze([csid_488("name"), csid_488("email")]));
-      let sqlFrag_639;
-      try {
-        t_633 = cs_638.toInsertSql();
-        sqlFrag_639 = t_633;
-      } catch {
-        sqlFrag_639 = panic_492();
-      }
-      const s_640 = sqlFrag_639.toString();
-      let t_641 = s_640.indexOf("''") >= 0;
-      function fn_642() {
-        return "single quote must be doubled: " + s_640;
-      }
-      test_632.assert(t_641, fn_642);
-      return;
-    } finally {
-      test_632.softFailToHard();
-    }
-});
-it("toInsertSql produces correct SQL for string field", function () {
-    const test_643 = new Test_495();
-    try {
-      let t_644;
-      const params_645 = mapConstructor_473(Object.freeze([pairConstructor_497("name", "Alice"), pairConstructor_497("email", "a@example.com")]));
-      let t_646 = userTable_493();
-      let t_647 = csid_488("name");
-      let t_648 = csid_488("email");
-      const cs_649 = changeset(t_646, params_645).cast(Object.freeze([t_647, t_648])).validateRequired(Object.freeze([csid_488("name"), csid_488("email")]));
-      let sqlFrag_650;
-      try {
-        t_644 = cs_649.toInsertSql();
-        sqlFrag_650 = t_644;
-      } catch {
-        sqlFrag_650 = panic_492();
-      }
-      const s_651 = sqlFrag_650.toString();
-      let t_652 = s_651.indexOf("INSERT INTO users") >= 0;
-      function fn_653() {
-        return "has INSERT INTO: " + s_651;
-      }
-      test_643.assert(t_652, fn_653);
-      let t_654 = s_651.indexOf("'Alice'") >= 0;
-      function fn_655() {
-        return "has quoted name: " + s_651;
-      }
-      test_643.assert(t_654, fn_655);
+      test_643.assert(t_648, fn_649);
       return;
     } finally {
       test_643.softFailToHard();
     }
 });
-it("toInsertSql produces correct SQL for int field", function () {
-    const test_656 = new Test_495();
+it("validateInt64 fails for non-integer", function () {
+    const test_650 = new Test_547();
     try {
-      let t_657;
-      const params_658 = mapConstructor_473(Object.freeze([pairConstructor_497("name", "Bob"), pairConstructor_497("email", "b@example.com"), pairConstructor_497("age", "25")]));
-      let t_659 = userTable_493();
-      let t_660 = csid_488("name");
-      let t_661 = csid_488("email");
-      let t_662 = csid_488("age");
-      const cs_663 = changeset(t_659, params_658).cast(Object.freeze([t_660, t_661, t_662])).validateRequired(Object.freeze([csid_488("name"), csid_488("email")]));
-      let sqlFrag_664;
-      try {
-        t_657 = cs_663.toInsertSql();
-        sqlFrag_664 = t_657;
-      } catch {
-        sqlFrag_664 = panic_492();
+      const params_651 = mapConstructor_525(Object.freeze([pairConstructor_549("age", "not-a-number")]));
+      let t_652 = userTable_545();
+      let t_653 = csid_540("age");
+      const cs_654 = changeset(t_652, params_651).cast(Object.freeze([t_653])).validateInt64(csid_540("age"));
+      let t_655 = ! cs_654.isValid;
+      function fn_656() {
+        return "should be invalid";
       }
-      const s_665 = sqlFrag_664.toString();
-      let t_666 = s_665.indexOf("25") >= 0;
-      function fn_667() {
-        return "age rendered unquoted: " + s_665;
-      }
-      test_656.assert(t_666, fn_667);
+      test_650.assert(t_655, fn_656);
       return;
     } finally {
-      test_656.softFailToHard();
+      test_650.softFailToHard();
     }
 });
-it("toInsertSql bubbles on invalid changeset", function () {
-    const test_668 = new Test_495();
+it("validateBool accepts true/1/yes/on", function () {
+    const test_657 = new Test_547();
     try {
-      const params_669 = mapConstructor_473(Object.freeze([]));
-      let t_670 = userTable_493();
-      let t_671 = csid_488("name");
-      const cs_672 = changeset(t_670, params_669).cast(Object.freeze([t_671])).validateRequired(Object.freeze([csid_488("name")]));
-      let didBubble_673;
-      try {
-        cs_672.toInsertSql();
-        didBubble_673 = false;
-      } catch {
-        didBubble_673 = true;
+      function fn_658(v_659) {
+        const params_660 = mapConstructor_525(Object.freeze([pairConstructor_549("active", v_659)]));
+        let t_661 = userTable_545();
+        let t_662 = csid_540("active");
+        const cs_663 = changeset(t_661, params_660).cast(Object.freeze([t_662])).validateBool(csid_540("active"));
+        let t_664 = cs_663.isValid;
+        function fn_665() {
+          return "should accept: " + v_659;
+        }
+        test_657.assert(t_664, fn_665);
+        return;
       }
-      function fn_674() {
-        return "invalid changeset should bubble";
-      }
-      test_668.assert(didBubble_673, fn_674);
+      Object.freeze(["true", "1", "yes", "on"]).forEach(fn_658);
       return;
     } finally {
-      test_668.softFailToHard();
+      test_657.softFailToHard();
     }
 });
-it("toInsertSql enforces non-nullable fields independently of isValid", function () {
-    const test_675 = new Test_495();
+it("validateBool accepts false/0/no/off", function () {
+    const test_666 = new Test_547();
     try {
-      const strictTable_676 = new TableDef(csid_488("posts"), Object.freeze([new FieldDef(csid_488("title"), new StringField(), false), new FieldDef(csid_488("body"), new StringField(), true)]));
-      const params_677 = mapConstructor_473(Object.freeze([pairConstructor_497("body", "hello")]));
-      let t_678 = csid_488("body");
-      const cs_679 = changeset(strictTable_676, params_677).cast(Object.freeze([t_678]));
-      let t_680 = cs_679.isValid;
-      function fn_681() {
-        return "changeset should appear valid (no explicit validation run)";
+      function fn_667(v_668) {
+        const params_669 = mapConstructor_525(Object.freeze([pairConstructor_549("active", v_668)]));
+        let t_670 = userTable_545();
+        let t_671 = csid_540("active");
+        const cs_672 = changeset(t_670, params_669).cast(Object.freeze([t_671])).validateBool(csid_540("active"));
+        let t_673 = cs_672.isValid;
+        function fn_674() {
+          return "should accept: " + v_668;
+        }
+        test_666.assert(t_673, fn_674);
+        return;
       }
-      test_675.assert(t_680, fn_681);
-      let didBubble_682;
-      try {
-        cs_679.toInsertSql();
-        didBubble_682 = false;
-      } catch {
-        didBubble_682 = true;
+      Object.freeze(["false", "0", "no", "off"]).forEach(fn_667);
+      return;
+    } finally {
+      test_666.softFailToHard();
+    }
+});
+it("validateBool rejects ambiguous values", function () {
+    const test_675 = new Test_547();
+    try {
+      function fn_676(v_677) {
+        const params_678 = mapConstructor_525(Object.freeze([pairConstructor_549("active", v_677)]));
+        let t_679 = userTable_545();
+        let t_680 = csid_540("active");
+        const cs_681 = changeset(t_679, params_678).cast(Object.freeze([t_680])).validateBool(csid_540("active"));
+        let t_682 = ! cs_681.isValid;
+        function fn_683() {
+          return "should reject ambiguous: " + v_677;
+        }
+        test_675.assert(t_682, fn_683);
+        return;
       }
-      function fn_683() {
-        return "toInsertSql should enforce nullable regardless of isValid";
-      }
-      test_675.assert(didBubble_682, fn_683);
+      Object.freeze(["TRUE", "Yes", "maybe", "2", "enabled"]).forEach(fn_676);
       return;
     } finally {
       test_675.softFailToHard();
     }
 });
-it("toUpdateSql produces correct SQL", function () {
-    const test_684 = new Test_495();
+it("toInsertSql escapes Bobby Tables", function () {
+    const test_684 = new Test_547();
     try {
       let t_685;
-      const params_686 = mapConstructor_473(Object.freeze([pairConstructor_497("name", "Bob")]));
-      let t_687 = userTable_493();
-      let t_688 = csid_488("name");
-      const cs_689 = changeset(t_687, params_686).cast(Object.freeze([t_688])).validateRequired(Object.freeze([csid_488("name")]));
-      let sqlFrag_690;
+      const params_686 = mapConstructor_525(Object.freeze([pairConstructor_549("name", "Robert'); DROP TABLE users;--"), pairConstructor_549("email", "bobby@evil.com")]));
+      let t_687 = userTable_545();
+      let t_688 = csid_540("name");
+      let t_689 = csid_540("email");
+      const cs_690 = changeset(t_687, params_686).cast(Object.freeze([t_688, t_689])).validateRequired(Object.freeze([csid_540("name"), csid_540("email")]));
+      let sqlFrag_691;
       try {
-        t_685 = cs_689.toUpdateSql(42);
-        sqlFrag_690 = t_685;
+        t_685 = cs_690.toInsertSql();
+        sqlFrag_691 = t_685;
       } catch {
-        sqlFrag_690 = panic_492();
+        sqlFrag_691 = panic_544();
       }
-      const s_691 = sqlFrag_690.toString();
-      let t_692 = s_691 === "UPDATE users SET name = 'Bob' WHERE id = 42";
-      function fn_693() {
-        return "got: " + s_691;
+      const s_692 = sqlFrag_691.toString();
+      let t_693 = s_692.indexOf("''") >= 0;
+      function fn_694() {
+        return "single quote must be doubled: " + s_692;
       }
-      test_684.assert(t_692, fn_693);
+      test_684.assert(t_693, fn_694);
       return;
     } finally {
       test_684.softFailToHard();
     }
 });
-it("toUpdateSql bubbles on invalid changeset", function () {
-    const test_694 = new Test_495();
+it("toInsertSql produces correct SQL for string field", function () {
+    const test_695 = new Test_547();
     try {
-      const params_695 = mapConstructor_473(Object.freeze([]));
-      let t_696 = userTable_493();
-      let t_697 = csid_488("name");
-      const cs_698 = changeset(t_696, params_695).cast(Object.freeze([t_697])).validateRequired(Object.freeze([csid_488("name")]));
-      let didBubble_699;
+      let t_696;
+      const params_697 = mapConstructor_525(Object.freeze([pairConstructor_549("name", "Alice"), pairConstructor_549("email", "a@example.com")]));
+      let t_698 = userTable_545();
+      let t_699 = csid_540("name");
+      let t_700 = csid_540("email");
+      const cs_701 = changeset(t_698, params_697).cast(Object.freeze([t_699, t_700])).validateRequired(Object.freeze([csid_540("name"), csid_540("email")]));
+      let sqlFrag_702;
       try {
-        cs_698.toUpdateSql(1);
-        didBubble_699 = false;
+        t_696 = cs_701.toInsertSql();
+        sqlFrag_702 = t_696;
       } catch {
-        didBubble_699 = true;
+        sqlFrag_702 = panic_544();
       }
-      function fn_700() {
+      const s_703 = sqlFrag_702.toString();
+      let t_704 = s_703.indexOf("INSERT INTO users") >= 0;
+      function fn_705() {
+        return "has INSERT INTO: " + s_703;
+      }
+      test_695.assert(t_704, fn_705);
+      let t_706 = s_703.indexOf("'Alice'") >= 0;
+      function fn_707() {
+        return "has quoted name: " + s_703;
+      }
+      test_695.assert(t_706, fn_707);
+      return;
+    } finally {
+      test_695.softFailToHard();
+    }
+});
+it("toInsertSql produces correct SQL for int field", function () {
+    const test_708 = new Test_547();
+    try {
+      let t_709;
+      const params_710 = mapConstructor_525(Object.freeze([pairConstructor_549("name", "Bob"), pairConstructor_549("email", "b@example.com"), pairConstructor_549("age", "25")]));
+      let t_711 = userTable_545();
+      let t_712 = csid_540("name");
+      let t_713 = csid_540("email");
+      let t_714 = csid_540("age");
+      const cs_715 = changeset(t_711, params_710).cast(Object.freeze([t_712, t_713, t_714])).validateRequired(Object.freeze([csid_540("name"), csid_540("email")]));
+      let sqlFrag_716;
+      try {
+        t_709 = cs_715.toInsertSql();
+        sqlFrag_716 = t_709;
+      } catch {
+        sqlFrag_716 = panic_544();
+      }
+      const s_717 = sqlFrag_716.toString();
+      let t_718 = s_717.indexOf("25") >= 0;
+      function fn_719() {
+        return "age rendered unquoted: " + s_717;
+      }
+      test_708.assert(t_718, fn_719);
+      return;
+    } finally {
+      test_708.softFailToHard();
+    }
+});
+it("toInsertSql bubbles on invalid changeset", function () {
+    const test_720 = new Test_547();
+    try {
+      const params_721 = mapConstructor_525(Object.freeze([]));
+      let t_722 = userTable_545();
+      let t_723 = csid_540("name");
+      const cs_724 = changeset(t_722, params_721).cast(Object.freeze([t_723])).validateRequired(Object.freeze([csid_540("name")]));
+      let didBubble_725;
+      try {
+        cs_724.toInsertSql();
+        didBubble_725 = false;
+      } catch {
+        didBubble_725 = true;
+      }
+      function fn_726() {
         return "invalid changeset should bubble";
       }
-      test_694.assert(didBubble_699, fn_700);
+      test_720.assert(didBubble_725, fn_726);
       return;
     } finally {
-      test_694.softFailToHard();
+      test_720.softFailToHard();
     }
 });
-/**
- * @param {string} name_709
- * @returns {SafeIdentifier}
- */
-function sid_708(name_709) {
-  let return_710;
-  let t_711;
-  try {
-    t_711 = safeIdentifier(name_709);
-    return_710 = t_711;
-  } catch {
-    return_710 = panic_492();
-  }
-  return return_710;
-}
-it("bare from produces SELECT *", function () {
-    const test_712 = new Test_495();
+it("toInsertSql enforces non-nullable fields independently of isValid", function () {
+    const test_727 = new Test_547();
     try {
-      const q_713 = from(sid_708("users"));
-      let t_714 = q_713.toSql().toString() === "SELECT * FROM users";
-      function fn_715() {
-        return "bare query";
+      const strictTable_728 = new TableDef(csid_540("posts"), Object.freeze([new FieldDef(csid_540("title"), new StringField(), false), new FieldDef(csid_540("body"), new StringField(), true)]));
+      const params_729 = mapConstructor_525(Object.freeze([pairConstructor_549("body", "hello")]));
+      let t_730 = csid_540("body");
+      const cs_731 = changeset(strictTable_728, params_729).cast(Object.freeze([t_730]));
+      let t_732 = cs_731.isValid;
+      function fn_733() {
+        return "changeset should appear valid (no explicit validation run)";
       }
-      test_712.assert(t_714, fn_715);
-      return;
-    } finally {
-      test_712.softFailToHard();
-    }
-});
-it("select restricts columns", function () {
-    const test_716 = new Test_495();
-    try {
-      let t_717 = sid_708("users");
-      let t_718 = sid_708("id");
-      let t_719 = sid_708("name");
-      const q_720 = from(t_717).select(Object.freeze([t_718, t_719]));
-      let t_721 = q_720.toSql().toString() === "SELECT id, name FROM users";
-      function fn_722() {
-        return "select columns";
+      test_727.assert(t_732, fn_733);
+      let didBubble_734;
+      try {
+        cs_731.toInsertSql();
+        didBubble_734 = false;
+      } catch {
+        didBubble_734 = true;
       }
-      test_716.assert(t_721, fn_722);
-      return;
-    } finally {
-      test_716.softFailToHard();
-    }
-});
-it("where adds condition with int value", function () {
-    const test_723 = new Test_495();
-    try {
-      let t_724 = sid_708("users");
-      let t_725 = new SqlBuilder();
-      t_725.appendSafe("age > ");
-      t_725.appendInt32(18);
-      let t_726 = t_725.accumulated;
-      const q_727 = from(t_724).where(t_726);
-      let t_728 = q_727.toSql().toString() === "SELECT * FROM users WHERE age > 18";
-      function fn_729() {
-        return "where int";
+      function fn_735() {
+        return "toInsertSql should enforce nullable regardless of isValid";
       }
-      test_723.assert(t_728, fn_729);
+      test_727.assert(didBubble_734, fn_735);
       return;
     } finally {
-      test_723.softFailToHard();
+      test_727.softFailToHard();
     }
 });
-it("where adds condition with bool value", function () {
-    const test_730 = new Test_495();
+it("toUpdateSql produces correct SQL", function () {
+    const test_736 = new Test_547();
     try {
-      let t_731 = sid_708("users");
-      let t_732 = new SqlBuilder();
-      t_732.appendSafe("active = ");
-      t_732.appendBoolean(true);
-      let t_733 = t_732.accumulated;
-      const q_734 = from(t_731).where(t_733);
-      let t_735 = q_734.toSql().toString() === "SELECT * FROM users WHERE active = TRUE";
-      function fn_736() {
-        return "where bool";
+      let t_737;
+      const params_738 = mapConstructor_525(Object.freeze([pairConstructor_549("name", "Bob")]));
+      let t_739 = userTable_545();
+      let t_740 = csid_540("name");
+      const cs_741 = changeset(t_739, params_738).cast(Object.freeze([t_740])).validateRequired(Object.freeze([csid_540("name")]));
+      let sqlFrag_742;
+      try {
+        t_737 = cs_741.toUpdateSql(42);
+        sqlFrag_742 = t_737;
+      } catch {
+        sqlFrag_742 = panic_544();
       }
-      test_730.assert(t_735, fn_736);
-      return;
-    } finally {
-      test_730.softFailToHard();
-    }
-});
-it("chained where uses AND", function () {
-    const test_737 = new Test_495();
-    try {
-      let t_738 = sid_708("users");
-      let t_739 = new SqlBuilder();
-      t_739.appendSafe("age > ");
-      t_739.appendInt32(18);
-      let t_740 = t_739.accumulated;
-      let t_741 = from(t_738).where(t_740);
-      let t_742 = new SqlBuilder();
-      t_742.appendSafe("active = ");
-      t_742.appendBoolean(true);
-      const q_743 = t_741.where(t_742.accumulated);
-      let t_744 = q_743.toSql().toString() === "SELECT * FROM users WHERE age > 18 AND active = TRUE";
+      const s_743 = sqlFrag_742.toString();
+      let t_744 = s_743 === "UPDATE users SET name = 'Bob' WHERE id = 42";
       function fn_745() {
-        return "chained where";
+        return "got: " + s_743;
       }
-      test_737.assert(t_744, fn_745);
+      test_736.assert(t_744, fn_745);
       return;
     } finally {
-      test_737.softFailToHard();
+      test_736.softFailToHard();
     }
 });
-it("orderBy ASC", function () {
-    const test_746 = new Test_495();
+it("toUpdateSql bubbles on invalid changeset", function () {
+    const test_746 = new Test_547();
     try {
-      let t_747 = sid_708("users");
-      let t_748 = sid_708("name");
-      const q_749 = from(t_747).orderBy(t_748, true);
-      let t_750 = q_749.toSql().toString() === "SELECT * FROM users ORDER BY name ASC";
-      function fn_751() {
-        return "order asc";
+      const params_747 = mapConstructor_525(Object.freeze([]));
+      let t_748 = userTable_545();
+      let t_749 = csid_540("name");
+      const cs_750 = changeset(t_748, params_747).cast(Object.freeze([t_749])).validateRequired(Object.freeze([csid_540("name")]));
+      let didBubble_751;
+      try {
+        cs_750.toUpdateSql(1);
+        didBubble_751 = false;
+      } catch {
+        didBubble_751 = true;
       }
-      test_746.assert(t_750, fn_751);
+      function fn_752() {
+        return "invalid changeset should bubble";
+      }
+      test_746.assert(didBubble_751, fn_752);
       return;
     } finally {
       test_746.softFailToHard();
     }
 });
-it("orderBy DESC", function () {
-    const test_752 = new Test_495();
+/**
+ * @param {string} name_761
+ * @returns {SafeIdentifier}
+ */
+function sid_760(name_761) {
+  let return_762;
+  let t_763;
+  try {
+    t_763 = safeIdentifier(name_761);
+    return_762 = t_763;
+  } catch {
+    return_762 = panic_544();
+  }
+  return return_762;
+}
+it("bare from produces SELECT *", function () {
+    const test_764 = new Test_547();
     try {
-      let t_753 = sid_708("users");
-      let t_754 = sid_708("created_at");
-      const q_755 = from(t_753).orderBy(t_754, false);
-      let t_756 = q_755.toSql().toString() === "SELECT * FROM users ORDER BY created_at DESC";
-      function fn_757() {
-        return "order desc";
+      const q_765 = from(sid_760("users"));
+      let t_766 = q_765.toSql().toString() === "SELECT * FROM users";
+      function fn_767() {
+        return "bare query";
       }
-      test_752.assert(t_756, fn_757);
-      return;
-    } finally {
-      test_752.softFailToHard();
-    }
-});
-it("limit and offset", function () {
-    const test_758 = new Test_495();
-    try {
-      let t_759;
-      let t_760;
-      let q_761;
-      try {
-        t_759 = from(sid_708("users")).limit(10);
-        t_760 = t_759.offset(20);
-        q_761 = t_760;
-      } catch {
-        q_761 = panic_492();
-      }
-      let t_762 = q_761.toSql().toString() === "SELECT * FROM users LIMIT 10 OFFSET 20";
-      function fn_763() {
-        return "limit/offset";
-      }
-      test_758.assert(t_762, fn_763);
-      return;
-    } finally {
-      test_758.softFailToHard();
-    }
-});
-it("limit bubbles on negative", function () {
-    const test_764 = new Test_495();
-    try {
-      let didBubble_765;
-      try {
-        from(sid_708("users")).limit(-1);
-        didBubble_765 = false;
-      } catch {
-        didBubble_765 = true;
-      }
-      function fn_766() {
-        return "negative limit should bubble";
-      }
-      test_764.assert(didBubble_765, fn_766);
+      test_764.assert(t_766, fn_767);
       return;
     } finally {
       test_764.softFailToHard();
     }
 });
-it("offset bubbles on negative", function () {
-    const test_767 = new Test_495();
+it("select restricts columns", function () {
+    const test_768 = new Test_547();
     try {
-      let didBubble_768;
-      try {
-        from(sid_708("users")).offset(-1);
-        didBubble_768 = false;
-      } catch {
-        didBubble_768 = true;
+      let t_769 = sid_760("users");
+      let t_770 = sid_760("id");
+      let t_771 = sid_760("name");
+      const q_772 = from(t_769).select(Object.freeze([t_770, t_771]));
+      let t_773 = q_772.toSql().toString() === "SELECT id, name FROM users";
+      function fn_774() {
+        return "select columns";
       }
-      function fn_769() {
-        return "negative offset should bubble";
-      }
-      test_767.assert(didBubble_768, fn_769);
+      test_768.assert(t_773, fn_774);
       return;
     } finally {
-      test_767.softFailToHard();
+      test_768.softFailToHard();
+    }
+});
+it("where adds condition with int value", function () {
+    const test_775 = new Test_547();
+    try {
+      let t_776 = sid_760("users");
+      let t_777 = new SqlBuilder();
+      t_777.appendSafe("age > ");
+      t_777.appendInt32(18);
+      let t_778 = t_777.accumulated;
+      const q_779 = from(t_776).where(t_778);
+      let t_780 = q_779.toSql().toString() === "SELECT * FROM users WHERE age > 18";
+      function fn_781() {
+        return "where int";
+      }
+      test_775.assert(t_780, fn_781);
+      return;
+    } finally {
+      test_775.softFailToHard();
+    }
+});
+it("where adds condition with bool value", function () {
+    const test_782 = new Test_547();
+    try {
+      let t_783 = sid_760("users");
+      let t_784 = new SqlBuilder();
+      t_784.appendSafe("active = ");
+      t_784.appendBoolean(true);
+      let t_785 = t_784.accumulated;
+      const q_786 = from(t_783).where(t_785);
+      let t_787 = q_786.toSql().toString() === "SELECT * FROM users WHERE active = TRUE";
+      function fn_788() {
+        return "where bool";
+      }
+      test_782.assert(t_787, fn_788);
+      return;
+    } finally {
+      test_782.softFailToHard();
+    }
+});
+it("chained where uses AND", function () {
+    const test_789 = new Test_547();
+    try {
+      let t_790 = sid_760("users");
+      let t_791 = new SqlBuilder();
+      t_791.appendSafe("age > ");
+      t_791.appendInt32(18);
+      let t_792 = t_791.accumulated;
+      let t_793 = from(t_790).where(t_792);
+      let t_794 = new SqlBuilder();
+      t_794.appendSafe("active = ");
+      t_794.appendBoolean(true);
+      const q_795 = t_793.where(t_794.accumulated);
+      let t_796 = q_795.toSql().toString() === "SELECT * FROM users WHERE age > 18 AND active = TRUE";
+      function fn_797() {
+        return "chained where";
+      }
+      test_789.assert(t_796, fn_797);
+      return;
+    } finally {
+      test_789.softFailToHard();
+    }
+});
+it("orderBy ASC", function () {
+    const test_798 = new Test_547();
+    try {
+      let t_799 = sid_760("users");
+      let t_800 = sid_760("name");
+      const q_801 = from(t_799).orderBy(t_800, true);
+      let t_802 = q_801.toSql().toString() === "SELECT * FROM users ORDER BY name ASC";
+      function fn_803() {
+        return "order asc";
+      }
+      test_798.assert(t_802, fn_803);
+      return;
+    } finally {
+      test_798.softFailToHard();
+    }
+});
+it("orderBy DESC", function () {
+    const test_804 = new Test_547();
+    try {
+      let t_805 = sid_760("users");
+      let t_806 = sid_760("created_at");
+      const q_807 = from(t_805).orderBy(t_806, false);
+      let t_808 = q_807.toSql().toString() === "SELECT * FROM users ORDER BY created_at DESC";
+      function fn_809() {
+        return "order desc";
+      }
+      test_804.assert(t_808, fn_809);
+      return;
+    } finally {
+      test_804.softFailToHard();
+    }
+});
+it("limit and offset", function () {
+    const test_810 = new Test_547();
+    try {
+      let t_811;
+      let t_812;
+      let q_813;
+      try {
+        t_811 = from(sid_760("users")).limit(10);
+        t_812 = t_811.offset(20);
+        q_813 = t_812;
+      } catch {
+        q_813 = panic_544();
+      }
+      let t_814 = q_813.toSql().toString() === "SELECT * FROM users LIMIT 10 OFFSET 20";
+      function fn_815() {
+        return "limit/offset";
+      }
+      test_810.assert(t_814, fn_815);
+      return;
+    } finally {
+      test_810.softFailToHard();
+    }
+});
+it("limit bubbles on negative", function () {
+    const test_816 = new Test_547();
+    try {
+      let didBubble_817;
+      try {
+        from(sid_760("users")).limit(-1);
+        didBubble_817 = false;
+      } catch {
+        didBubble_817 = true;
+      }
+      function fn_818() {
+        return "negative limit should bubble";
+      }
+      test_816.assert(didBubble_817, fn_818);
+      return;
+    } finally {
+      test_816.softFailToHard();
+    }
+});
+it("offset bubbles on negative", function () {
+    const test_819 = new Test_547();
+    try {
+      let didBubble_820;
+      try {
+        from(sid_760("users")).offset(-1);
+        didBubble_820 = false;
+      } catch {
+        didBubble_820 = true;
+      }
+      function fn_821() {
+        return "negative offset should bubble";
+      }
+      test_819.assert(didBubble_820, fn_821);
+      return;
+    } finally {
+      test_819.softFailToHard();
     }
 });
 it("complex composed query", function () {
-    const test_770 = new Test_495();
+    const test_822 = new Test_547();
     try {
-      let t_771;
-      let t_772;
-      let t_773;
-      let t_774;
-      let t_775;
-      let t_776;
-      let t_777;
-      let t_778;
-      let t_779;
-      let t_780;
-      const minAge_781 = 21;
-      let q_782;
+      let t_823;
+      let t_824;
+      let t_825;
+      let t_826;
+      let t_827;
+      let t_828;
+      let t_829;
+      let t_830;
+      let t_831;
+      let t_832;
+      const minAge_833 = 21;
+      let q_834;
       try {
-        t_771 = sid_708("users");
-        t_772 = sid_708("id");
-        t_773 = sid_708("name");
-        t_774 = sid_708("email");
-        t_775 = from(t_771).select(Object.freeze([t_772, t_773, t_774]));
-        t_776 = new SqlBuilder();
-        t_776.appendSafe("age >= ");
-        t_776.appendInt32(21);
-        t_777 = t_775.where(t_776.accumulated);
-        t_778 = new SqlBuilder();
-        t_778.appendSafe("active = ");
-        t_778.appendBoolean(true);
-        t_779 = t_777.where(t_778.accumulated).orderBy(sid_708("name"), true).limit(25);
-        t_780 = t_779.offset(0);
-        q_782 = t_780;
+        t_823 = sid_760("users");
+        t_824 = sid_760("id");
+        t_825 = sid_760("name");
+        t_826 = sid_760("email");
+        t_827 = from(t_823).select(Object.freeze([t_824, t_825, t_826]));
+        t_828 = new SqlBuilder();
+        t_828.appendSafe("age >= ");
+        t_828.appendInt32(21);
+        t_829 = t_827.where(t_828.accumulated);
+        t_830 = new SqlBuilder();
+        t_830.appendSafe("active = ");
+        t_830.appendBoolean(true);
+        t_831 = t_829.where(t_830.accumulated).orderBy(sid_760("name"), true).limit(25);
+        t_832 = t_831.offset(0);
+        q_834 = t_832;
       } catch {
-        q_782 = panic_492();
+        q_834 = panic_544();
       }
-      let t_783 = q_782.toSql().toString() === "SELECT id, name, email FROM users WHERE age >= 21 AND active = TRUE ORDER BY name ASC LIMIT 25 OFFSET 0";
-      function fn_784() {
+      let t_835 = q_834.toSql().toString() === "SELECT id, name, email FROM users WHERE age >= 21 AND active = TRUE ORDER BY name ASC LIMIT 25 OFFSET 0";
+      function fn_836() {
         return "complex query";
       }
-      test_770.assert(t_783, fn_784);
+      test_822.assert(t_835, fn_836);
       return;
     } finally {
-      test_770.softFailToHard();
+      test_822.softFailToHard();
     }
 });
 it("safeToSql applies default limit when none set", function () {
-    const test_785 = new Test_495();
+    const test_837 = new Test_547();
     try {
-      let t_786;
-      let t_787;
-      const q_788 = from(sid_708("users"));
+      let t_838;
+      let t_839;
+      const q_840 = from(sid_760("users"));
       try {
-        t_786 = q_788.safeToSql(100);
-        t_787 = t_786;
+        t_838 = q_840.safeToSql(100);
+        t_839 = t_838;
       } catch {
-        t_787 = panic_492();
+        t_839 = panic_544();
       }
-      const s_789 = t_787.toString();
-      let t_790 = s_789 === "SELECT * FROM users LIMIT 100";
-      function fn_791() {
-        return "should have limit: " + s_789;
+      const s_841 = t_839.toString();
+      let t_842 = s_841 === "SELECT * FROM users LIMIT 100";
+      function fn_843() {
+        return "should have limit: " + s_841;
       }
-      test_785.assert(t_790, fn_791);
+      test_837.assert(t_842, fn_843);
       return;
     } finally {
-      test_785.softFailToHard();
+      test_837.softFailToHard();
     }
 });
 it("safeToSql respects explicit limit", function () {
-    const test_792 = new Test_495();
+    const test_844 = new Test_547();
     try {
-      let t_793;
-      let t_794;
-      let t_795;
-      let q_796;
+      let t_845;
+      let t_846;
+      let t_847;
+      let q_848;
       try {
-        t_793 = from(sid_708("users")).limit(5);
-        q_796 = t_793;
+        t_845 = from(sid_760("users")).limit(5);
+        q_848 = t_845;
       } catch {
-        q_796 = panic_492();
+        q_848 = panic_544();
       }
       try {
-        t_794 = q_796.safeToSql(100);
-        t_795 = t_794;
+        t_846 = q_848.safeToSql(100);
+        t_847 = t_846;
       } catch {
-        t_795 = panic_492();
+        t_847 = panic_544();
       }
-      const s_797 = t_795.toString();
-      let t_798 = s_797 === "SELECT * FROM users LIMIT 5";
-      function fn_799() {
-        return "explicit limit preserved: " + s_797;
+      const s_849 = t_847.toString();
+      let t_850 = s_849 === "SELECT * FROM users LIMIT 5";
+      function fn_851() {
+        return "explicit limit preserved: " + s_849;
       }
-      test_792.assert(t_798, fn_799);
+      test_844.assert(t_850, fn_851);
       return;
     } finally {
-      test_792.softFailToHard();
+      test_844.softFailToHard();
     }
 });
 it("safeToSql bubbles on negative defaultLimit", function () {
-    const test_800 = new Test_495();
+    const test_852 = new Test_547();
     try {
-      let didBubble_801;
+      let didBubble_853;
       try {
-        from(sid_708("users")).safeToSql(-1);
-        didBubble_801 = false;
+        from(sid_760("users")).safeToSql(-1);
+        didBubble_853 = false;
       } catch {
-        didBubble_801 = true;
+        didBubble_853 = true;
       }
-      function fn_802() {
+      function fn_854() {
         return "negative defaultLimit should bubble";
       }
-      test_800.assert(didBubble_801, fn_802);
+      test_852.assert(didBubble_853, fn_854);
       return;
     } finally {
-      test_800.softFailToHard();
+      test_852.softFailToHard();
     }
 });
 it("where with injection attempt in string value is escaped", function () {
-    const test_803 = new Test_495();
+    const test_855 = new Test_547();
     try {
-      const evil_804 = "'; DROP TABLE users; --";
-      let t_805 = sid_708("users");
-      let t_806 = new SqlBuilder();
-      t_806.appendSafe("name = ");
-      t_806.appendString("'; DROP TABLE users; --");
-      let t_807 = t_806.accumulated;
-      const q_808 = from(t_805).where(t_807);
-      const s_809 = q_808.toSql().toString();
-      let t_810 = s_809.indexOf("''") >= 0;
-      function fn_811() {
-        return "quotes must be doubled: " + s_809;
+      const evil_856 = "'; DROP TABLE users; --";
+      let t_857 = sid_760("users");
+      let t_858 = new SqlBuilder();
+      t_858.appendSafe("name = ");
+      t_858.appendString("'; DROP TABLE users; --");
+      let t_859 = t_858.accumulated;
+      const q_860 = from(t_857).where(t_859);
+      const s_861 = q_860.toSql().toString();
+      let t_862 = s_861.indexOf("''") >= 0;
+      function fn_863() {
+        return "quotes must be doubled: " + s_861;
       }
-      test_803.assert(t_810, fn_811);
-      let t_812 = s_809.indexOf("SELECT * FROM users WHERE name =") >= 0;
-      function fn_813() {
-        return "structure intact: " + s_809;
+      test_855.assert(t_862, fn_863);
+      let t_864 = s_861.indexOf("SELECT * FROM users WHERE name =") >= 0;
+      function fn_865() {
+        return "structure intact: " + s_861;
       }
-      test_803.assert(t_812, fn_813);
+      test_855.assert(t_864, fn_865);
       return;
     } finally {
-      test_803.softFailToHard();
+      test_855.softFailToHard();
     }
 });
 it("safeIdentifier rejects user-supplied table name with metacharacters", function () {
-    const test_814 = new Test_495();
+    const test_866 = new Test_547();
     try {
-      const attack_815 = "users; DROP TABLE users; --";
-      let didBubble_816;
+      const attack_867 = "users; DROP TABLE users; --";
+      let didBubble_868;
       try {
         safeIdentifier("users; DROP TABLE users; --");
-        didBubble_816 = false;
+        didBubble_868 = false;
       } catch {
-        didBubble_816 = true;
+        didBubble_868 = true;
       }
-      function fn_817() {
+      function fn_869() {
         return "metacharacter-containing name must be rejected at construction";
       }
-      test_814.assert(didBubble_816, fn_817);
+      test_866.assert(didBubble_868, fn_869);
       return;
     } finally {
-      test_814.softFailToHard();
+      test_866.softFailToHard();
     }
 });
 it("innerJoin produces INNER JOIN", function () {
-    const test_818 = new Test_495();
+    const test_870 = new Test_547();
     try {
-      let t_819 = sid_708("users");
-      let t_820 = sid_708("orders");
-      let t_821 = new SqlBuilder();
-      t_821.appendSafe("users.id = orders.user_id");
-      let t_822 = t_821.accumulated;
-      const q_823 = from(t_819).innerJoin(t_820, t_822);
-      let t_824 = q_823.toSql().toString() === "SELECT * FROM users INNER JOIN orders ON users.id = orders.user_id";
-      function fn_825() {
+      let t_871 = sid_760("users");
+      let t_872 = sid_760("orders");
+      let t_873 = new SqlBuilder();
+      t_873.appendSafe("users.id = orders.user_id");
+      let t_874 = t_873.accumulated;
+      const q_875 = from(t_871).innerJoin(t_872, t_874);
+      let t_876 = q_875.toSql().toString() === "SELECT * FROM users INNER JOIN orders ON users.id = orders.user_id";
+      function fn_877() {
         return "inner join";
       }
-      test_818.assert(t_824, fn_825);
+      test_870.assert(t_876, fn_877);
       return;
     } finally {
-      test_818.softFailToHard();
+      test_870.softFailToHard();
     }
 });
 it("leftJoin produces LEFT JOIN", function () {
-    const test_826 = new Test_495();
+    const test_878 = new Test_547();
     try {
-      let t_827 = sid_708("users");
-      let t_828 = sid_708("profiles");
-      let t_829 = new SqlBuilder();
-      t_829.appendSafe("users.id = profiles.user_id");
-      let t_830 = t_829.accumulated;
-      const q_831 = from(t_827).leftJoin(t_828, t_830);
-      let t_832 = q_831.toSql().toString() === "SELECT * FROM users LEFT JOIN profiles ON users.id = profiles.user_id";
-      function fn_833() {
+      let t_879 = sid_760("users");
+      let t_880 = sid_760("profiles");
+      let t_881 = new SqlBuilder();
+      t_881.appendSafe("users.id = profiles.user_id");
+      let t_882 = t_881.accumulated;
+      const q_883 = from(t_879).leftJoin(t_880, t_882);
+      let t_884 = q_883.toSql().toString() === "SELECT * FROM users LEFT JOIN profiles ON users.id = profiles.user_id";
+      function fn_885() {
         return "left join";
       }
-      test_826.assert(t_832, fn_833);
+      test_878.assert(t_884, fn_885);
       return;
     } finally {
-      test_826.softFailToHard();
+      test_878.softFailToHard();
     }
 });
 it("rightJoin produces RIGHT JOIN", function () {
-    const test_834 = new Test_495();
+    const test_886 = new Test_547();
     try {
-      let t_835 = sid_708("orders");
-      let t_836 = sid_708("users");
-      let t_837 = new SqlBuilder();
-      t_837.appendSafe("orders.user_id = users.id");
-      let t_838 = t_837.accumulated;
-      const q_839 = from(t_835).rightJoin(t_836, t_838);
-      let t_840 = q_839.toSql().toString() === "SELECT * FROM orders RIGHT JOIN users ON orders.user_id = users.id";
-      function fn_841() {
+      let t_887 = sid_760("orders");
+      let t_888 = sid_760("users");
+      let t_889 = new SqlBuilder();
+      t_889.appendSafe("orders.user_id = users.id");
+      let t_890 = t_889.accumulated;
+      const q_891 = from(t_887).rightJoin(t_888, t_890);
+      let t_892 = q_891.toSql().toString() === "SELECT * FROM orders RIGHT JOIN users ON orders.user_id = users.id";
+      function fn_893() {
         return "right join";
       }
-      test_834.assert(t_840, fn_841);
+      test_886.assert(t_892, fn_893);
       return;
     } finally {
-      test_834.softFailToHard();
+      test_886.softFailToHard();
     }
 });
 it("fullJoin produces FULL OUTER JOIN", function () {
-    const test_842 = new Test_495();
+    const test_894 = new Test_547();
     try {
-      let t_843 = sid_708("users");
-      let t_844 = sid_708("orders");
-      let t_845 = new SqlBuilder();
-      t_845.appendSafe("users.id = orders.user_id");
-      let t_846 = t_845.accumulated;
-      const q_847 = from(t_843).fullJoin(t_844, t_846);
-      let t_848 = q_847.toSql().toString() === "SELECT * FROM users FULL OUTER JOIN orders ON users.id = orders.user_id";
-      function fn_849() {
+      let t_895 = sid_760("users");
+      let t_896 = sid_760("orders");
+      let t_897 = new SqlBuilder();
+      t_897.appendSafe("users.id = orders.user_id");
+      let t_898 = t_897.accumulated;
+      const q_899 = from(t_895).fullJoin(t_896, t_898);
+      let t_900 = q_899.toSql().toString() === "SELECT * FROM users FULL OUTER JOIN orders ON users.id = orders.user_id";
+      function fn_901() {
         return "full join";
       }
-      test_842.assert(t_848, fn_849);
+      test_894.assert(t_900, fn_901);
       return;
     } finally {
-      test_842.softFailToHard();
+      test_894.softFailToHard();
     }
 });
 it("chained joins", function () {
-    const test_850 = new Test_495();
+    const test_902 = new Test_547();
     try {
-      let t_851 = sid_708("users");
-      let t_852 = sid_708("orders");
-      let t_853 = new SqlBuilder();
-      t_853.appendSafe("users.id = orders.user_id");
-      let t_854 = t_853.accumulated;
-      let t_855 = from(t_851).innerJoin(t_852, t_854);
-      let t_856 = sid_708("profiles");
-      let t_857 = new SqlBuilder();
-      t_857.appendSafe("users.id = profiles.user_id");
-      const q_858 = t_855.leftJoin(t_856, t_857.accumulated);
-      let t_859 = q_858.toSql().toString() === "SELECT * FROM users INNER JOIN orders ON users.id = orders.user_id LEFT JOIN profiles ON users.id = profiles.user_id";
-      function fn_860() {
+      let t_903 = sid_760("users");
+      let t_904 = sid_760("orders");
+      let t_905 = new SqlBuilder();
+      t_905.appendSafe("users.id = orders.user_id");
+      let t_906 = t_905.accumulated;
+      let t_907 = from(t_903).innerJoin(t_904, t_906);
+      let t_908 = sid_760("profiles");
+      let t_909 = new SqlBuilder();
+      t_909.appendSafe("users.id = profiles.user_id");
+      const q_910 = t_907.leftJoin(t_908, t_909.accumulated);
+      let t_911 = q_910.toSql().toString() === "SELECT * FROM users INNER JOIN orders ON users.id = orders.user_id LEFT JOIN profiles ON users.id = profiles.user_id";
+      function fn_912() {
         return "chained joins";
       }
-      test_850.assert(t_859, fn_860);
-      return;
-    } finally {
-      test_850.softFailToHard();
-    }
-});
-it("join with where and orderBy", function () {
-    const test_861 = new Test_495();
-    try {
-      let t_862;
-      let t_863;
-      let t_864;
-      let t_865;
-      let t_866;
-      let t_867;
-      let t_868;
-      let q_869;
-      try {
-        t_862 = sid_708("users");
-        t_863 = sid_708("orders");
-        t_864 = new SqlBuilder();
-        t_864.appendSafe("users.id = orders.user_id");
-        t_865 = t_864.accumulated;
-        t_866 = from(t_862).innerJoin(t_863, t_865);
-        t_867 = new SqlBuilder();
-        t_867.appendSafe("orders.total > ");
-        t_867.appendInt32(100);
-        t_868 = t_866.where(t_867.accumulated).orderBy(sid_708("name"), true).limit(10);
-        q_869 = t_868;
-      } catch {
-        q_869 = panic_492();
-      }
-      let t_870 = q_869.toSql().toString() === "SELECT * FROM users INNER JOIN orders ON users.id = orders.user_id WHERE orders.total > 100 ORDER BY name ASC LIMIT 10";
-      function fn_871() {
-        return "join with where/order/limit";
-      }
-      test_861.assert(t_870, fn_871);
-      return;
-    } finally {
-      test_861.softFailToHard();
-    }
-});
-it("col helper produces qualified reference", function () {
-    const test_872 = new Test_495();
-    try {
-      const c_873 = col(sid_708("users"), sid_708("id"));
-      let t_874 = c_873.toString() === "users.id";
-      function fn_875() {
-        return "col helper";
-      }
-      test_872.assert(t_874, fn_875);
-      return;
-    } finally {
-      test_872.softFailToHard();
-    }
-});
-it("join with col helper", function () {
-    const test_876 = new Test_495();
-    try {
-      const onCond_877 = col(sid_708("users"), sid_708("id"));
-      const b_878 = new SqlBuilder();
-      b_878.appendFragment(onCond_877);
-      b_878.appendSafe(" = ");
-      b_878.appendFragment(col(sid_708("orders"), sid_708("user_id")));
-      let t_879 = sid_708("users");
-      let t_880 = sid_708("orders");
-      let t_881 = b_878.accumulated;
-      const q_882 = from(t_879).innerJoin(t_880, t_881);
-      let t_883 = q_882.toSql().toString() === "SELECT * FROM users INNER JOIN orders ON users.id = orders.user_id";
-      function fn_884() {
-        return "join with col";
-      }
-      test_876.assert(t_883, fn_884);
-      return;
-    } finally {
-      test_876.softFailToHard();
-    }
-});
-it("safeIdentifier accepts valid names", function () {
-    const test_885 = new Test_495();
-    try {
-      let t_886;
-      let id_887;
-      try {
-        t_886 = safeIdentifier("user_name");
-        id_887 = t_886;
-      } catch {
-        id_887 = panic_492();
-      }
-      let t_888 = id_887.sqlValue === "user_name";
-      function fn_889() {
-        return "value should round-trip";
-      }
-      test_885.assert(t_888, fn_889);
-      return;
-    } finally {
-      test_885.softFailToHard();
-    }
-});
-it("safeIdentifier rejects empty string", function () {
-    const test_890 = new Test_495();
-    try {
-      let didBubble_891;
-      try {
-        safeIdentifier("");
-        didBubble_891 = false;
-      } catch {
-        didBubble_891 = true;
-      }
-      function fn_892() {
-        return "empty string should bubble";
-      }
-      test_890.assert(didBubble_891, fn_892);
-      return;
-    } finally {
-      test_890.softFailToHard();
-    }
-});
-it("safeIdentifier rejects leading digit", function () {
-    const test_893 = new Test_495();
-    try {
-      let didBubble_894;
-      try {
-        safeIdentifier("1col");
-        didBubble_894 = false;
-      } catch {
-        didBubble_894 = true;
-      }
-      function fn_895() {
-        return "leading digit should bubble";
-      }
-      test_893.assert(didBubble_894, fn_895);
-      return;
-    } finally {
-      test_893.softFailToHard();
-    }
-});
-it("safeIdentifier rejects SQL metacharacters", function () {
-    const test_896 = new Test_495();
-    try {
-      const cases_897 = Object.freeze(["name); DROP TABLE", "col'", "a b", "a-b", "a.b", "a;b"]);
-      function fn_898(c_899) {
-        let didBubble_900;
-        try {
-          safeIdentifier(c_899);
-          didBubble_900 = false;
-        } catch {
-          didBubble_900 = true;
-        }
-        function fn_901() {
-          return "should reject: " + c_899;
-        }
-        test_896.assert(didBubble_900, fn_901);
-        return;
-      }
-      cases_897.forEach(fn_898);
-      return;
-    } finally {
-      test_896.softFailToHard();
-    }
-});
-it("TableDef field lookup - found", function () {
-    const test_902 = new Test_495();
-    try {
-      let t_903;
-      let t_904;
-      let t_905;
-      let t_906;
-      let t_907;
-      let t_908;
-      let t_909;
-      try {
-        t_903 = safeIdentifier("users");
-        t_904 = t_903;
-      } catch {
-        t_904 = panic_492();
-      }
-      try {
-        t_905 = safeIdentifier("name");
-        t_906 = t_905;
-      } catch {
-        t_906 = panic_492();
-      }
-      let t_910 = new StringField();
-      let t_911 = new FieldDef(t_906, t_910, false);
-      try {
-        t_907 = safeIdentifier("age");
-        t_908 = t_907;
-      } catch {
-        t_908 = panic_492();
-      }
-      let t_912 = new IntField();
-      let t_913 = new FieldDef(t_908, t_912, false);
-      const td_914 = new TableDef(t_904, Object.freeze([t_911, t_913]));
-      let f_915;
-      try {
-        t_909 = td_914.field("age");
-        f_915 = t_909;
-      } catch {
-        f_915 = panic_492();
-      }
-      let t_916 = f_915.name.sqlValue === "age";
-      function fn_917() {
-        return "should find age field";
-      }
-      test_902.assert(t_916, fn_917);
+      test_902.assert(t_911, fn_912);
       return;
     } finally {
       test_902.softFailToHard();
     }
 });
-it("TableDef field lookup - not found bubbles", function () {
-    const test_918 = new Test_495();
+it("join with where and orderBy", function () {
+    const test_913 = new Test_547();
     try {
+      let t_914;
+      let t_915;
+      let t_916;
+      let t_917;
+      let t_918;
       let t_919;
       let t_920;
-      let t_921;
-      let t_922;
+      let q_921;
       try {
-        t_919 = safeIdentifier("users");
-        t_920 = t_919;
+        t_914 = sid_760("users");
+        t_915 = sid_760("orders");
+        t_916 = new SqlBuilder();
+        t_916.appendSafe("users.id = orders.user_id");
+        t_917 = t_916.accumulated;
+        t_918 = from(t_914).innerJoin(t_915, t_917);
+        t_919 = new SqlBuilder();
+        t_919.appendSafe("orders.total > ");
+        t_919.appendInt32(100);
+        t_920 = t_918.where(t_919.accumulated).orderBy(sid_760("name"), true).limit(10);
+        q_921 = t_920;
       } catch {
-        t_920 = panic_492();
+        q_921 = panic_544();
       }
-      try {
-        t_921 = safeIdentifier("name");
-        t_922 = t_921;
-      } catch {
-        t_922 = panic_492();
+      let t_922 = q_921.toSql().toString() === "SELECT * FROM users INNER JOIN orders ON users.id = orders.user_id WHERE orders.total > 100 ORDER BY name ASC LIMIT 10";
+      function fn_923() {
+        return "join with where/order/limit";
       }
-      let t_923 = new StringField();
-      let t_924 = new FieldDef(t_922, t_923, false);
-      const td_925 = new TableDef(t_920, Object.freeze([t_924]));
-      let didBubble_926;
-      try {
-        td_925.field("nonexistent");
-        didBubble_926 = false;
-      } catch {
-        didBubble_926 = true;
-      }
-      function fn_927() {
-        return "unknown field should bubble";
-      }
-      test_918.assert(didBubble_926, fn_927);
+      test_913.assert(t_922, fn_923);
       return;
     } finally {
-      test_918.softFailToHard();
+      test_913.softFailToHard();
     }
 });
-it("FieldDef nullable flag", function () {
-    const test_928 = new Test_495();
+it("col helper produces qualified reference", function () {
+    const test_924 = new Test_547();
     try {
-      let t_929;
-      let t_930;
-      let t_931;
-      let t_932;
-      try {
-        t_929 = safeIdentifier("email");
-        t_930 = t_929;
-      } catch {
-        t_930 = panic_492();
+      const c_925 = col(sid_760("users"), sid_760("id"));
+      let t_926 = c_925.toString() === "users.id";
+      function fn_927() {
+        return "col helper";
       }
-      let t_933 = new StringField();
-      const required_934 = new FieldDef(t_930, t_933, false);
-      try {
-        t_931 = safeIdentifier("bio");
-        t_932 = t_931;
-      } catch {
-        t_932 = panic_492();
+      test_924.assert(t_926, fn_927);
+      return;
+    } finally {
+      test_924.softFailToHard();
+    }
+});
+it("join with col helper", function () {
+    const test_928 = new Test_547();
+    try {
+      const onCond_929 = col(sid_760("users"), sid_760("id"));
+      const b_930 = new SqlBuilder();
+      b_930.appendFragment(onCond_929);
+      b_930.appendSafe(" = ");
+      b_930.appendFragment(col(sid_760("orders"), sid_760("user_id")));
+      let t_931 = sid_760("users");
+      let t_932 = sid_760("orders");
+      let t_933 = b_930.accumulated;
+      const q_934 = from(t_931).innerJoin(t_932, t_933);
+      let t_935 = q_934.toSql().toString() === "SELECT * FROM users INNER JOIN orders ON users.id = orders.user_id";
+      function fn_936() {
+        return "join with col";
       }
-      let t_935 = new StringField();
-      const optional_936 = new FieldDef(t_932, t_935, true);
-      let t_937 = ! required_934.nullable;
-      function fn_938() {
-        return "required field should not be nullable";
-      }
-      test_928.assert(t_937, fn_938);
-      let t_939 = optional_936.nullable;
-      function fn_940() {
-        return "optional field should be nullable";
-      }
-      test_928.assert(t_939, fn_940);
+      test_928.assert(t_935, fn_936);
       return;
     } finally {
       test_928.softFailToHard();
     }
 });
-it("string escaping", function () {
-    const test_941 = new Test_495();
+it("orWhere basic", function () {
+    const test_937 = new Test_547();
     try {
-      function build_942(name_943) {
-        let t_944 = new SqlBuilder();
-        t_944.appendSafe("select * from hi where name = ");
-        t_944.appendString(name_943);
-        return t_944.accumulated.toString();
+      let t_938 = sid_760("users");
+      let t_939 = new SqlBuilder();
+      t_939.appendSafe("status = ");
+      t_939.appendString("active");
+      let t_940 = t_939.accumulated;
+      const q_941 = from(t_938).orWhere(t_940);
+      let t_942 = q_941.toSql().toString() === "SELECT * FROM users WHERE status = 'active'";
+      function fn_943() {
+        return "orWhere basic";
       }
-      function buildWrong_945(name_946) {
-        return "select * from hi where name = '" + name_946 + "'";
-      }
-      const actual_947 = build_942("world");
-      let t_948 = actual_947 === "select * from hi where name = 'world'";
-      function fn_949() {
-        return 'expected build("world") == (' + "select * from hi where name = 'world'" + ") not (" + actual_947 + ")";
-      }
-      test_941.assert(t_948, fn_949);
-      const bobbyTables_950 = "Robert'); drop table hi;--";
-      const actual_951 = build_942("Robert'); drop table hi;--");
-      let t_952 = actual_951 === "select * from hi where name = 'Robert''); drop table hi;--'";
-      function fn_953() {
-        return "expected build(bobbyTables) == (" + "select * from hi where name = 'Robert''); drop table hi;--'" + ") not (" + actual_951 + ")";
-      }
-      test_941.assert(t_952, fn_953);
-      function fn_954() {
-        return "expected buildWrong(bobbyTables) == (select * from hi where name = 'Robert'); drop table hi;--') not (select * from hi where name = 'Robert'); drop table hi;--')";
-      }
-      test_941.assert(true, fn_954);
+      test_937.assert(t_942, fn_943);
       return;
     } finally {
-      test_941.softFailToHard();
+      test_937.softFailToHard();
     }
 });
-it("string edge cases", function () {
-    const test_955 = new Test_495();
+it("where then orWhere", function () {
+    const test_944 = new Test_547();
     try {
-      let t_956 = new SqlBuilder();
-      t_956.appendSafe("v = ");
-      t_956.appendString("");
-      const actual_957 = t_956.accumulated.toString();
-      let t_958 = actual_957 === "v = ''";
-      function fn_959() {
-        return 'expected stringExpr(`-work//src/`.sql, true, "v = ", \\interpolate, "").toString() == (' + "v = ''" + ") not (" + actual_957 + ")";
+      let t_945 = sid_760("users");
+      let t_946 = new SqlBuilder();
+      t_946.appendSafe("age > ");
+      t_946.appendInt32(18);
+      let t_947 = t_946.accumulated;
+      let t_948 = from(t_945).where(t_947);
+      let t_949 = new SqlBuilder();
+      t_949.appendSafe("vip = ");
+      t_949.appendBoolean(true);
+      const q_950 = t_948.orWhere(t_949.accumulated);
+      let t_951 = q_950.toSql().toString() === "SELECT * FROM users WHERE age > 18 OR vip = TRUE";
+      function fn_952() {
+        return "where then orWhere";
       }
-      test_955.assert(t_958, fn_959);
+      test_944.assert(t_951, fn_952);
+      return;
+    } finally {
+      test_944.softFailToHard();
+    }
+});
+it("multiple orWhere", function () {
+    const test_953 = new Test_547();
+    try {
+      let t_954 = sid_760("users");
+      let t_955 = new SqlBuilder();
+      t_955.appendSafe("active = ");
+      t_955.appendBoolean(true);
+      let t_956 = t_955.accumulated;
+      let t_957 = from(t_954).where(t_956);
+      let t_958 = new SqlBuilder();
+      t_958.appendSafe("role = ");
+      t_958.appendString("admin");
+      let t_959 = t_957.orWhere(t_958.accumulated);
       let t_960 = new SqlBuilder();
-      t_960.appendSafe("v = ");
-      t_960.appendString("a''b");
-      const actual_961 = t_960.accumulated.toString();
-      let t_962 = actual_961 === "v = 'a''''b'";
+      t_960.appendSafe("role = ");
+      t_960.appendString("moderator");
+      const q_961 = t_959.orWhere(t_960.accumulated);
+      let t_962 = q_961.toSql().toString() === "SELECT * FROM users WHERE active = TRUE OR role = 'admin' OR role = 'moderator'";
       function fn_963() {
-        return "expected stringExpr(`-work//src/`.sql, true, \"v = \", \\interpolate, \"a''b\").toString() == (" + "v = 'a''''b'" + ") not (" + actual_961 + ")";
+        return "multiple orWhere";
       }
-      test_955.assert(t_962, fn_963);
-      let t_964 = new SqlBuilder();
-      t_964.appendSafe("v = ");
-      t_964.appendString("Hello 世界");
-      const actual_965 = t_964.accumulated.toString();
-      let t_966 = actual_965 === "v = 'Hello 世界'";
-      function fn_967() {
-        return 'expected stringExpr(`-work//src/`.sql, true, "v = ", \\interpolate, "Hello 世界").toString() == (' + "v = 'Hello 世界'" + ") not (" + actual_965 + ")";
-      }
-      test_955.assert(t_966, fn_967);
-      let t_968 = new SqlBuilder();
-      t_968.appendSafe("v = ");
-      t_968.appendString("Line1\nLine2");
-      const actual_969 = t_968.accumulated.toString();
-      let t_970 = actual_969 === "v = 'Line1\nLine2'";
-      function fn_971() {
-        return 'expected stringExpr(`-work//src/`.sql, true, "v = ", \\interpolate, "Line1\\nLine2").toString() == (' + "v = 'Line1\nLine2'" + ") not (" + actual_969 + ")";
-      }
-      test_955.assert(t_970, fn_971);
+      test_953.assert(t_962, fn_963);
       return;
     } finally {
-      test_955.softFailToHard();
+      test_953.softFailToHard();
     }
 });
-it("numbers and booleans", function () {
-    const test_972 = new Test_495();
+it("mixed where and orWhere", function () {
+    const test_964 = new Test_547();
     try {
-      let t_973;
-      let t_974 = new SqlBuilder();
-      t_974.appendSafe("select ");
-      t_974.appendInt32(42);
-      t_974.appendSafe(", ");
-      t_974.appendInt64(BigInt("43"));
-      t_974.appendSafe(", ");
-      t_974.appendFloat64(19.99);
-      t_974.appendSafe(", ");
-      t_974.appendBoolean(true);
-      t_974.appendSafe(", ");
-      t_974.appendBoolean(false);
-      const actual_975 = t_974.accumulated.toString();
-      let t_976 = actual_975 === "select 42, 43, 19.99, TRUE, FALSE";
-      function fn_977() {
-        return 'expected stringExpr(`-work//src/`.sql, true, "select ", \\interpolate, 42, ", ", \\interpolate, 43, ", ", \\interpolate, 19.99, ", ", \\interpolate, true, ", ", \\interpolate, false).toString() == (' + "select 42, 43, 19.99, TRUE, FALSE" + ") not (" + actual_975 + ")";
+      let t_965 = sid_760("users");
+      let t_966 = new SqlBuilder();
+      t_966.appendSafe("age > ");
+      t_966.appendInt32(18);
+      let t_967 = t_966.accumulated;
+      let t_968 = from(t_965).where(t_967);
+      let t_969 = new SqlBuilder();
+      t_969.appendSafe("active = ");
+      t_969.appendBoolean(true);
+      let t_970 = t_968.where(t_969.accumulated);
+      let t_971 = new SqlBuilder();
+      t_971.appendSafe("vip = ");
+      t_971.appendBoolean(true);
+      const q_972 = t_970.orWhere(t_971.accumulated);
+      let t_973 = q_972.toSql().toString() === "SELECT * FROM users WHERE age > 18 AND active = TRUE OR vip = TRUE";
+      function fn_974() {
+        return "mixed where and orWhere";
       }
-      test_972.assert(t_976, fn_977);
-      let date_978;
-      try {
-        t_973 = new (globalThis.Date)(globalThis.Date.UTC(2024, 12 - 1, 25));
-        date_978 = t_973;
-      } catch {
-        date_978 = panic_492();
-      }
-      let t_979 = new SqlBuilder();
-      t_979.appendSafe("insert into t values (");
-      t_979.appendDate(date_978);
-      t_979.appendSafe(")");
-      const actual_980 = t_979.accumulated.toString();
-      let t_981 = actual_980 === "insert into t values ('2024-12-25')";
-      function fn_982() {
-        return 'expected stringExpr(`-work//src/`.sql, true, "insert into t values (", \\interpolate, date, ")").toString() == (' + "insert into t values ('2024-12-25')" + ") not (" + actual_980 + ")";
-      }
-      test_972.assert(t_981, fn_982);
+      test_964.assert(t_973, fn_974);
       return;
     } finally {
-      test_972.softFailToHard();
+      test_964.softFailToHard();
     }
 });
-it("lists", function () {
-    const test_983 = new Test_495();
+it("whereNull", function () {
+    const test_975 = new Test_547();
     try {
-      let t_984;
-      let t_985;
-      let t_986;
-      let t_987;
-      let t_988 = new SqlBuilder();
-      t_988.appendSafe("v IN (");
-      t_988.appendStringList(Object.freeze(["a", "b", "c'd"]));
-      t_988.appendSafe(")");
-      const actual_989 = t_988.accumulated.toString();
-      let t_990 = actual_989 === "v IN ('a', 'b', 'c''d')";
-      function fn_991() {
-        return "expected stringExpr(`-work//src/`.sql, true, \"v IN (\", \\interpolate, list(\"a\", \"b\", \"c'd\"), \")\").toString() == (" + "v IN ('a', 'b', 'c''d')" + ") not (" + actual_989 + ")";
+      let t_976 = sid_760("users");
+      let t_977 = sid_760("deleted_at");
+      const q_978 = from(t_976).whereNull(t_977);
+      let t_979 = q_978.toSql().toString() === "SELECT * FROM users WHERE deleted_at IS NULL";
+      function fn_980() {
+        return "whereNull";
       }
-      test_983.assert(t_990, fn_991);
-      let t_992 = new SqlBuilder();
-      t_992.appendSafe("v IN (");
-      t_992.appendInt32List(Object.freeze([1, 2, 3]));
-      t_992.appendSafe(")");
-      const actual_993 = t_992.accumulated.toString();
-      let t_994 = actual_993 === "v IN (1, 2, 3)";
-      function fn_995() {
-        return 'expected stringExpr(`-work//src/`.sql, true, "v IN (", \\interpolate, list(1, 2, 3), ")").toString() == (' + "v IN (1, 2, 3)" + ") not (" + actual_993 + ")";
-      }
-      test_983.assert(t_994, fn_995);
-      let t_996 = new SqlBuilder();
-      t_996.appendSafe("v IN (");
-      t_996.appendInt64List(Object.freeze([BigInt("1"), BigInt("2")]));
-      t_996.appendSafe(")");
-      const actual_997 = t_996.accumulated.toString();
-      let t_998 = actual_997 === "v IN (1, 2)";
-      function fn_999() {
-        return 'expected stringExpr(`-work//src/`.sql, true, "v IN (", \\interpolate, list(1, 2), ")").toString() == (' + "v IN (1, 2)" + ") not (" + actual_997 + ")";
-      }
-      test_983.assert(t_998, fn_999);
-      let t_1000 = new SqlBuilder();
-      t_1000.appendSafe("v IN (");
-      t_1000.appendFloat64List(Object.freeze([1.0, 2.0]));
-      t_1000.appendSafe(")");
-      const actual_1001 = t_1000.accumulated.toString();
-      let t_1002 = actual_1001 === "v IN (1.0, 2.0)";
-      function fn_1003() {
-        return 'expected stringExpr(`-work//src/`.sql, true, "v IN (", \\interpolate, list(1.0, 2.0), ")").toString() == (' + "v IN (1.0, 2.0)" + ") not (" + actual_1001 + ")";
-      }
-      test_983.assert(t_1002, fn_1003);
-      let t_1004 = new SqlBuilder();
-      t_1004.appendSafe("v IN (");
-      t_1004.appendBooleanList(Object.freeze([true, false]));
-      t_1004.appendSafe(")");
-      const actual_1005 = t_1004.accumulated.toString();
-      let t_1006 = actual_1005 === "v IN (TRUE, FALSE)";
-      function fn_1007() {
-        return 'expected stringExpr(`-work//src/`.sql, true, "v IN (", \\interpolate, list(true, false), ")").toString() == (' + "v IN (TRUE, FALSE)" + ") not (" + actual_1005 + ")";
-      }
-      test_983.assert(t_1006, fn_1007);
-      try {
-        t_984 = new (globalThis.Date)(globalThis.Date.UTC(2024, 1 - 1, 1));
-        t_985 = t_984;
-      } catch {
-        t_985 = panic_492();
-      }
-      try {
-        t_986 = new (globalThis.Date)(globalThis.Date.UTC(2024, 12 - 1, 25));
-        t_987 = t_986;
-      } catch {
-        t_987 = panic_492();
-      }
-      const dates_1008 = Object.freeze([t_985, t_987]);
-      let t_1009 = new SqlBuilder();
-      t_1009.appendSafe("v IN (");
-      t_1009.appendDateList(dates_1008);
-      t_1009.appendSafe(")");
-      const actual_1010 = t_1009.accumulated.toString();
-      let t_1011 = actual_1010 === "v IN ('2024-01-01', '2024-12-25')";
-      function fn_1012() {
-        return 'expected stringExpr(`-work//src/`.sql, true, "v IN (", \\interpolate, dates, ")").toString() == (' + "v IN ('2024-01-01', '2024-12-25')" + ") not (" + actual_1010 + ")";
-      }
-      test_983.assert(t_1011, fn_1012);
+      test_975.assert(t_979, fn_980);
       return;
     } finally {
-      test_983.softFailToHard();
+      test_975.softFailToHard();
     }
 });
-it("SqlFloat64 NaN renders as NULL", function () {
-    const test_1013 = new Test_495();
+it("whereNotNull", function () {
+    const test_981 = new Test_547();
     try {
-      let nan_1014;
-      nan_1014 = 0.0 / 0.0;
-      let t_1015 = new SqlBuilder();
-      t_1015.appendSafe("v = ");
-      t_1015.appendFloat64(nan_1014);
-      const actual_1016 = t_1015.accumulated.toString();
-      let t_1017 = actual_1016 === "v = NULL";
+      let t_982 = sid_760("users");
+      let t_983 = sid_760("email");
+      const q_984 = from(t_982).whereNotNull(t_983);
+      let t_985 = q_984.toSql().toString() === "SELECT * FROM users WHERE email IS NOT NULL";
+      function fn_986() {
+        return "whereNotNull";
+      }
+      test_981.assert(t_985, fn_986);
+      return;
+    } finally {
+      test_981.softFailToHard();
+    }
+});
+it("whereNull chained with where", function () {
+    const test_987 = new Test_547();
+    try {
+      let t_988 = sid_760("users");
+      let t_989 = new SqlBuilder();
+      t_989.appendSafe("active = ");
+      t_989.appendBoolean(true);
+      let t_990 = t_989.accumulated;
+      const q_991 = from(t_988).where(t_990).whereNull(sid_760("deleted_at"));
+      let t_992 = q_991.toSql().toString() === "SELECT * FROM users WHERE active = TRUE AND deleted_at IS NULL";
+      function fn_993() {
+        return "whereNull chained";
+      }
+      test_987.assert(t_992, fn_993);
+      return;
+    } finally {
+      test_987.softFailToHard();
+    }
+});
+it("whereNotNull chained with orWhere", function () {
+    const test_994 = new Test_547();
+    try {
+      let t_995 = sid_760("users");
+      let t_996 = sid_760("deleted_at");
+      let t_997 = from(t_995).whereNull(t_996);
+      let t_998 = new SqlBuilder();
+      t_998.appendSafe("role = ");
+      t_998.appendString("admin");
+      const q_999 = t_997.orWhere(t_998.accumulated);
+      let t_1000 = q_999.toSql().toString() === "SELECT * FROM users WHERE deleted_at IS NULL OR role = 'admin'";
+      function fn_1001() {
+        return "whereNotNull with orWhere";
+      }
+      test_994.assert(t_1000, fn_1001);
+      return;
+    } finally {
+      test_994.softFailToHard();
+    }
+});
+it("whereIn with int values", function () {
+    const test_1002 = new Test_547();
+    try {
+      let t_1003 = sid_760("users");
+      let t_1004 = sid_760("id");
+      let t_1005 = new SqlInt32(1);
+      let t_1006 = new SqlInt32(2);
+      let t_1007 = new SqlInt32(3);
+      const q_1008 = from(t_1003).whereIn(t_1004, Object.freeze([t_1005, t_1006, t_1007]));
+      let t_1009 = q_1008.toSql().toString() === "SELECT * FROM users WHERE id IN (1, 2, 3)";
+      function fn_1010() {
+        return "whereIn ints";
+      }
+      test_1002.assert(t_1009, fn_1010);
+      return;
+    } finally {
+      test_1002.softFailToHard();
+    }
+});
+it("whereIn with string values escaping", function () {
+    const test_1011 = new Test_547();
+    try {
+      let t_1012 = sid_760("users");
+      let t_1013 = sid_760("name");
+      let t_1014 = new SqlString("Alice");
+      let t_1015 = new SqlString("Bob's");
+      const q_1016 = from(t_1012).whereIn(t_1013, Object.freeze([t_1014, t_1015]));
+      let t_1017 = q_1016.toSql().toString() === "SELECT * FROM users WHERE name IN ('Alice', 'Bob''s')";
       function fn_1018() {
-        return 'expected stringExpr(`-work//src/`.sql, true, "v = ", \\interpolate, nan).toString() == (' + "v = NULL" + ") not (" + actual_1016 + ")";
+        return "whereIn strings";
       }
-      test_1013.assert(t_1017, fn_1018);
+      test_1011.assert(t_1017, fn_1018);
       return;
     } finally {
-      test_1013.softFailToHard();
+      test_1011.softFailToHard();
     }
 });
-it("SqlFloat64 Infinity renders as NULL", function () {
-    const test_1019 = new Test_495();
+it("whereIn with empty list produces 1=0", function () {
+    const test_1019 = new Test_547();
     try {
-      let inf_1020;
-      inf_1020 = 1.0 / 0.0;
-      let t_1021 = new SqlBuilder();
-      t_1021.appendSafe("v = ");
-      t_1021.appendFloat64(inf_1020);
-      const actual_1022 = t_1021.accumulated.toString();
-      let t_1023 = actual_1022 === "v = NULL";
+      let t_1020 = sid_760("users");
+      let t_1021 = sid_760("id");
+      const q_1022 = from(t_1020).whereIn(t_1021, Object.freeze([]));
+      let t_1023 = q_1022.toSql().toString() === "SELECT * FROM users WHERE 1 = 0";
       function fn_1024() {
-        return 'expected stringExpr(`-work//src/`.sql, true, "v = ", \\interpolate, inf).toString() == (' + "v = NULL" + ") not (" + actual_1022 + ")";
+        return "whereIn empty";
       }
       test_1019.assert(t_1023, fn_1024);
       return;
@@ -1525,123 +1292,761 @@ it("SqlFloat64 Infinity renders as NULL", function () {
       test_1019.softFailToHard();
     }
 });
-it("SqlFloat64 negative Infinity renders as NULL", function () {
-    const test_1025 = new Test_495();
+it("whereIn chained", function () {
+    const test_1025 = new Test_547();
     try {
-      let ninf_1026;
-      ninf_1026 = -1.0 / 0.0;
+      let t_1026 = sid_760("users");
       let t_1027 = new SqlBuilder();
-      t_1027.appendSafe("v = ");
-      t_1027.appendFloat64(ninf_1026);
-      const actual_1028 = t_1027.accumulated.toString();
-      let t_1029 = actual_1028 === "v = NULL";
-      function fn_1030() {
-        return 'expected stringExpr(`-work//src/`.sql, true, "v = ", \\interpolate, ninf).toString() == (' + "v = NULL" + ") not (" + actual_1028 + ")";
+      t_1027.appendSafe("active = ");
+      t_1027.appendBoolean(true);
+      let t_1028 = t_1027.accumulated;
+      const q_1029 = from(t_1026).where(t_1028).whereIn(sid_760("role"), Object.freeze([new SqlString("admin"), new SqlString("user")]));
+      let t_1030 = q_1029.toSql().toString() === "SELECT * FROM users WHERE active = TRUE AND role IN ('admin', 'user')";
+      function fn_1031() {
+        return "whereIn chained";
       }
-      test_1025.assert(t_1029, fn_1030);
+      test_1025.assert(t_1030, fn_1031);
       return;
     } finally {
       test_1025.softFailToHard();
     }
 });
-it("SqlFloat64 normal values still work", function () {
-    const test_1031 = new Test_495();
+it("whereIn single element", function () {
+    const test_1032 = new Test_547();
     try {
-      let t_1032 = new SqlBuilder();
-      t_1032.appendSafe("v = ");
-      t_1032.appendFloat64(3.14);
-      const actual_1033 = t_1032.accumulated.toString();
-      let t_1034 = actual_1033 === "v = 3.14";
-      function fn_1035() {
-        return 'expected stringExpr(`-work//src/`.sql, true, "v = ", \\interpolate, 3.14).toString() == (' + "v = 3.14" + ") not (" + actual_1033 + ")";
+      let t_1033 = sid_760("users");
+      let t_1034 = sid_760("id");
+      let t_1035 = new SqlInt32(42);
+      const q_1036 = from(t_1033).whereIn(t_1034, Object.freeze([t_1035]));
+      let t_1037 = q_1036.toSql().toString() === "SELECT * FROM users WHERE id IN (42)";
+      function fn_1038() {
+        return "whereIn single";
       }
-      test_1031.assert(t_1034, fn_1035);
-      let t_1036 = new SqlBuilder();
-      t_1036.appendSafe("v = ");
-      t_1036.appendFloat64(0.0);
-      const actual_1037 = t_1036.accumulated.toString();
-      let t_1038 = actual_1037 === "v = 0.0";
-      function fn_1039() {
-        return 'expected stringExpr(`-work//src/`.sql, true, "v = ", \\interpolate, 0.0).toString() == (' + "v = 0.0" + ") not (" + actual_1037 + ")";
-      }
-      test_1031.assert(t_1038, fn_1039);
-      let t_1040 = new SqlBuilder();
-      t_1040.appendSafe("v = ");
-      t_1040.appendFloat64(-42.5);
-      const actual_1041 = t_1040.accumulated.toString();
-      let t_1042 = actual_1041 === "v = -42.5";
-      function fn_1043() {
-        return 'expected stringExpr(`-work//src/`.sql, true, "v = ", \\interpolate, -42.5).toString() == (' + "v = -42.5" + ") not (" + actual_1041 + ")";
-      }
-      test_1031.assert(t_1042, fn_1043);
+      test_1032.assert(t_1037, fn_1038);
       return;
     } finally {
-      test_1031.softFailToHard();
+      test_1032.softFailToHard();
+    }
+});
+it("whereNot basic", function () {
+    const test_1039 = new Test_547();
+    try {
+      let t_1040 = sid_760("users");
+      let t_1041 = new SqlBuilder();
+      t_1041.appendSafe("active = ");
+      t_1041.appendBoolean(true);
+      let t_1042 = t_1041.accumulated;
+      const q_1043 = from(t_1040).whereNot(t_1042);
+      let t_1044 = q_1043.toSql().toString() === "SELECT * FROM users WHERE NOT (active = TRUE)";
+      function fn_1045() {
+        return "whereNot";
+      }
+      test_1039.assert(t_1044, fn_1045);
+      return;
+    } finally {
+      test_1039.softFailToHard();
+    }
+});
+it("whereNot chained", function () {
+    const test_1046 = new Test_547();
+    try {
+      let t_1047 = sid_760("users");
+      let t_1048 = new SqlBuilder();
+      t_1048.appendSafe("age > ");
+      t_1048.appendInt32(18);
+      let t_1049 = t_1048.accumulated;
+      let t_1050 = from(t_1047).where(t_1049);
+      let t_1051 = new SqlBuilder();
+      t_1051.appendSafe("banned = ");
+      t_1051.appendBoolean(true);
+      const q_1052 = t_1050.whereNot(t_1051.accumulated);
+      let t_1053 = q_1052.toSql().toString() === "SELECT * FROM users WHERE age > 18 AND NOT (banned = TRUE)";
+      function fn_1054() {
+        return "whereNot chained";
+      }
+      test_1046.assert(t_1053, fn_1054);
+      return;
+    } finally {
+      test_1046.softFailToHard();
+    }
+});
+it("whereBetween integers", function () {
+    const test_1055 = new Test_547();
+    try {
+      let t_1056 = sid_760("users");
+      let t_1057 = sid_760("age");
+      let t_1058 = new SqlInt32(18);
+      let t_1059 = new SqlInt32(65);
+      const q_1060 = from(t_1056).whereBetween(t_1057, t_1058, t_1059);
+      let t_1061 = q_1060.toSql().toString() === "SELECT * FROM users WHERE age BETWEEN 18 AND 65";
+      function fn_1062() {
+        return "whereBetween ints";
+      }
+      test_1055.assert(t_1061, fn_1062);
+      return;
+    } finally {
+      test_1055.softFailToHard();
+    }
+});
+it("whereBetween chained", function () {
+    const test_1063 = new Test_547();
+    try {
+      let t_1064 = sid_760("users");
+      let t_1065 = new SqlBuilder();
+      t_1065.appendSafe("active = ");
+      t_1065.appendBoolean(true);
+      let t_1066 = t_1065.accumulated;
+      const q_1067 = from(t_1064).where(t_1066).whereBetween(sid_760("age"), new SqlInt32(21), new SqlInt32(30));
+      let t_1068 = q_1067.toSql().toString() === "SELECT * FROM users WHERE active = TRUE AND age BETWEEN 21 AND 30";
+      function fn_1069() {
+        return "whereBetween chained";
+      }
+      test_1063.assert(t_1068, fn_1069);
+      return;
+    } finally {
+      test_1063.softFailToHard();
+    }
+});
+it("whereLike basic", function () {
+    const test_1070 = new Test_547();
+    try {
+      let t_1071 = sid_760("users");
+      let t_1072 = sid_760("name");
+      const q_1073 = from(t_1071).whereLike(t_1072, "John%");
+      let t_1074 = q_1073.toSql().toString() === "SELECT * FROM users WHERE name LIKE 'John%'";
+      function fn_1075() {
+        return "whereLike";
+      }
+      test_1070.assert(t_1074, fn_1075);
+      return;
+    } finally {
+      test_1070.softFailToHard();
+    }
+});
+it("whereILike basic", function () {
+    const test_1076 = new Test_547();
+    try {
+      let t_1077 = sid_760("users");
+      let t_1078 = sid_760("email");
+      const q_1079 = from(t_1077).whereILike(t_1078, "%@gmail.com");
+      let t_1080 = q_1079.toSql().toString() === "SELECT * FROM users WHERE email ILIKE '%@gmail.com'";
+      function fn_1081() {
+        return "whereILike";
+      }
+      test_1076.assert(t_1080, fn_1081);
+      return;
+    } finally {
+      test_1076.softFailToHard();
+    }
+});
+it("whereLike with injection attempt", function () {
+    const test_1082 = new Test_547();
+    try {
+      let t_1083 = sid_760("users");
+      let t_1084 = sid_760("name");
+      const q_1085 = from(t_1083).whereLike(t_1084, "'; DROP TABLE users; --");
+      const s_1086 = q_1085.toSql().toString();
+      let t_1087 = s_1086.indexOf("''") >= 0;
+      function fn_1088() {
+        return "like injection escaped: " + s_1086;
+      }
+      test_1082.assert(t_1087, fn_1088);
+      let t_1089 = s_1086.indexOf("LIKE") >= 0;
+      function fn_1090() {
+        return "like structure intact: " + s_1086;
+      }
+      test_1082.assert(t_1089, fn_1090);
+      return;
+    } finally {
+      test_1082.softFailToHard();
+    }
+});
+it("whereLike wildcard patterns", function () {
+    const test_1091 = new Test_547();
+    try {
+      let t_1092 = sid_760("users");
+      let t_1093 = sid_760("name");
+      const q_1094 = from(t_1092).whereLike(t_1093, "%son%");
+      let t_1095 = q_1094.toSql().toString() === "SELECT * FROM users WHERE name LIKE '%son%'";
+      function fn_1096() {
+        return "whereLike wildcard";
+      }
+      test_1091.assert(t_1095, fn_1096);
+      return;
+    } finally {
+      test_1091.softFailToHard();
+    }
+});
+it("safeIdentifier accepts valid names", function () {
+    const test_1097 = new Test_547();
+    try {
+      let t_1098;
+      let id_1099;
+      try {
+        t_1098 = safeIdentifier("user_name");
+        id_1099 = t_1098;
+      } catch {
+        id_1099 = panic_544();
+      }
+      let t_1100 = id_1099.sqlValue === "user_name";
+      function fn_1101() {
+        return "value should round-trip";
+      }
+      test_1097.assert(t_1100, fn_1101);
+      return;
+    } finally {
+      test_1097.softFailToHard();
+    }
+});
+it("safeIdentifier rejects empty string", function () {
+    const test_1102 = new Test_547();
+    try {
+      let didBubble_1103;
+      try {
+        safeIdentifier("");
+        didBubble_1103 = false;
+      } catch {
+        didBubble_1103 = true;
+      }
+      function fn_1104() {
+        return "empty string should bubble";
+      }
+      test_1102.assert(didBubble_1103, fn_1104);
+      return;
+    } finally {
+      test_1102.softFailToHard();
+    }
+});
+it("safeIdentifier rejects leading digit", function () {
+    const test_1105 = new Test_547();
+    try {
+      let didBubble_1106;
+      try {
+        safeIdentifier("1col");
+        didBubble_1106 = false;
+      } catch {
+        didBubble_1106 = true;
+      }
+      function fn_1107() {
+        return "leading digit should bubble";
+      }
+      test_1105.assert(didBubble_1106, fn_1107);
+      return;
+    } finally {
+      test_1105.softFailToHard();
+    }
+});
+it("safeIdentifier rejects SQL metacharacters", function () {
+    const test_1108 = new Test_547();
+    try {
+      const cases_1109 = Object.freeze(["name); DROP TABLE", "col'", "a b", "a-b", "a.b", "a;b"]);
+      function fn_1110(c_1111) {
+        let didBubble_1112;
+        try {
+          safeIdentifier(c_1111);
+          didBubble_1112 = false;
+        } catch {
+          didBubble_1112 = true;
+        }
+        function fn_1113() {
+          return "should reject: " + c_1111;
+        }
+        test_1108.assert(didBubble_1112, fn_1113);
+        return;
+      }
+      cases_1109.forEach(fn_1110);
+      return;
+    } finally {
+      test_1108.softFailToHard();
+    }
+});
+it("TableDef field lookup - found", function () {
+    const test_1114 = new Test_547();
+    try {
+      let t_1115;
+      let t_1116;
+      let t_1117;
+      let t_1118;
+      let t_1119;
+      let t_1120;
+      let t_1121;
+      try {
+        t_1115 = safeIdentifier("users");
+        t_1116 = t_1115;
+      } catch {
+        t_1116 = panic_544();
+      }
+      try {
+        t_1117 = safeIdentifier("name");
+        t_1118 = t_1117;
+      } catch {
+        t_1118 = panic_544();
+      }
+      let t_1122 = new StringField();
+      let t_1123 = new FieldDef(t_1118, t_1122, false);
+      try {
+        t_1119 = safeIdentifier("age");
+        t_1120 = t_1119;
+      } catch {
+        t_1120 = panic_544();
+      }
+      let t_1124 = new IntField();
+      let t_1125 = new FieldDef(t_1120, t_1124, false);
+      const td_1126 = new TableDef(t_1116, Object.freeze([t_1123, t_1125]));
+      let f_1127;
+      try {
+        t_1121 = td_1126.field("age");
+        f_1127 = t_1121;
+      } catch {
+        f_1127 = panic_544();
+      }
+      let t_1128 = f_1127.name.sqlValue === "age";
+      function fn_1129() {
+        return "should find age field";
+      }
+      test_1114.assert(t_1128, fn_1129);
+      return;
+    } finally {
+      test_1114.softFailToHard();
+    }
+});
+it("TableDef field lookup - not found bubbles", function () {
+    const test_1130 = new Test_547();
+    try {
+      let t_1131;
+      let t_1132;
+      let t_1133;
+      let t_1134;
+      try {
+        t_1131 = safeIdentifier("users");
+        t_1132 = t_1131;
+      } catch {
+        t_1132 = panic_544();
+      }
+      try {
+        t_1133 = safeIdentifier("name");
+        t_1134 = t_1133;
+      } catch {
+        t_1134 = panic_544();
+      }
+      let t_1135 = new StringField();
+      let t_1136 = new FieldDef(t_1134, t_1135, false);
+      const td_1137 = new TableDef(t_1132, Object.freeze([t_1136]));
+      let didBubble_1138;
+      try {
+        td_1137.field("nonexistent");
+        didBubble_1138 = false;
+      } catch {
+        didBubble_1138 = true;
+      }
+      function fn_1139() {
+        return "unknown field should bubble";
+      }
+      test_1130.assert(didBubble_1138, fn_1139);
+      return;
+    } finally {
+      test_1130.softFailToHard();
+    }
+});
+it("FieldDef nullable flag", function () {
+    const test_1140 = new Test_547();
+    try {
+      let t_1141;
+      let t_1142;
+      let t_1143;
+      let t_1144;
+      try {
+        t_1141 = safeIdentifier("email");
+        t_1142 = t_1141;
+      } catch {
+        t_1142 = panic_544();
+      }
+      let t_1145 = new StringField();
+      const required_1146 = new FieldDef(t_1142, t_1145, false);
+      try {
+        t_1143 = safeIdentifier("bio");
+        t_1144 = t_1143;
+      } catch {
+        t_1144 = panic_544();
+      }
+      let t_1147 = new StringField();
+      const optional_1148 = new FieldDef(t_1144, t_1147, true);
+      let t_1149 = ! required_1146.nullable;
+      function fn_1150() {
+        return "required field should not be nullable";
+      }
+      test_1140.assert(t_1149, fn_1150);
+      let t_1151 = optional_1148.nullable;
+      function fn_1152() {
+        return "optional field should be nullable";
+      }
+      test_1140.assert(t_1151, fn_1152);
+      return;
+    } finally {
+      test_1140.softFailToHard();
+    }
+});
+it("string escaping", function () {
+    const test_1153 = new Test_547();
+    try {
+      function build_1154(name_1155) {
+        let t_1156 = new SqlBuilder();
+        t_1156.appendSafe("select * from hi where name = ");
+        t_1156.appendString(name_1155);
+        return t_1156.accumulated.toString();
+      }
+      function buildWrong_1157(name_1158) {
+        return "select * from hi where name = '" + name_1158 + "'";
+      }
+      const actual_1159 = build_1154("world");
+      let t_1160 = actual_1159 === "select * from hi where name = 'world'";
+      function fn_1161() {
+        return 'expected build("world") == (' + "select * from hi where name = 'world'" + ") not (" + actual_1159 + ")";
+      }
+      test_1153.assert(t_1160, fn_1161);
+      const bobbyTables_1162 = "Robert'); drop table hi;--";
+      const actual_1163 = build_1154("Robert'); drop table hi;--");
+      let t_1164 = actual_1163 === "select * from hi where name = 'Robert''); drop table hi;--'";
+      function fn_1165() {
+        return "expected build(bobbyTables) == (" + "select * from hi where name = 'Robert''); drop table hi;--'" + ") not (" + actual_1163 + ")";
+      }
+      test_1153.assert(t_1164, fn_1165);
+      function fn_1166() {
+        return "expected buildWrong(bobbyTables) == (select * from hi where name = 'Robert'); drop table hi;--') not (select * from hi where name = 'Robert'); drop table hi;--')";
+      }
+      test_1153.assert(true, fn_1166);
+      return;
+    } finally {
+      test_1153.softFailToHard();
+    }
+});
+it("string edge cases", function () {
+    const test_1167 = new Test_547();
+    try {
+      let t_1168 = new SqlBuilder();
+      t_1168.appendSafe("v = ");
+      t_1168.appendString("");
+      const actual_1169 = t_1168.accumulated.toString();
+      let t_1170 = actual_1169 === "v = ''";
+      function fn_1171() {
+        return 'expected stringExpr(`-work//src/`.sql, true, "v = ", \\interpolate, "").toString() == (' + "v = ''" + ") not (" + actual_1169 + ")";
+      }
+      test_1167.assert(t_1170, fn_1171);
+      let t_1172 = new SqlBuilder();
+      t_1172.appendSafe("v = ");
+      t_1172.appendString("a''b");
+      const actual_1173 = t_1172.accumulated.toString();
+      let t_1174 = actual_1173 === "v = 'a''''b'";
+      function fn_1175() {
+        return "expected stringExpr(`-work//src/`.sql, true, \"v = \", \\interpolate, \"a''b\").toString() == (" + "v = 'a''''b'" + ") not (" + actual_1173 + ")";
+      }
+      test_1167.assert(t_1174, fn_1175);
+      let t_1176 = new SqlBuilder();
+      t_1176.appendSafe("v = ");
+      t_1176.appendString("Hello 世界");
+      const actual_1177 = t_1176.accumulated.toString();
+      let t_1178 = actual_1177 === "v = 'Hello 世界'";
+      function fn_1179() {
+        return 'expected stringExpr(`-work//src/`.sql, true, "v = ", \\interpolate, "Hello 世界").toString() == (' + "v = 'Hello 世界'" + ") not (" + actual_1177 + ")";
+      }
+      test_1167.assert(t_1178, fn_1179);
+      let t_1180 = new SqlBuilder();
+      t_1180.appendSafe("v = ");
+      t_1180.appendString("Line1\nLine2");
+      const actual_1181 = t_1180.accumulated.toString();
+      let t_1182 = actual_1181 === "v = 'Line1\nLine2'";
+      function fn_1183() {
+        return 'expected stringExpr(`-work//src/`.sql, true, "v = ", \\interpolate, "Line1\\nLine2").toString() == (' + "v = 'Line1\nLine2'" + ") not (" + actual_1181 + ")";
+      }
+      test_1167.assert(t_1182, fn_1183);
+      return;
+    } finally {
+      test_1167.softFailToHard();
+    }
+});
+it("numbers and booleans", function () {
+    const test_1184 = new Test_547();
+    try {
+      let t_1185;
+      let t_1186 = new SqlBuilder();
+      t_1186.appendSafe("select ");
+      t_1186.appendInt32(42);
+      t_1186.appendSafe(", ");
+      t_1186.appendInt64(BigInt("43"));
+      t_1186.appendSafe(", ");
+      t_1186.appendFloat64(19.99);
+      t_1186.appendSafe(", ");
+      t_1186.appendBoolean(true);
+      t_1186.appendSafe(", ");
+      t_1186.appendBoolean(false);
+      const actual_1187 = t_1186.accumulated.toString();
+      let t_1188 = actual_1187 === "select 42, 43, 19.99, TRUE, FALSE";
+      function fn_1189() {
+        return 'expected stringExpr(`-work//src/`.sql, true, "select ", \\interpolate, 42, ", ", \\interpolate, 43, ", ", \\interpolate, 19.99, ", ", \\interpolate, true, ", ", \\interpolate, false).toString() == (' + "select 42, 43, 19.99, TRUE, FALSE" + ") not (" + actual_1187 + ")";
+      }
+      test_1184.assert(t_1188, fn_1189);
+      let date_1190;
+      try {
+        t_1185 = new (globalThis.Date)(globalThis.Date.UTC(2024, 12 - 1, 25));
+        date_1190 = t_1185;
+      } catch {
+        date_1190 = panic_544();
+      }
+      let t_1191 = new SqlBuilder();
+      t_1191.appendSafe("insert into t values (");
+      t_1191.appendDate(date_1190);
+      t_1191.appendSafe(")");
+      const actual_1192 = t_1191.accumulated.toString();
+      let t_1193 = actual_1192 === "insert into t values ('2024-12-25')";
+      function fn_1194() {
+        return 'expected stringExpr(`-work//src/`.sql, true, "insert into t values (", \\interpolate, date, ")").toString() == (' + "insert into t values ('2024-12-25')" + ") not (" + actual_1192 + ")";
+      }
+      test_1184.assert(t_1193, fn_1194);
+      return;
+    } finally {
+      test_1184.softFailToHard();
+    }
+});
+it("lists", function () {
+    const test_1195 = new Test_547();
+    try {
+      let t_1196;
+      let t_1197;
+      let t_1198;
+      let t_1199;
+      let t_1200 = new SqlBuilder();
+      t_1200.appendSafe("v IN (");
+      t_1200.appendStringList(Object.freeze(["a", "b", "c'd"]));
+      t_1200.appendSafe(")");
+      const actual_1201 = t_1200.accumulated.toString();
+      let t_1202 = actual_1201 === "v IN ('a', 'b', 'c''d')";
+      function fn_1203() {
+        return "expected stringExpr(`-work//src/`.sql, true, \"v IN (\", \\interpolate, list(\"a\", \"b\", \"c'd\"), \")\").toString() == (" + "v IN ('a', 'b', 'c''d')" + ") not (" + actual_1201 + ")";
+      }
+      test_1195.assert(t_1202, fn_1203);
+      let t_1204 = new SqlBuilder();
+      t_1204.appendSafe("v IN (");
+      t_1204.appendInt32List(Object.freeze([1, 2, 3]));
+      t_1204.appendSafe(")");
+      const actual_1205 = t_1204.accumulated.toString();
+      let t_1206 = actual_1205 === "v IN (1, 2, 3)";
+      function fn_1207() {
+        return 'expected stringExpr(`-work//src/`.sql, true, "v IN (", \\interpolate, list(1, 2, 3), ")").toString() == (' + "v IN (1, 2, 3)" + ") not (" + actual_1205 + ")";
+      }
+      test_1195.assert(t_1206, fn_1207);
+      let t_1208 = new SqlBuilder();
+      t_1208.appendSafe("v IN (");
+      t_1208.appendInt64List(Object.freeze([BigInt("1"), BigInt("2")]));
+      t_1208.appendSafe(")");
+      const actual_1209 = t_1208.accumulated.toString();
+      let t_1210 = actual_1209 === "v IN (1, 2)";
+      function fn_1211() {
+        return 'expected stringExpr(`-work//src/`.sql, true, "v IN (", \\interpolate, list(1, 2), ")").toString() == (' + "v IN (1, 2)" + ") not (" + actual_1209 + ")";
+      }
+      test_1195.assert(t_1210, fn_1211);
+      let t_1212 = new SqlBuilder();
+      t_1212.appendSafe("v IN (");
+      t_1212.appendFloat64List(Object.freeze([1.0, 2.0]));
+      t_1212.appendSafe(")");
+      const actual_1213 = t_1212.accumulated.toString();
+      let t_1214 = actual_1213 === "v IN (1.0, 2.0)";
+      function fn_1215() {
+        return 'expected stringExpr(`-work//src/`.sql, true, "v IN (", \\interpolate, list(1.0, 2.0), ")").toString() == (' + "v IN (1.0, 2.0)" + ") not (" + actual_1213 + ")";
+      }
+      test_1195.assert(t_1214, fn_1215);
+      let t_1216 = new SqlBuilder();
+      t_1216.appendSafe("v IN (");
+      t_1216.appendBooleanList(Object.freeze([true, false]));
+      t_1216.appendSafe(")");
+      const actual_1217 = t_1216.accumulated.toString();
+      let t_1218 = actual_1217 === "v IN (TRUE, FALSE)";
+      function fn_1219() {
+        return 'expected stringExpr(`-work//src/`.sql, true, "v IN (", \\interpolate, list(true, false), ")").toString() == (' + "v IN (TRUE, FALSE)" + ") not (" + actual_1217 + ")";
+      }
+      test_1195.assert(t_1218, fn_1219);
+      try {
+        t_1196 = new (globalThis.Date)(globalThis.Date.UTC(2024, 1 - 1, 1));
+        t_1197 = t_1196;
+      } catch {
+        t_1197 = panic_544();
+      }
+      try {
+        t_1198 = new (globalThis.Date)(globalThis.Date.UTC(2024, 12 - 1, 25));
+        t_1199 = t_1198;
+      } catch {
+        t_1199 = panic_544();
+      }
+      const dates_1220 = Object.freeze([t_1197, t_1199]);
+      let t_1221 = new SqlBuilder();
+      t_1221.appendSafe("v IN (");
+      t_1221.appendDateList(dates_1220);
+      t_1221.appendSafe(")");
+      const actual_1222 = t_1221.accumulated.toString();
+      let t_1223 = actual_1222 === "v IN ('2024-01-01', '2024-12-25')";
+      function fn_1224() {
+        return 'expected stringExpr(`-work//src/`.sql, true, "v IN (", \\interpolate, dates, ")").toString() == (' + "v IN ('2024-01-01', '2024-12-25')" + ") not (" + actual_1222 + ")";
+      }
+      test_1195.assert(t_1223, fn_1224);
+      return;
+    } finally {
+      test_1195.softFailToHard();
+    }
+});
+it("SqlFloat64 NaN renders as NULL", function () {
+    const test_1225 = new Test_547();
+    try {
+      let nan_1226;
+      nan_1226 = 0.0 / 0.0;
+      let t_1227 = new SqlBuilder();
+      t_1227.appendSafe("v = ");
+      t_1227.appendFloat64(nan_1226);
+      const actual_1228 = t_1227.accumulated.toString();
+      let t_1229 = actual_1228 === "v = NULL";
+      function fn_1230() {
+        return 'expected stringExpr(`-work//src/`.sql, true, "v = ", \\interpolate, nan).toString() == (' + "v = NULL" + ") not (" + actual_1228 + ")";
+      }
+      test_1225.assert(t_1229, fn_1230);
+      return;
+    } finally {
+      test_1225.softFailToHard();
+    }
+});
+it("SqlFloat64 Infinity renders as NULL", function () {
+    const test_1231 = new Test_547();
+    try {
+      let inf_1232;
+      inf_1232 = 1.0 / 0.0;
+      let t_1233 = new SqlBuilder();
+      t_1233.appendSafe("v = ");
+      t_1233.appendFloat64(inf_1232);
+      const actual_1234 = t_1233.accumulated.toString();
+      let t_1235 = actual_1234 === "v = NULL";
+      function fn_1236() {
+        return 'expected stringExpr(`-work//src/`.sql, true, "v = ", \\interpolate, inf).toString() == (' + "v = NULL" + ") not (" + actual_1234 + ")";
+      }
+      test_1231.assert(t_1235, fn_1236);
+      return;
+    } finally {
+      test_1231.softFailToHard();
+    }
+});
+it("SqlFloat64 negative Infinity renders as NULL", function () {
+    const test_1237 = new Test_547();
+    try {
+      let ninf_1238;
+      ninf_1238 = -1.0 / 0.0;
+      let t_1239 = new SqlBuilder();
+      t_1239.appendSafe("v = ");
+      t_1239.appendFloat64(ninf_1238);
+      const actual_1240 = t_1239.accumulated.toString();
+      let t_1241 = actual_1240 === "v = NULL";
+      function fn_1242() {
+        return 'expected stringExpr(`-work//src/`.sql, true, "v = ", \\interpolate, ninf).toString() == (' + "v = NULL" + ") not (" + actual_1240 + ")";
+      }
+      test_1237.assert(t_1241, fn_1242);
+      return;
+    } finally {
+      test_1237.softFailToHard();
+    }
+});
+it("SqlFloat64 normal values still work", function () {
+    const test_1243 = new Test_547();
+    try {
+      let t_1244 = new SqlBuilder();
+      t_1244.appendSafe("v = ");
+      t_1244.appendFloat64(3.14);
+      const actual_1245 = t_1244.accumulated.toString();
+      let t_1246 = actual_1245 === "v = 3.14";
+      function fn_1247() {
+        return 'expected stringExpr(`-work//src/`.sql, true, "v = ", \\interpolate, 3.14).toString() == (' + "v = 3.14" + ") not (" + actual_1245 + ")";
+      }
+      test_1243.assert(t_1246, fn_1247);
+      let t_1248 = new SqlBuilder();
+      t_1248.appendSafe("v = ");
+      t_1248.appendFloat64(0.0);
+      const actual_1249 = t_1248.accumulated.toString();
+      let t_1250 = actual_1249 === "v = 0.0";
+      function fn_1251() {
+        return 'expected stringExpr(`-work//src/`.sql, true, "v = ", \\interpolate, 0.0).toString() == (' + "v = 0.0" + ") not (" + actual_1249 + ")";
+      }
+      test_1243.assert(t_1250, fn_1251);
+      let t_1252 = new SqlBuilder();
+      t_1252.appendSafe("v = ");
+      t_1252.appendFloat64(-42.5);
+      const actual_1253 = t_1252.accumulated.toString();
+      let t_1254 = actual_1253 === "v = -42.5";
+      function fn_1255() {
+        return 'expected stringExpr(`-work//src/`.sql, true, "v = ", \\interpolate, -42.5).toString() == (' + "v = -42.5" + ") not (" + actual_1253 + ")";
+      }
+      test_1243.assert(t_1254, fn_1255);
+      return;
+    } finally {
+      test_1243.softFailToHard();
     }
 });
 it("SqlDate renders with quotes", function () {
-    const test_1044 = new Test_495();
+    const test_1256 = new Test_547();
     try {
-      let t_1045;
-      let d_1046;
+      let t_1257;
+      let d_1258;
       try {
-        t_1045 = new (globalThis.Date)(globalThis.Date.UTC(2024, 6 - 1, 15));
-        d_1046 = t_1045;
+        t_1257 = new (globalThis.Date)(globalThis.Date.UTC(2024, 6 - 1, 15));
+        d_1258 = t_1257;
       } catch {
-        d_1046 = panic_492();
+        d_1258 = panic_544();
       }
-      let t_1047 = new SqlBuilder();
-      t_1047.appendSafe("v = ");
-      t_1047.appendDate(d_1046);
-      const actual_1048 = t_1047.accumulated.toString();
-      let t_1049 = actual_1048 === "v = '2024-06-15'";
-      function fn_1050() {
-        return 'expected stringExpr(`-work//src/`.sql, true, "v = ", \\interpolate, d).toString() == (' + "v = '2024-06-15'" + ") not (" + actual_1048 + ")";
+      let t_1259 = new SqlBuilder();
+      t_1259.appendSafe("v = ");
+      t_1259.appendDate(d_1258);
+      const actual_1260 = t_1259.accumulated.toString();
+      let t_1261 = actual_1260 === "v = '2024-06-15'";
+      function fn_1262() {
+        return 'expected stringExpr(`-work//src/`.sql, true, "v = ", \\interpolate, d).toString() == (' + "v = '2024-06-15'" + ") not (" + actual_1260 + ")";
       }
-      test_1044.assert(t_1049, fn_1050);
+      test_1256.assert(t_1261, fn_1262);
       return;
     } finally {
-      test_1044.softFailToHard();
+      test_1256.softFailToHard();
     }
 });
 it("nesting", function () {
-    const test_1051 = new Test_495();
+    const test_1263 = new Test_547();
     try {
-      const name_1052 = "Someone";
-      let t_1053 = new SqlBuilder();
-      t_1053.appendSafe("where p.last_name = ");
-      t_1053.appendString("Someone");
-      const condition_1054 = t_1053.accumulated;
-      let t_1055 = new SqlBuilder();
-      t_1055.appendSafe("select p.id from person p ");
-      t_1055.appendFragment(condition_1054);
-      const actual_1056 = t_1055.accumulated.toString();
-      let t_1057 = actual_1056 === "select p.id from person p where p.last_name = 'Someone'";
-      function fn_1058() {
-        return 'expected stringExpr(`-work//src/`.sql, true, "select p.id from person p ", \\interpolate, condition).toString() == (' + "select p.id from person p where p.last_name = 'Someone'" + ") not (" + actual_1056 + ")";
+      const name_1264 = "Someone";
+      let t_1265 = new SqlBuilder();
+      t_1265.appendSafe("where p.last_name = ");
+      t_1265.appendString("Someone");
+      const condition_1266 = t_1265.accumulated;
+      let t_1267 = new SqlBuilder();
+      t_1267.appendSafe("select p.id from person p ");
+      t_1267.appendFragment(condition_1266);
+      const actual_1268 = t_1267.accumulated.toString();
+      let t_1269 = actual_1268 === "select p.id from person p where p.last_name = 'Someone'";
+      function fn_1270() {
+        return 'expected stringExpr(`-work//src/`.sql, true, "select p.id from person p ", \\interpolate, condition).toString() == (' + "select p.id from person p where p.last_name = 'Someone'" + ") not (" + actual_1268 + ")";
       }
-      test_1051.assert(t_1057, fn_1058);
-      let t_1059 = new SqlBuilder();
-      t_1059.appendSafe("select p.id from person p ");
-      t_1059.appendPart(condition_1054.toSource());
-      const actual_1060 = t_1059.accumulated.toString();
-      let t_1061 = actual_1060 === "select p.id from person p where p.last_name = 'Someone'";
-      function fn_1062() {
-        return 'expected stringExpr(`-work//src/`.sql, true, "select p.id from person p ", \\interpolate, condition.toSource()).toString() == (' + "select p.id from person p where p.last_name = 'Someone'" + ") not (" + actual_1060 + ")";
+      test_1263.assert(t_1269, fn_1270);
+      let t_1271 = new SqlBuilder();
+      t_1271.appendSafe("select p.id from person p ");
+      t_1271.appendPart(condition_1266.toSource());
+      const actual_1272 = t_1271.accumulated.toString();
+      let t_1273 = actual_1272 === "select p.id from person p where p.last_name = 'Someone'";
+      function fn_1274() {
+        return 'expected stringExpr(`-work//src/`.sql, true, "select p.id from person p ", \\interpolate, condition.toSource()).toString() == (' + "select p.id from person p where p.last_name = 'Someone'" + ") not (" + actual_1272 + ")";
       }
-      test_1051.assert(t_1061, fn_1062);
-      const parts_1063 = Object.freeze([new SqlString("a'b"), new SqlInt32(3)]);
-      let t_1064 = new SqlBuilder();
-      t_1064.appendSafe("select ");
-      t_1064.appendPartList(parts_1063);
-      const actual_1065 = t_1064.accumulated.toString();
-      let t_1066 = actual_1065 === "select 'a''b', 3";
-      function fn_1067() {
-        return 'expected stringExpr(`-work//src/`.sql, true, "select ", \\interpolate, parts).toString() == (' + "select 'a''b', 3" + ") not (" + actual_1065 + ")";
+      test_1263.assert(t_1273, fn_1274);
+      const parts_1275 = Object.freeze([new SqlString("a'b"), new SqlInt32(3)]);
+      let t_1276 = new SqlBuilder();
+      t_1276.appendSafe("select ");
+      t_1276.appendPartList(parts_1275);
+      const actual_1277 = t_1276.accumulated.toString();
+      let t_1278 = actual_1277 === "select 'a''b', 3";
+      function fn_1279() {
+        return 'expected stringExpr(`-work//src/`.sql, true, "select ", \\interpolate, parts).toString() == (' + "select 'a''b', 3" + ") not (" + actual_1277 + ")";
       }
-      test_1051.assert(t_1066, fn_1067);
+      test_1263.assert(t_1278, fn_1279);
       return;
     } finally {
-      test_1051.softFailToHard();
+      test_1263.softFailToHard();
     }
 });
