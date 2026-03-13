@@ -1,5 +1,5 @@
 import {
-  type as type__6, mapBuilderConstructor as mapBuilderConstructor_43, mappedGetOr as mappedGetOr_49, mapBuilderSet as mapBuilderSet_51, mappedToMap as mappedToMap_52, listBuilderAdd as listBuilderAdd_68, listBuilderToList as listBuilderToList_69, stringCountBetween as stringCountBetween_84, stringToInt32 as stringToInt32_98, stringToInt64 as stringToInt64_111, stringToFloat64 as stringToFloat64_124, listedGet as listedGet_179, mappedToList as mappedToList_181, listedJoin as listedJoin_191, listBuilderAddAll as listBuilderAddAll_302, float64ToString as float64ToString_399, stringBuilderAppendCodePoint as stringBuilderAppendCodePoint_419, stringForEach as stringForEach_420, mapConstructor as mapConstructor_426, stringGet as stringGet_438, stringNext as stringNext_440, panic as panic_445, pairConstructor as pairConstructor_450
+  type as type__6, mapBuilderConstructor as mapBuilderConstructor_43, mappedGetOr as mappedGetOr_49, mapBuilderSet as mapBuilderSet_51, mappedToMap as mappedToMap_52, listBuilderAdd as listBuilderAdd_68, listBuilderToList as listBuilderToList_69, stringCountBetween as stringCountBetween_84, stringToInt32 as stringToInt32_98, stringToInt64 as stringToInt64_111, stringToFloat64 as stringToFloat64_124, listedGet as listedGet_179, mappedToList as mappedToList_181, listedJoin as listedJoin_191, listBuilderAddAll as listBuilderAddAll_302, stringBuilderAppendCodePoint as stringBuilderAppendCodePoint_395, stringForEach as stringForEach_396, float64ToString as float64ToString_405, mapConstructor as mapConstructor_430, stringGet as stringGet_442, stringNext as stringNext_444, panic as panic_449, pairConstructor as pairConstructor_454
 } from "@temperlang/core";
 export class ChangesetError extends type__6() {
   /** @type {string} */
@@ -598,7 +598,7 @@ class ChangesetImpl_30 extends type__6(Changeset) {
       t_171 = pair_185.key;
       t_175 = this.#_tableDef_31.field(t_171);
       const fd_186 = t_175;
-      listBuilderAdd_68(colNames_182, pair_185.key);
+      listBuilderAdd_68(colNames_182, fd_186.name.sqlValue);
       t_172 = pair_185.value;
       t_176 = this.#valueToSqlPart_156(fd_186, t_172);
       listBuilderAdd_68(valParts_183, t_176);
@@ -662,7 +662,7 @@ class ChangesetImpl_30 extends type__6(Changeset) {
       t_196 = pair_203.key;
       t_198 = this.#_tableDef_31.field(t_196);
       const fd_204 = t_198;
-      b_201.appendSafe(pair_203.key);
+      b_201.appendSafe(fd_204.name.sqlValue);
       b_201.appendSafe(" = ");
       t_197 = pair_203.value;
       t_199 = this.#valueToSqlPart_156(fd_204, t_197);
@@ -1335,14 +1335,26 @@ export class SqlDate extends type__6(SqlPart) {
   formatTo(builder_391) {
     builder_391[0] += "'";
     let t_392 = this.#value_389.toISOString().split("T")[0];
-    builder_391[0] += t_392;
+    function fn_393(c_394) {
+      if (c_394 === 39) {
+        builder_391[0] += "''";
+      } else {
+        try {
+          stringBuilderAppendCodePoint_395(builder_391, c_394);
+        } catch {
+          throw Error();
+        }
+      }
+      return;
+    }
+    stringForEach_396(t_392, fn_393);
     builder_391[0] += "'";
     return;
   }
-  /** @param {globalThis.Date} value_393 */
-  constructor(value_393) {
+  /** @param {globalThis.Date} value_397 */
+  constructor(value_397) {
     super ();
-    this.#value_389 = value_393;
+    this.#value_389 = value_397;
     return;
   }
   /** @returns {globalThis.Date} */
@@ -1352,46 +1364,42 @@ export class SqlDate extends type__6(SqlPart) {
 };
 export class SqlFloat64 extends type__6(SqlPart) {
   /** @type {number} */
-  #value_395;
-  /** @param {globalThis.Array<string>} builder_397 */
-  formatTo(builder_397) {
-    let t_398 = float64ToString_399(this.#value_395);
-    builder_397[0] += t_398;
-    return;
-  }
-  /** @param {number} value_400 */
-  constructor(value_400) {
-    super ();
-    this.#value_395 = value_400;
-    return;
-  }
-  /** @returns {number} */
-  get value() {
-    return this.#value_395;
-  }
-};
-export class SqlInt32 extends type__6(SqlPart) {
-  /** @type {number} */
-  #value_402;
-  /** @param {globalThis.Array<string>} builder_404 */
-  formatTo(builder_404) {
-    let t_405 = this.#value_402.toString();
-    builder_404[0] += t_405;
+  #value_399;
+  /** @param {globalThis.Array<string>} builder_401 */
+  formatTo(builder_401) {
+    let t_402;
+    let t_403;
+    const s_404 = float64ToString_405(this.#value_399);
+    if (s_404 === "NaN") {
+      t_403 = true;
+    } else {
+      if (s_404 === "Infinity") {
+        t_402 = true;
+      } else {
+        t_402 = s_404 === "-Infinity";
+      }
+      t_403 = t_402;
+    }
+    if (t_403) {
+      builder_401[0] += "NULL";
+    } else {
+      builder_401[0] += s_404;
+    }
     return;
   }
   /** @param {number} value_406 */
   constructor(value_406) {
     super ();
-    this.#value_402 = value_406;
+    this.#value_399 = value_406;
     return;
   }
   /** @returns {number} */
   get value() {
-    return this.#value_402;
+    return this.#value_399;
   }
 };
-export class SqlInt64 extends type__6(SqlPart) {
-  /** @type {bigint} */
+export class SqlInt32 extends type__6(SqlPart) {
+  /** @type {number} */
   #value_408;
   /** @param {globalThis.Array<string>} builder_410 */
   formatTo(builder_410) {
@@ -1399,147 +1407,167 @@ export class SqlInt64 extends type__6(SqlPart) {
     builder_410[0] += t_411;
     return;
   }
-  /** @param {bigint} value_412 */
+  /** @param {number} value_412 */
   constructor(value_412) {
     super ();
     this.#value_408 = value_412;
     return;
   }
-  /** @returns {bigint} */
+  /** @returns {number} */
   get value() {
     return this.#value_408;
   }
 };
-export class SqlString extends type__6(SqlPart) {
-  /** @type {string} */
+export class SqlInt64 extends type__6(SqlPart) {
+  /** @type {bigint} */
   #value_414;
   /** @param {globalThis.Array<string>} builder_416 */
   formatTo(builder_416) {
-    builder_416[0] += "'";
-    function fn_417(c_418) {
-      if (c_418 === 39) {
-        builder_416[0] += "''";
+    let t_417 = this.#value_414.toString();
+    builder_416[0] += t_417;
+    return;
+  }
+  /** @param {bigint} value_418 */
+  constructor(value_418) {
+    super ();
+    this.#value_414 = value_418;
+    return;
+  }
+  /** @returns {bigint} */
+  get value() {
+    return this.#value_414;
+  }
+};
+export class SqlString extends type__6(SqlPart) {
+  /** @type {string} */
+  #value_420;
+  /** @param {globalThis.Array<string>} builder_422 */
+  formatTo(builder_422) {
+    builder_422[0] += "'";
+    function fn_423(c_424) {
+      if (c_424 === 39) {
+        builder_422[0] += "''";
       } else {
         try {
-          stringBuilderAppendCodePoint_419(builder_416, c_418);
+          stringBuilderAppendCodePoint_395(builder_422, c_424);
         } catch {
           throw Error();
         }
       }
       return;
     }
-    stringForEach_420(this.#value_414, fn_417);
-    builder_416[0] += "'";
+    stringForEach_396(this.#value_420, fn_423);
+    builder_422[0] += "'";
     return;
   }
-  /** @param {string} value_421 */
-  constructor(value_421) {
+  /** @param {string} value_425 */
+  constructor(value_425) {
     super ();
-    this.#value_414 = value_421;
+    this.#value_420 = value_425;
     return;
   }
   /** @returns {string} */
   get value() {
-    return this.#value_414;
+    return this.#value_420;
   }
 };
 /**
- * @param {TableDef} tableDef_423
- * @param {Map<string, string>} params_424
+ * @param {TableDef} tableDef_427
+ * @param {Map<string, string>} params_428
  * @returns {Changeset}
  */
-export function changeset(tableDef_423, params_424) {
-  let t_425 = mapConstructor_426(Object.freeze([]));
-  return new ChangesetImpl_30(tableDef_423, params_424, t_425, Object.freeze([]), true);
+export function changeset(tableDef_427, params_428) {
+  let t_429 = mapConstructor_430(Object.freeze([]));
+  return new ChangesetImpl_30(tableDef_427, params_428, t_429, Object.freeze([]), true);
 };
 /**
- * @param {number} c_428
+ * @param {number} c_432
  * @returns {boolean}
  */
-function isIdentStart_427(c_428) {
-  let return_429;
-  let t_430;
-  let t_431;
-  if (c_428 >= 97) {
-    t_430 = c_428 <= 122;
+function isIdentStart_431(c_432) {
+  let return_433;
+  let t_434;
+  let t_435;
+  if (c_432 >= 97) {
+    t_434 = c_432 <= 122;
   } else {
-    t_430 = false;
+    t_434 = false;
   }
-  if (t_430) {
-    return_429 = true;
+  if (t_434) {
+    return_433 = true;
   } else {
-    if (c_428 >= 65) {
-      t_431 = c_428 <= 90;
+    if (c_432 >= 65) {
+      t_435 = c_432 <= 90;
     } else {
-      t_431 = false;
+      t_435 = false;
     }
-    if (t_431) {
-      return_429 = true;
+    if (t_435) {
+      return_433 = true;
     } else {
-      return_429 = c_428 === 95;
+      return_433 = c_432 === 95;
     }
   }
-  return return_429;
+  return return_433;
 }
 /**
- * @param {number} c_433
+ * @param {number} c_437
  * @returns {boolean}
  */
-function isIdentPart_432(c_433) {
-  let return_434;
-  if (isIdentStart_427(c_433)) {
-    return_434 = true;
-  } else if (c_433 >= 48) {
-    return_434 = c_433 <= 57;
+function isIdentPart_436(c_437) {
+  let return_438;
+  if (isIdentStart_431(c_437)) {
+    return_438 = true;
+  } else if (c_437 >= 48) {
+    return_438 = c_437 <= 57;
   } else {
-    return_434 = false;
+    return_438 = false;
   }
-  return return_434;
+  return return_438;
 }
 /**
- * @param {string} name_435
+ * @param {string} name_439
  * @returns {SafeIdentifier}
  */
-export function safeIdentifier(name_435) {
-  let t_436;
-  if (! name_435) {
+export function safeIdentifier(name_439) {
+  let t_440;
+  if (! name_439) {
     throw Error();
   }
-  let idx_437 = 0;
-  if (! isIdentStart_427(stringGet_438(name_435, idx_437))) {
+  let idx_441 = 0;
+  if (! isIdentStart_431(stringGet_442(name_439, idx_441))) {
     throw Error();
   }
-  let t_439 = stringNext_440(name_435, idx_437);
-  idx_437 = t_439;
+  let t_443 = stringNext_444(name_439, idx_441);
+  idx_441 = t_443;
   while (true) {
-    if (!(name_435.length > idx_437)) {
+    if (!(name_439.length > idx_441)) {
       break;
     }
-    if (! isIdentPart_432(stringGet_438(name_435, idx_437))) {
+    if (! isIdentPart_436(stringGet_442(name_439, idx_441))) {
       throw Error();
     }
-    t_436 = stringNext_440(name_435, idx_437);
-    idx_437 = t_436;
+    t_440 = stringNext_444(name_439, idx_441);
+    idx_441 = t_440;
   }
-  return new ValidatedIdentifier_267(name_435);
+  return new ValidatedIdentifier_267(name_439);
 };
 /**
- * @param {TableDef} tableDef_654
- * @param {number} id_655
+ * @param {TableDef} tableDef_658
+ * @param {number} id_659
  * @returns {SqlFragment}
  */
-export function deleteSql(tableDef_654, id_655) {
-  const b_656 = new SqlBuilder();
-  b_656.appendSafe("DELETE FROM ");
-  b_656.appendSafe(tableDef_654.tableName.sqlValue);
-  b_656.appendSafe(" WHERE id = ");
-  b_656.appendInt32(id_655);
-  return b_656.accumulated;
+export function deleteSql(tableDef_658, id_659) {
+  const b_660 = new SqlBuilder();
+  b_660.appendSafe("DELETE FROM ");
+  b_660.appendSafe(tableDef_658.tableName.sqlValue);
+  b_660.appendSafe(" WHERE id = ");
+  b_660.appendInt32(id_659);
+  return b_660.accumulated;
 };
 /**
- * @param {SafeIdentifier} tableName_657
+ * @param {SafeIdentifier} tableName_661
  * @returns {Query}
  */
-export function from(tableName_657) {
-  return new Query(tableName_657, Object.freeze([]), Object.freeze([]), Object.freeze([]), null, null);
+export function from(tableName_661) {
+  return new Query(tableName_661, Object.freeze([]), Object.freeze([]), Object.freeze([]), null, null);
 };

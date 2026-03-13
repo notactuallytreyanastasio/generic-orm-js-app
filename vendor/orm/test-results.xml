@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="Mocha Tests" time="0.011" tests="51" failures="0">
-  <testsuite name="Root Suite" timestamp="2026-03-13T03:13:06" tests="51" time="0.011" failures="0">
-    <testcase name="cast whitelists allowed fields" time="0.000" classname="cast whitelists allowed fields">
+<testsuites name="Mocha Tests" time="0.014" tests="56" failures="0">
+  <testsuite name="Root Suite" timestamp="2026-03-13T03:29:34" tests="56" time="0.014" failures="0">
+    <testcase name="cast whitelists allowed fields" time="0.001" classname="cast whitelists allowed fields">
     </testcase>
     <testcase name="cast is replacing not additive — second call resets whitelist" time="0.000" classname="cast is replacing not additive — second call resets whitelist">
     </testcase>
-    <testcase name="cast ignores empty string values" time="0.000" classname="cast ignores empty string values">
+    <testcase name="cast ignores empty string values" time="0.001" classname="cast ignores empty string values">
     </testcase>
     <testcase name="validateRequired passes when field present" time="0.000" classname="validateRequired passes when field present">
     </testcase>
     <testcase name="validateRequired fails when field missing" time="0.000" classname="validateRequired fails when field missing">
     </testcase>
-    <testcase name="validateLength passes within range" time="0.000" classname="validateLength passes within range">
+    <testcase name="validateLength passes within range" time="0.001" classname="validateLength passes within range">
     </testcase>
     <testcase name="validateLength fails when too short" time="0.000" classname="validateLength fails when too short">
     </testcase>
     <testcase name="validateLength fails when too long" time="0.000" classname="validateLength fails when too long">
     </testcase>
-    <testcase name="validateInt passes for valid integer" time="0.001" classname="validateInt passes for valid integer">
+    <testcase name="validateInt passes for valid integer" time="0.000" classname="validateInt passes for valid integer">
     </testcase>
-    <testcase name="validateInt fails for non-integer" time="0.000" classname="validateInt fails for non-integer">
+    <testcase name="validateInt fails for non-integer" time="0.001" classname="validateInt fails for non-integer">
     </testcase>
     <testcase name="validateFloat passes for valid float" time="0.000" classname="validateFloat passes for valid float">
     </testcase>
@@ -39,21 +39,21 @@
     </testcase>
     <testcase name="toInsertSql produces correct SQL for int field" time="0.000" classname="toInsertSql produces correct SQL for int field">
     </testcase>
-    <testcase name="toInsertSql bubbles on invalid changeset" time="0.001" classname="toInsertSql bubbles on invalid changeset">
+    <testcase name="toInsertSql bubbles on invalid changeset" time="0.000" classname="toInsertSql bubbles on invalid changeset">
     </testcase>
     <testcase name="toInsertSql enforces non-nullable fields independently of isValid" time="0.000" classname="toInsertSql enforces non-nullable fields independently of isValid">
     </testcase>
     <testcase name="toUpdateSql produces correct SQL" time="0.000" classname="toUpdateSql produces correct SQL">
     </testcase>
-    <testcase name="toUpdateSql bubbles on invalid changeset" time="0.000" classname="toUpdateSql bubbles on invalid changeset">
+    <testcase name="toUpdateSql bubbles on invalid changeset" time="0.001" classname="toUpdateSql bubbles on invalid changeset">
     </testcase>
     <testcase name="bare from produces SELECT *" time="0.000" classname="bare from produces SELECT *">
     </testcase>
     <testcase name="select restricts columns" time="0.000" classname="select restricts columns">
     </testcase>
-    <testcase name="where adds condition with int value" time="0.001" classname="where adds condition with int value">
+    <testcase name="where adds condition with int value" time="0.000" classname="where adds condition with int value">
     </testcase>
-    <testcase name="where adds condition with bool value" time="0.000" classname="where adds condition with bool value">
+    <testcase name="where adds condition with bool value" time="0.001" classname="where adds condition with bool value">
     </testcase>
     <testcase name="chained where uses AND" time="0.000" classname="chained where uses AND">
     </testcase>
@@ -81,13 +81,13 @@
     </testcase>
     <testcase name="safeIdentifier accepts valid names" time="0.000" classname="safeIdentifier accepts valid names">
     </testcase>
-    <testcase name="safeIdentifier rejects empty string" time="0.000" classname="safeIdentifier rejects empty string">
+    <testcase name="safeIdentifier rejects empty string" time="0.001" classname="safeIdentifier rejects empty string">
     </testcase>
     <testcase name="safeIdentifier rejects leading digit" time="0.000" classname="safeIdentifier rejects leading digit">
     </testcase>
     <testcase name="safeIdentifier rejects SQL metacharacters" time="0.000" classname="safeIdentifier rejects SQL metacharacters">
     </testcase>
-    <testcase name="TableDef field lookup - found" time="0.001" classname="TableDef field lookup - found">
+    <testcase name="TableDef field lookup - found" time="0.000" classname="TableDef field lookup - found">
     </testcase>
     <testcase name="TableDef field lookup - not found bubbles" time="0.000" classname="TableDef field lookup - not found bubbles">
     </testcase>
@@ -99,7 +99,17 @@
     </testcase>
     <testcase name="numbers and booleans" time="0.000" classname="numbers and booleans">
     </testcase>
-    <testcase name="lists" time="0.001" classname="lists">
+    <testcase name="lists" time="0.000" classname="lists">
+    </testcase>
+    <testcase name="SqlFloat64 NaN renders as NULL" time="0.001" classname="SqlFloat64 NaN renders as NULL">
+    </testcase>
+    <testcase name="SqlFloat64 Infinity renders as NULL" time="0.000" classname="SqlFloat64 Infinity renders as NULL">
+    </testcase>
+    <testcase name="SqlFloat64 negative Infinity renders as NULL" time="0.000" classname="SqlFloat64 negative Infinity renders as NULL">
+    </testcase>
+    <testcase name="SqlFloat64 normal values still work" time="0.000" classname="SqlFloat64 normal values still work">
+    </testcase>
+    <testcase name="SqlDate renders with quotes" time="0.000" classname="SqlDate renders with quotes">
     </testcase>
     <testcase name="nesting" time="0.000" classname="nesting">
     </testcase>
