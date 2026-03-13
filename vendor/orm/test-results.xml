@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="Mocha Tests" time="0.033" tests="184" failures="0">
-  <testsuite name="Root Suite" timestamp="2026-03-13T08:09:41" tests="184" time="0.032" failures="0">
-    <testcase name="cast whitelists allowed fields" time="0.001" classname="cast whitelists allowed fields">
+  <testsuite name="Root Suite" timestamp="2026-03-13T08:10:15" tests="184" time="0.032" failures="0">
+    <testcase name="cast whitelists allowed fields" time="0.000" classname="cast whitelists allowed fields">
     </testcase>
     <testcase name="cast is replacing not additive — second call resets whitelist" time="0.000" classname="cast is replacing not additive — second call resets whitelist">
     </testcase>
-    <testcase name="cast ignores empty string values" time="0.001" classname="cast ignores empty string values">
+    <testcase name="cast ignores empty string values" time="0.000" classname="cast ignores empty string values">
     </testcase>
-    <testcase name="validateRequired passes when field present" time="0.000" classname="validateRequired passes when field present">
+    <testcase name="validateRequired passes when field present" time="0.001" classname="validateRequired passes when field present">
     </testcase>
     <testcase name="validateRequired fails when field missing" time="0.000" classname="validateRequired fails when field missing">
     </testcase>
-    <testcase name="validateLength passes within range" time="0.001" classname="validateLength passes within range">
+    <testcase name="validateLength passes within range" time="0.000" classname="validateLength passes within range">
     </testcase>
     <testcase name="validateLength fails when too short" time="0.000" classname="validateLength fails when too short">
     </testcase>
-    <testcase name="validateLength fails when too long" time="0.000" classname="validateLength fails when too long">
+    <testcase name="validateLength fails when too long" time="0.001" classname="validateLength fails when too long">
     </testcase>
     <testcase name="validateInt passes for valid integer" time="0.000" classname="validateInt passes for valid integer">
     </testcase>
-    <testcase name="validateInt fails for non-integer" time="0.001" classname="validateInt fails for non-integer">
+    <testcase name="validateInt fails for non-integer" time="0.000" classname="validateInt fails for non-integer">
     </testcase>
-    <testcase name="validateFloat passes for valid float" time="0.000" classname="validateFloat passes for valid float">
+    <testcase name="validateFloat passes for valid float" time="0.001" classname="validateFloat passes for valid float">
     </testcase>
     <testcase name="validateInt64 passes for valid 64-bit integer" time="0.000" classname="validateInt64 passes for valid 64-bit integer">
     </testcase>
@@ -29,7 +29,7 @@
     </testcase>
     <testcase name="validateBool accepts true/1/yes/on" time="0.000" classname="validateBool accepts true/1/yes/on">
     </testcase>
-    <testcase name="validateBool accepts false/0/no/off" time="0.000" classname="validateBool accepts false/0/no/off">
+    <testcase name="validateBool accepts false/0/no/off" time="0.001" classname="validateBool accepts false/0/no/off">
     </testcase>
     <testcase name="validateBool rejects ambiguous values" time="0.000" classname="validateBool rejects ambiguous values">
     </testcase>
@@ -45,19 +45,19 @@
     </testcase>
     <testcase name="toUpdateSql produces correct SQL" time="0.000" classname="toUpdateSql produces correct SQL">
     </testcase>
-    <testcase name="toUpdateSql bubbles on invalid changeset" time="0.001" classname="toUpdateSql bubbles on invalid changeset">
+    <testcase name="toUpdateSql bubbles on invalid changeset" time="0.000" classname="toUpdateSql bubbles on invalid changeset">
     </testcase>
-    <testcase name="putChange adds a new field" time="0.000" classname="putChange adds a new field">
+    <testcase name="putChange adds a new field" time="0.001" classname="putChange adds a new field">
     </testcase>
     <testcase name="putChange overwrites existing field" time="0.000" classname="putChange overwrites existing field">
     </testcase>
     <testcase name="putChange value appears in toInsertSql" time="0.000" classname="putChange value appears in toInsertSql">
     </testcase>
-    <testcase name="getChange returns value for existing field" time="0.001" classname="getChange returns value for existing field">
+    <testcase name="getChange returns value for existing field" time="0.000" classname="getChange returns value for existing field">
     </testcase>
     <testcase name="getChange bubbles on missing field" time="0.000" classname="getChange bubbles on missing field">
     </testcase>
-    <testcase name="deleteChange removes field" time="0.000" classname="deleteChange removes field">
+    <testcase name="deleteChange removes field" time="0.001" classname="deleteChange removes field">
     </testcase>
     <testcase name="deleteChange on nonexistent field is no-op" time="0.000" classname="deleteChange on nonexistent field is no-op">
     </testcase>
@@ -67,7 +67,7 @@
     </testcase>
     <testcase name="validateInclusion skips when field not in changes" time="0.000" classname="validateInclusion skips when field not in changes">
     </testcase>
-    <testcase name="validateExclusion passes when value not in list" time="0.000" classname="validateExclusion passes when value not in list">
+    <testcase name="validateExclusion passes when value not in list" time="0.001" classname="validateExclusion passes when value not in list">
     </testcase>
     <testcase name="validateExclusion fails when value in list" time="0.000" classname="validateExclusion fails when value in list">
     </testcase>
@@ -89,7 +89,7 @@
     </testcase>
     <testcase name="validateNumber skips when field not in changes" time="0.000" classname="validateNumber skips when field not in changes">
     </testcase>
-    <testcase name="validateAcceptance passes for true values" time="0.000" classname="validateAcceptance passes for true values">
+    <testcase name="validateAcceptance passes for true values" time="0.001" classname="validateAcceptance passes for true values">
     </testcase>
     <testcase name="validateAcceptance fails for non-true values" time="0.000" classname="validateAcceptance fails for non-true values">
     </testcase>
@@ -99,7 +99,7 @@
     </testcase>
     <testcase name="validateConfirmation fails when confirmation missing" time="0.000" classname="validateConfirmation fails when confirmation missing">
     </testcase>
-    <testcase name="validateContains passes when substring found" time="0.001" classname="validateContains passes when substring found">
+    <testcase name="validateContains passes when substring found" time="0.000" classname="validateContains passes when substring found">
     </testcase>
     <testcase name="validateContains fails when substring not found" time="0.000" classname="validateContains fails when substring not found">
     </testcase>
@@ -113,9 +113,9 @@
     </testcase>
     <testcase name="validateEndsWith fails" time="0.000" classname="validateEndsWith fails">
     </testcase>
-    <testcase name="validateEndsWith handles repeated suffix correctly" time="0.001" classname="validateEndsWith handles repeated suffix correctly">
+    <testcase name="validateEndsWith handles repeated suffix correctly" time="0.000" classname="validateEndsWith handles repeated suffix correctly">
     </testcase>
-    <testcase name="toInsertSql uses default value when field not in changes" time="0.000" classname="toInsertSql uses default value when field not in changes">
+    <testcase name="toInsertSql uses default value when field not in changes" time="0.001" classname="toInsertSql uses default value when field not in changes">
     </testcase>
     <testcase name="toInsertSql change overrides default value" time="0.000" classname="toInsertSql change overrides default value">
     </testcase>
@@ -125,7 +125,7 @@
     </testcase>
     <testcase name="toInsertSql allows missing non-nullable virtual field" time="0.000" classname="toInsertSql allows missing non-nullable virtual field">
     </testcase>
-    <testcase name="toUpdateSql skips virtual fields" time="0.000" classname="toUpdateSql skips virtual fields">
+    <testcase name="toUpdateSql skips virtual fields" time="0.001" classname="toUpdateSql skips virtual fields">
     </testcase>
     <testcase name="toUpdateSql uses custom primary key" time="0.000" classname="toUpdateSql uses custom primary key">
     </testcase>
@@ -137,7 +137,7 @@
     </testcase>
     <testcase name="select restricts columns" time="0.000" classname="select restricts columns">
     </testcase>
-    <testcase name="where adds condition with int value" time="0.000" classname="where adds condition with int value">
+    <testcase name="where adds condition with int value" time="0.001" classname="where adds condition with int value">
     </testcase>
     <testcase name="where adds condition with bool value" time="0.000" classname="where adds condition with bool value">
     </testcase>
@@ -161,9 +161,9 @@
     </testcase>
     <testcase name="safeToSql bubbles on negative defaultLimit" time="0.000" classname="safeToSql bubbles on negative defaultLimit">
     </testcase>
-    <testcase name="where with injection attempt in string value is escaped" time="0.001" classname="where with injection attempt in string value is escaped">
+    <testcase name="where with injection attempt in string value is escaped" time="0.000" classname="where with injection attempt in string value is escaped">
     </testcase>
-    <testcase name="safeIdentifier rejects user-supplied table name with metacharacters" time="0.000" classname="safeIdentifier rejects user-supplied table name with metacharacters">
+    <testcase name="safeIdentifier rejects user-supplied table name with metacharacters" time="0.001" classname="safeIdentifier rejects user-supplied table name with metacharacters">
     </testcase>
     <testcase name="innerJoin produces INNER JOIN" time="0.000" classname="innerJoin produces INNER JOIN">
     </testcase>
@@ -177,7 +177,7 @@
     </testcase>
     <testcase name="join with where and orderBy" time="0.000" classname="join with where and orderBy">
     </testcase>
-    <testcase name="col helper produces qualified reference" time="0.000" classname="col helper produces qualified reference">
+    <testcase name="col helper produces qualified reference" time="0.001" classname="col helper produces qualified reference">
     </testcase>
     <testcase name="join with col helper" time="0.000" classname="join with col helper">
     </testcase>
@@ -189,9 +189,9 @@
     </testcase>
     <testcase name="mixed where and orWhere" time="0.000" classname="mixed where and orWhere">
     </testcase>
-    <testcase name="whereNull" time="0.001" classname="whereNull">
+    <testcase name="whereNull" time="0.000" classname="whereNull">
     </testcase>
-    <testcase name="whereNotNull" time="0.000" classname="whereNotNull">
+    <testcase name="whereNotNull" time="0.001" classname="whereNotNull">
     </testcase>
     <testcase name="whereNull chained with where" time="0.000" classname="whereNull chained with where">
     </testcase>
@@ -203,11 +203,11 @@
     </testcase>
     <testcase name="whereIn with empty list produces 1=0" time="0.000" classname="whereIn with empty list produces 1=0">
     </testcase>
-    <testcase name="whereIn chained" time="0.001" classname="whereIn chained">
+    <testcase name="whereIn chained" time="0.000" classname="whereIn chained">
     </testcase>
     <testcase name="whereIn single element" time="0.000" classname="whereIn single element">
     </testcase>
-    <testcase name="whereNot basic" time="0.000" classname="whereNot basic">
+    <testcase name="whereNot basic" time="0.001" classname="whereNot basic">
     </testcase>
     <testcase name="whereNot chained" time="0.000" classname="whereNot chained">
     </testcase>
@@ -221,11 +221,11 @@
     </testcase>
     <testcase name="whereLike with injection attempt" time="0.000" classname="whereLike with injection attempt">
     </testcase>
-    <testcase name="whereLike wildcard patterns" time="0.001" classname="whereLike wildcard patterns">
+    <testcase name="whereLike wildcard patterns" time="0.000" classname="whereLike wildcard patterns">
     </testcase>
     <testcase name="countAll produces COUNT(*)" time="0.000" classname="countAll produces COUNT(*)">
     </testcase>
-    <testcase name="countCol produces COUNT(field)" time="0.000" classname="countCol produces COUNT(field)">
+    <testcase name="countCol produces COUNT(field)" time="0.001" classname="countCol produces COUNT(field)">
     </testcase>
     <testcase name="sumCol produces SUM(field)" time="0.000" classname="sumCol produces SUM(field)">
     </testcase>
@@ -257,9 +257,9 @@
     </testcase>
     <testcase name="countSql with WHERE" time="0.000" classname="countSql with WHERE">
     </testcase>
-    <testcase name="countSql with JOIN" time="0.001" classname="countSql with JOIN">
+    <testcase name="countSql with JOIN" time="0.000" classname="countSql with JOIN">
     </testcase>
-    <testcase name="countSql drops orderBy/limit/offset" time="0.000" classname="countSql drops orderBy/limit/offset">
+    <testcase name="countSql drops orderBy/limit/offset" time="0.001" classname="countSql drops orderBy/limit/offset">
     </testcase>
     <testcase name="full aggregation query" time="0.000" classname="full aggregation query">
     </testcase>
@@ -269,9 +269,9 @@
     </testcase>
     <testcase name="intersectSql" time="0.000" classname="intersectSql">
     </testcase>
-    <testcase name="exceptSql" time="0.001" classname="exceptSql">
+    <testcase name="exceptSql" time="0.000" classname="exceptSql">
     </testcase>
-    <testcase name="subquery with alias" time="0.000" classname="subquery with alias">
+    <testcase name="subquery with alias" time="0.001" classname="subquery with alias">
     </testcase>
     <testcase name="existsSql" time="0.000" classname="existsSql">
     </testcase>
@@ -297,9 +297,9 @@
     </testcase>
     <testcase name="UpdateQuery with limit" time="0.000" classname="UpdateQuery with limit">
     </testcase>
-    <testcase name="UpdateQuery escaping" time="0.001" classname="UpdateQuery escaping">
+    <testcase name="UpdateQuery escaping" time="0.000" classname="UpdateQuery escaping">
     </testcase>
-    <testcase name="DeleteQuery basic" time="0.000" classname="DeleteQuery basic">
+    <testcase name="DeleteQuery basic" time="0.001" classname="DeleteQuery basic">
     </testcase>
     <testcase name="DeleteQuery multiple WHERE" time="0.000" classname="DeleteQuery multiple WHERE">
     </testcase>
