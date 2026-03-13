@@ -1,6 +1,6 @@
-# Generic ORM — JavaScript Demo App
+# Alloy — JavaScript Demo App
 
-A todo-list application built with Express, EJS, and better-sqlite3, demonstrating the [Generic ORM](https://github.com/notactuallytreyanastasio/generic_orm) compiled from Temper to JavaScript.
+A todo-list application built with Express, EJS, and better-sqlite3, demonstrating the [Alloy](https://github.com/notactuallytreyanastasio/alloy) compiled from Temper to JavaScript.
 
 ## Stack
 
@@ -9,7 +9,7 @@ A todo-list application built with Express, EJS, and better-sqlite3, demonstrati
 | Framework | Express 4.x |
 | Templates | EJS |
 | Database | SQLite via better-sqlite3 |
-| ORM | [Generic ORM](https://github.com/notactuallytreyanastasio/generic_orm) (vendored) |
+| ORM | [Alloy](https://github.com/notactuallytreyanastasio/alloy) (vendored) |
 | Port | 5006 |
 
 ## ORM Usage
@@ -57,4 +57,4 @@ The `vendor/` directory contains the ORM compiled from Temper to JavaScript ES m
 
 ---
 
-Part of the [Generic ORM](https://github.com/notactuallytreyanastasio/generic_orm) project — write once in Temper, secure everywhere.
+Part of the [Alloy](https://github.com/notactuallytreyanastasio/alloy) project — write once in Temper, secure everywhere.
