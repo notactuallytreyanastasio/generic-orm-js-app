@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="Mocha Tests" time="0.014" tests="56" failures="0">
-  <testsuite name="Root Suite" timestamp="2026-03-13T04:02:11" tests="56" time="0.014" failures="0">
-    <testcase name="cast whitelists allowed fields" time="0.001" classname="cast whitelists allowed fields">
+  <testsuite name="Root Suite" timestamp="2026-03-13T04:05:33" tests="56" time="0.014" failures="0">
+    <testcase name="cast whitelists allowed fields" time="0.000" classname="cast whitelists allowed fields">
     </testcase>
     <testcase name="cast is replacing not additive — second call resets whitelist" time="0.000" classname="cast is replacing not additive — second call resets whitelist">
     </testcase>
@@ -13,7 +13,7 @@
     </testcase>
     <testcase name="validateLength passes within range" time="0.000" classname="validateLength passes within range">
     </testcase>
-    <testcase name="validateLength fails when too short" time="0.001" classname="validateLength fails when too short">
+    <testcase name="validateLength fails when too short" time="0.000" classname="validateLength fails when too short">
     </testcase>
     <testcase name="validateLength fails when too long" time="0.000" classname="validateLength fails when too long">
     </testcase>
@@ -27,7 +27,7 @@
     </testcase>
     <testcase name="validateInt64 fails for non-integer" time="0.000" classname="validateInt64 fails for non-integer">
     </testcase>
-    <testcase name="validateBool accepts true/1/yes/on" time="0.000" classname="validateBool accepts true/1/yes/on">
+    <testcase name="validateBool accepts true/1/yes/on" time="0.001" classname="validateBool accepts true/1/yes/on">
     </testcase>
     <testcase name="validateBool accepts false/0/no/off" time="0.000" classname="validateBool accepts false/0/no/off">
     </testcase>
@@ -37,9 +37,9 @@
     </testcase>
     <testcase name="toInsertSql produces correct SQL for string field" time="0.000" classname="toInsertSql produces correct SQL for string field">
     </testcase>
-    <testcase name="toInsertSql produces correct SQL for int field" time="0.000" classname="toInsertSql produces correct SQL for int field">
+    <testcase name="toInsertSql produces correct SQL for int field" time="0.001" classname="toInsertSql produces correct SQL for int field">
     </testcase>
-    <testcase name="toInsertSql bubbles on invalid changeset" time="0.001" classname="toInsertSql bubbles on invalid changeset">
+    <testcase name="toInsertSql bubbles on invalid changeset" time="0.000" classname="toInsertSql bubbles on invalid changeset">
     </testcase>
     <testcase name="toInsertSql enforces non-nullable fields independently of isValid" time="0.000" classname="toInsertSql enforces non-nullable fields independently of isValid">
     </testcase>
@@ -47,15 +47,15 @@
     </testcase>
     <testcase name="toUpdateSql bubbles on invalid changeset" time="0.000" classname="toUpdateSql bubbles on invalid changeset">
     </testcase>
-    <testcase name="bare from produces SELECT *" time="0.000" classname="bare from produces SELECT *">
+    <testcase name="bare from produces SELECT *" time="0.001" classname="bare from produces SELECT *">
     </testcase>
-    <testcase name="select restricts columns" time="0.001" classname="select restricts columns">
+    <testcase name="select restricts columns" time="0.000" classname="select restricts columns">
     </testcase>
     <testcase name="where adds condition with int value" time="0.000" classname="where adds condition with int value">
     </testcase>
     <testcase name="where adds condition with bool value" time="0.000" classname="where adds condition with bool value">
     </testcase>
-    <testcase name="chained where uses AND" time="0.000" classname="chained where uses AND">
+    <testcase name="chained where uses AND" time="0.001" classname="chained where uses AND">
     </testcase>
     <testcase name="orderBy ASC" time="0.000" classname="orderBy ASC">
     </testcase>
@@ -97,13 +97,13 @@
     </testcase>
     <testcase name="string edge cases" time="0.000" classname="string edge cases">
     </testcase>
-    <testcase name="numbers and booleans" time="0.000" classname="numbers and booleans">
+    <testcase name="numbers and booleans" time="0.001" classname="numbers and booleans">
     </testcase>
-    <testcase name="lists" time="0.001" classname="lists">
+    <testcase name="lists" time="0.000" classname="lists">
     </testcase>
     <testcase name="SqlFloat64 NaN renders as NULL" time="0.000" classname="SqlFloat64 NaN renders as NULL">
     </testcase>
-    <testcase name="SqlFloat64 Infinity renders as NULL" time="0.000" classname="SqlFloat64 Infinity renders as NULL">
+    <testcase name="SqlFloat64 Infinity renders as NULL" time="0.001" classname="SqlFloat64 Infinity renders as NULL">
     </testcase>
     <testcase name="SqlFloat64 negative Infinity renders as NULL" time="0.000" classname="SqlFloat64 negative Infinity renders as NULL">
     </testcase>
