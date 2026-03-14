@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="0.036" tests="221" failures="0">
+  <testsuite name="Root Suite" timestamp="2026-03-14T03:19:35" tests="221" time="0.036" failures="0">
+    <testcase name="cast whitelists allowed fields" time="0.001" classname="cast whitelists allowed fields">
+    </testcase>
+    <testcase name="cast is replacing not additive — second call resets whitelist" time="0.000" classname="cast is replacing not additive — second call resets whitelist">
+    </testcase>
+    <testcase name="cast ignores empty string values" time="0.000" classname="cast ignores empty string values">
+    </testcase>
+    <testcase name="validateRequired passes when field present" time="0.000" classname="validateRequired passes when field present">
+    </testcase>
+    <testcase name="validateRequired fails when field missing" time="0.000" classname="validateRequired fails when field missing">
+    </testcase>
+    <testcase name="validateLength passes within range" time="0.000" classname="validateLength passes within range">
+    </testcase>
+    <testcase name="validateLength fails when too short" time="0.000" classname="validateLength fails when too short">
+    </testcase>
+    <testcase name="validateLength fails when too long" time="0.001" classname="validateLength fails when too long">
+    </testcase>
+    <testcase name="validateInt passes for valid integer" time="0.000" classname="validateInt passes for valid integer">
+    </testcase>
+    <testcase name="validateInt fails for non-integer" time="0.000" classname="validateInt fails for non-integer">
+    </testcase>
+    <testcase name="validateFloat passes for valid float" time="0.000" classname="validateFloat passes for valid float">
+    </testcase>
+    <testcase name="validateInt64 passes for valid 64-bit integer" time="0.001" classname="validateInt64 passes for valid 64-bit integer">
+    </testcase>
+    <testcase name="validateInt64 fails for non-integer" time="0.000" classname="validateInt64 fails for non-integer">
+    </testcase>
+    <testcase name="validateBool accepts true/1/yes/on" time="0.000" classname="validateBool accepts true/1/yes/on">
+    </testcase>
+    <testcase name="validateBool accepts false/0/no/off" time="0.000" classname="validateBool accepts false/0/no/off">
+    </testcase>
+    <testcase name="validateBool rejects ambiguous values" time="0.001" classname="validateBool rejects ambiguous values">
+    </testcase>
+    <testcase name="toInsertSql escapes Bobby Tables" time="0.001" classname="toInsertSql escapes Bobby Tables">
+    </testcase>
+    <testcase name="toInsertSql produces correct SQL for string field" time="0.000" classname="toInsertSql produces correct SQL for string field">
+    </testcase>
+    <testcase name="toInsertSql produces correct SQL for int field" time="0.000" classname="toInsertSql produces correct SQL for int field">
+    </testcase>
+    <testcase name="toInsertSql bubbles on invalid changeset" time="0.000" classname="toInsertSql bubbles on invalid changeset">
+    </testcase>
+    <testcase name="toInsertSql enforces non-nullable fields independently of isValid" time="0.001" classname="toInsertSql enforces non-nullable fields independently of isValid">
+    </testcase>
+    <testcase name="toUpdateSql produces correct SQL" time="0.000" classname="toUpdateSql produces correct SQL">
+    </testcase>
+    <testcase name="toUpdateSql bubbles on invalid changeset" time="0.000" classname="toUpdateSql bubbles on invalid changeset">
+    </testcase>
+    <testcase name="putChange adds a new field" time="0.000" classname="putChange adds a new field">
+    </testcase>
+    <testcase name="putChange overwrites existing field" time="0.000" classname="putChange overwrites existing field">
+    </testcase>
+    <testcase name="putChange value appears in toInsertSql" time="0.001" classname="putChange value appears in toInsertSql">
+    </testcase>
+    <testcase name="getChange returns value for existing field" time="0.000" classname="getChange returns value for existing field">
+    </testcase>
+    <testcase name="getChange bubbles on missing field" time="0.000" classname="getChange bubbles on missing field">
+    </testcase>
+    <testcase name="deleteChange removes field" time="0.000" classname="deleteChange removes field">
+    </testcase>
+    <testcase name="deleteChange on nonexistent field is no-op" time="0.000" classname="deleteChange on nonexistent field is no-op">
+    </testcase>
+    <testcase name="validateInclusion passes when value in list" time="0.000" classname="validateInclusion passes when value in list">
+    </testcase>
+    <testcase name="validateInclusion fails when value not in list" time="0.000" classname="validateInclusion fails when value not in list">
+    </testcase>
+    <testcase name="validateInclusion skips when field not in changes" time="0.000" classname="validateInclusion skips when field not in changes">
+    </testcase>
+    <testcase name="validateExclusion passes when value not in list" time="0.000" classname="validateExclusion passes when value not in list">
+    </testcase>
+    <testcase name="validateExclusion fails when value in list" time="0.000" classname="validateExclusion fails when value in list">
+    </testcase>
+    <testcase name="validateExclusion skips when field not in changes" time="0.000" classname="validateExclusion skips when field not in changes">
+    </testcase>
+    <testcase name="validateNumber greaterThan passes" time="0.001" classname="validateNumber greaterThan passes">
+    </testcase>
+    <testcase name="validateNumber greaterThan fails" time="0.000" classname="validateNumber greaterThan fails">
+    </testcase>
+    <testcase name="validateNumber lessThan passes" time="0.000" classname="validateNumber lessThan passes">
+    </testcase>
+    <testcase name="validateNumber lessThan fails" time="0.000" classname="validateNumber lessThan fails">
+    </testcase>
+    <testcase name="validateNumber greaterThanOrEqual boundary" time="0.000" classname="validateNumber greaterThanOrEqual boundary">
+    </testcase>
+    <testcase name="validateNumber combined options" time="0.000" classname="validateNumber combined options">
+    </testcase>
+    <testcase name="validateNumber non-numeric value" time="0.000" classname="validateNumber non-numeric value">
+    </testcase>
+    <testcase name="validateNumber skips when field not in changes" time="0.000" classname="validateNumber skips when field not in changes">
+    </testcase>
+    <testcase name="validateAcceptance passes for true values" time="0.000" classname="validateAcceptance passes for true values">
+    </testcase>
+    <testcase name="validateAcceptance fails for non-true values" time="0.000" classname="validateAcceptance fails for non-true values">
+    </testcase>
+    <testcase name="validateConfirmation passes when fields match" time="0.000" classname="validateConfirmation passes when fields match">
+    </testcase>
+    <testcase name="validateConfirmation fails when fields differ" time="0.001" classname="validateConfirmation fails when fields differ">
+    </testcase>
+    <testcase name="validateConfirmation fails when confirmation missing" time="0.000" classname="validateConfirmation fails when confirmation missing">
+    </testcase>
+    <testcase name="validateContains passes when substring found" time="0.000" classname="validateContains passes when substring found">
+    </testcase>
+    <testcase name="validateContains fails when substring not found" time="0.000" classname="validateContains fails when substring not found">
+    </testcase>
+    <testcase name="validateContains skips when field not in changes" time="0.000" classname="validateContains skips when field not in changes">
+    </testcase>
+    <testcase name="validateStartsWith passes" time="0.000" classname="validateStartsWith passes">
+    </testcase>
+    <testcase name="validateStartsWith fails" time="0.000" classname="validateStartsWith fails">
+    </testcase>
+    <testcase name="validateEndsWith passes" time="0.001" classname="validateEndsWith passes">
+    </testcase>
+    <testcase name="validateEndsWith fails" time="0.000" classname="validateEndsWith fails">
+    </testcase>
+    <testcase name="validateEndsWith handles repeated suffix correctly" time="0.000" classname="validateEndsWith handles repeated suffix correctly">
+    </testcase>
+    <testcase name="toInsertSql uses default value when field not in changes" time="0.000" classname="toInsertSql uses default value when field not in changes">
+    </testcase>
+    <testcase name="toInsertSql change overrides default value" time="0.000" classname="toInsertSql change overrides default value">
+    </testcase>
+    <testcase name="toInsertSql with timestamps uses DEFAULT" time="0.000" classname="toInsertSql with timestamps uses DEFAULT">
+    </testcase>
+    <testcase name="toInsertSql skips virtual fields" time="0.001" classname="toInsertSql skips virtual fields">
+    </testcase>
+    <testcase name="toInsertSql allows missing non-nullable virtual field" time="0.000" classname="toInsertSql allows missing non-nullable virtual field">
+    </testcase>
+    <testcase name="toUpdateSql skips virtual fields" time="0.000" classname="toUpdateSql skips virtual fields">
+    </testcase>
+    <testcase name="toUpdateSql uses custom primary key" time="0.000" classname="toUpdateSql uses custom primary key">
+    </testcase>
+    <testcase name="deleteSql uses custom primary key" time="0.000" classname="deleteSql uses custom primary key">
+    </testcase>
+    <testcase name="deleteSql uses default id when primaryKey null" time="0.000" classname="deleteSql uses default id when primaryKey null">
+    </testcase>
+    <testcase name="already-invalid changeset skips subsequent validators" time="0.001" classname="already-invalid changeset skips subsequent validators">
+    </testcase>
+    <testcase name="validateNumber lessThanOrEqual passes at boundary" time="0.000" classname="validateNumber lessThanOrEqual passes at boundary">
+    </testcase>
+    <testcase name="validateNumber lessThanOrEqual fails above boundary" time="0.000" classname="validateNumber lessThanOrEqual fails above boundary">
+    </testcase>
+    <testcase name="validateNumber equalTo passes when equal" time="0.000" classname="validateNumber equalTo passes when equal">
+    </testcase>
+    <testcase name="validateNumber equalTo fails when not equal" time="0.000" classname="validateNumber equalTo fails when not equal">
+    </testcase>
+    <testcase name="validateNumber greaterThan fails at exact threshold" time="0.000" classname="validateNumber greaterThan fails at exact threshold">
+    </testcase>
+    <testcase name="validateNumber lessThan fails at exact threshold" time="0.000" classname="validateNumber lessThan fails at exact threshold">
+    </testcase>
+    <testcase name="validateFloat fails for non-float string" time="0.000" classname="validateFloat fails for non-float string">
+    </testcase>
+    <testcase name="toInsertSql with all six field types" time="0.001" classname="toInsertSql with all six field types">
+    </testcase>
+    <testcase name="deleteChange on non-nullable field causes toInsertSql to bubble" time="0.000" classname="deleteChange on non-nullable field causes toInsertSql to bubble">
+    </testcase>
+    <testcase name="validateLength passes at exact min" time="0.000" classname="validateLength passes at exact min">
+    </testcase>
+    <testcase name="validateLength passes at exact max" time="0.000" classname="validateLength passes at exact max">
+    </testcase>
+    <testcase name="validateAcceptance skips when field not in changes" time="0.000" classname="validateAcceptance skips when field not in changes">
+    </testcase>
+    <testcase name="multiple validators chain correctly on valid changeset" time="0.001" classname="multiple validators chain correctly on valid changeset">
+    </testcase>
+    <testcase name="toUpdateSql with multiple non-virtual fields" time="0.000" classname="toUpdateSql with multiple non-virtual fields">
+    </testcase>
+    <testcase name="toUpdateSql bubbles when all changes are virtual fields" time="0.000" classname="toUpdateSql bubbles when all changes are virtual fields">
+    </testcase>
+    <testcase name="putChange satisfies subsequent validateRequired" time="0.000" classname="putChange satisfies subsequent validateRequired">
+    </testcase>
+    <testcase name="validateStartsWith skips when field not in changes" time="0.000" classname="validateStartsWith skips when field not in changes">
+    </testcase>
+    <testcase name="validateEndsWith skips when field not in changes" time="0.000" classname="validateEndsWith skips when field not in changes">
+    </testcase>
+    <testcase name="validateInt accepts zero" time="0.000" classname="validateInt accepts zero">
+    </testcase>
+    <testcase name="validateInt accepts negative" time="0.000" classname="validateInt accepts negative">
+    </testcase>
+    <testcase name="changeset immutability - validators do not mutate base" time="0.001" classname="changeset immutability - validators do not mutate base">
+    </testcase>
+    <testcase name="bare from produces SELECT *" time="0.000" classname="bare from produces SELECT *">
+    </testcase>
+    <testcase name="select restricts columns" time="0.000" classname="select restricts columns">
+    </testcase>
+    <testcase name="where adds condition with int value" time="0.000" classname="where adds condition with int value">
+    </testcase>
+    <testcase name="where adds condition with bool value" time="0.000" classname="where adds condition with bool value">
+    </testcase>
+    <testcase name="chained where uses AND" time="0.001" classname="chained where uses AND">
+    </testcase>
+    <testcase name="orderBy ASC" time="0.000" classname="orderBy ASC">
+    </testcase>
+    <testcase name="orderBy DESC" time="0.000" classname="orderBy DESC">
+    </testcase>
+    <testcase name="limit and offset" time="0.000" classname="limit and offset">
+    </testcase>
+    <testcase name="limit bubbles on negative" time="0.000" classname="limit bubbles on negative">
+    </testcase>
+    <testcase name="offset bubbles on negative" time="0.000" classname="offset bubbles on negative">
+    </testcase>
+    <testcase name="complex composed query" time="0.000" classname="complex composed query">
+    </testcase>
+    <testcase name="safeToSql applies default limit when none set" time="0.000" classname="safeToSql applies default limit when none set">
+    </testcase>
+    <testcase name="safeToSql respects explicit limit" time="0.000" classname="safeToSql respects explicit limit">
+    </testcase>
+    <testcase name="safeToSql bubbles on negative defaultLimit" time="0.000" classname="safeToSql bubbles on negative defaultLimit">
+    </testcase>
+    <testcase name="where with injection attempt in string value is escaped" time="0.000" classname="where with injection attempt in string value is escaped">
+    </testcase>
+    <testcase name="safeIdentifier rejects user-supplied table name with metacharacters" time="0.000" classname="safeIdentifier rejects user-supplied table name with metacharacters">
+    </testcase>
+    <testcase name="innerJoin produces INNER JOIN" time="0.000" classname="innerJoin produces INNER JOIN">
+    </testcase>
+    <testcase name="leftJoin produces LEFT JOIN" time="0.000" classname="leftJoin produces LEFT JOIN">
+    </testcase>
+    <testcase name="rightJoin produces RIGHT JOIN" time="0.000" classname="rightJoin produces RIGHT JOIN">
+    </testcase>
+    <testcase name="fullJoin produces FULL OUTER JOIN" time="0.000" classname="fullJoin produces FULL OUTER JOIN">
+    </testcase>
+    <testcase name="chained joins" time="0.000" classname="chained joins">
+    </testcase>
+    <testcase name="join with where and orderBy" time="0.000" classname="join with where and orderBy">
+    </testcase>
+    <testcase name="col helper produces qualified reference" time="0.000" classname="col helper produces qualified reference">
+    </testcase>
+    <testcase name="join with col helper" time="0.000" classname="join with col helper">
+    </testcase>
+    <testcase name="orWhere basic" time="0.001" classname="orWhere basic">
+    </testcase>
+    <testcase name="where then orWhere" time="0.000" classname="where then orWhere">
+    </testcase>
+    <testcase name="multiple orWhere" time="0.000" classname="multiple orWhere">
+    </testcase>
+    <testcase name="mixed where and orWhere" time="0.000" classname="mixed where and orWhere">
+    </testcase>
+    <testcase name="whereNull" time="0.000" classname="whereNull">
+    </testcase>
+    <testcase name="whereNotNull" time="0.000" classname="whereNotNull">
+    </testcase>
+    <testcase name="whereNull chained with where" time="0.000" classname="whereNull chained with where">
+    </testcase>
+    <testcase name="whereNotNull chained with orWhere" time="0.000" classname="whereNotNull chained with orWhere">
+    </testcase>
+    <testcase name="whereIn with int values" time="0.001" classname="whereIn with int values">
+    </testcase>
+    <testcase name="whereIn with string values escaping" time="0.000" classname="whereIn with string values escaping">
+    </testcase>
+    <testcase name="whereIn with empty list produces 1=0" time="0.000" classname="whereIn with empty list produces 1=0">
+    </testcase>
+    <testcase name="whereIn chained" time="0.000" classname="whereIn chained">
+    </testcase>
+    <testcase name="whereIn single element" time="0.000" classname="whereIn single element">
+    </testcase>
+    <testcase name="whereNot basic" time="0.000" classname="whereNot basic">
+    </testcase>
+    <testcase name="whereNot chained" time="0.000" classname="whereNot chained">
+    </testcase>
+    <testcase name="whereBetween integers" time="0.000" classname="whereBetween integers">
+    </testcase>
+    <testcase name="whereBetween chained" time="0.001" classname="whereBetween chained">
+    </testcase>
+    <testcase name="whereLike basic" time="0.000" classname="whereLike basic">
+    </testcase>
+    <testcase name="whereILike basic" time="0.000" classname="whereILike basic">
+    </testcase>
+    <testcase name="whereLike with injection attempt" time="0.000" classname="whereLike with injection attempt">
+    </testcase>
+    <testcase name="whereLike wildcard patterns" time="0.000" classname="whereLike wildcard patterns">
+    </testcase>
+    <testcase name="countAll produces COUNT(*)" time="0.000" classname="countAll produces COUNT(*)">
+    </testcase>
+    <testcase name="countCol produces COUNT(field)" time="0.000" classname="countCol produces COUNT(field)">
+    </testcase>
+    <testcase name="sumCol produces SUM(field)" time="0.000" classname="sumCol produces SUM(field)">
+    </testcase>
+    <testcase name="avgCol produces AVG(field)" time="0.000" classname="avgCol produces AVG(field)">
+    </testcase>
+    <testcase name="minCol produces MIN(field)" time="0.000" classname="minCol produces MIN(field)">
+    </testcase>
+    <testcase name="maxCol produces MAX(field)" time="0.000" classname="maxCol produces MAX(field)">
+    </testcase>
+    <testcase name="selectExpr with aggregate" time="0.001" classname="selectExpr with aggregate">
+    </testcase>
+    <testcase name="selectExpr with multiple expressions" time="0.000" classname="selectExpr with multiple expressions">
+    </testcase>
+    <testcase name="selectExpr overrides selectedFields" time="0.000" classname="selectExpr overrides selectedFields">
+    </testcase>
+    <testcase name="groupBy single field" time="0.000" classname="groupBy single field">
+    </testcase>
+    <testcase name="groupBy multiple fields" time="0.000" classname="groupBy multiple fields">
+    </testcase>
+    <testcase name="having basic" time="0.000" classname="having basic">
+    </testcase>
+    <testcase name="orHaving" time="0.000" classname="orHaving">
+    </testcase>
+    <testcase name="distinct basic" time="0.000" classname="distinct basic">
+    </testcase>
+    <testcase name="distinct with where" time="0.001" classname="distinct with where">
+    </testcase>
+    <testcase name="countSql bare" time="0.000" classname="countSql bare">
+    </testcase>
+    <testcase name="countSql with WHERE" time="0.000" classname="countSql with WHERE">
+    </testcase>
+    <testcase name="countSql with JOIN" time="0.000" classname="countSql with JOIN">
+    </testcase>
+    <testcase name="countSql drops orderBy/limit/offset" time="0.000" classname="countSql drops orderBy/limit/offset">
+    </testcase>
+    <testcase name="full aggregation query" time="0.000" classname="full aggregation query">
+    </testcase>
+    <testcase name="unionSql" time="0.000" classname="unionSql">
+    </testcase>
+    <testcase name="unionAllSql" time="0.000" classname="unionAllSql">
+    </testcase>
+    <testcase name="intersectSql" time="0.001" classname="intersectSql">
+    </testcase>
+    <testcase name="exceptSql" time="0.000" classname="exceptSql">
+    </testcase>
+    <testcase name="subquery with alias" time="0.000" classname="subquery with alias">
+    </testcase>
+    <testcase name="existsSql" time="0.000" classname="existsSql">
+    </testcase>
+    <testcase name="whereInSubquery" time="0.000" classname="whereInSubquery">
+    </testcase>
+    <testcase name="set operation with WHERE on each side" time="0.000" classname="set operation with WHERE on each side">
+    </testcase>
+    <testcase name="whereInSubquery chained with where" time="0.000" classname="whereInSubquery chained with where">
+    </testcase>
+    <testcase name="existsSql used in where" time="0.001" classname="existsSql used in where">
+    </testcase>
+    <testcase name="UpdateQuery basic" time="0.000" classname="UpdateQuery basic">
+    </testcase>
+    <testcase name="UpdateQuery multiple SET" time="0.000" classname="UpdateQuery multiple SET">
+    </testcase>
+    <testcase name="UpdateQuery multiple WHERE" time="0.000" classname="UpdateQuery multiple WHERE">
+    </testcase>
+    <testcase name="UpdateQuery orWhere" time="0.000" classname="UpdateQuery orWhere">
+    </testcase>
+    <testcase name="UpdateQuery bubbles without WHERE" time="0.000" classname="UpdateQuery bubbles without WHERE">
+    </testcase>
+    <testcase name="UpdateQuery bubbles without SET" time="0.000" classname="UpdateQuery bubbles without SET">
+    </testcase>
+    <testcase name="UpdateQuery with limit" time="0.000" classname="UpdateQuery with limit">
+    </testcase>
+    <testcase name="UpdateQuery escaping" time="0.000" classname="UpdateQuery escaping">
+    </testcase>
+    <testcase name="DeleteQuery basic" time="0.000" classname="DeleteQuery basic">
+    </testcase>
+    <testcase name="DeleteQuery multiple WHERE" time="0.000" classname="DeleteQuery multiple WHERE">
+    </testcase>
+    <testcase name="DeleteQuery bubbles without WHERE" time="0.000" classname="DeleteQuery bubbles without WHERE">
+    </testcase>
+    <testcase name="DeleteQuery orWhere" time="0.000" classname="DeleteQuery orWhere">
+    </testcase>
+    <testcase name="DeleteQuery with limit" time="0.000" classname="DeleteQuery with limit">
+    </testcase>
+    <testcase name="orderByNulls NULLS FIRST" time="0.001" classname="orderByNulls NULLS FIRST">
+    </testcase>
+    <testcase name="orderByNulls NULLS LAST" time="0.000" classname="orderByNulls NULLS LAST">
+    </testcase>
+    <testcase name="mixed orderBy and orderByNulls" time="0.000" classname="mixed orderBy and orderByNulls">
+    </testcase>
+    <testcase name="crossJoin" time="0.000" classname="crossJoin">
+    </testcase>
+    <testcase name="crossJoin combined with other joins" time="0.000" classname="crossJoin combined with other joins">
+    </testcase>
+    <testcase name="lock FOR UPDATE" time="0.000" classname="lock FOR UPDATE">
+    </testcase>
+    <testcase name="lock FOR SHARE" time="0.000" classname="lock FOR SHARE">
+    </testcase>
+    <testcase name="lock with full query" time="0.000" classname="lock with full query">
+    </testcase>
+    <testcase name="query builder immutability - two queries from same base" time="0.000" classname="query builder immutability - two queries from same base">
+    </testcase>
+    <testcase name="limit zero produces LIMIT 0" time="0.000" classname="limit zero produces LIMIT 0">
+    </testcase>
+    <testcase name="safeToSql with zero defaultLimit" time="0.000" classname="safeToSql with zero defaultLimit">
+    </testcase>
+    <testcase name="UpdateQuery limit bubbles on negative" time="0.000" classname="UpdateQuery limit bubbles on negative">
+    </testcase>
+    <testcase name="DeleteQuery limit bubbles on negative" time="0.000" classname="DeleteQuery limit bubbles on negative">
+    </testcase>
+    <testcase name="UpdateQuery immutability - two from same base" time="0.000" classname="UpdateQuery immutability - two from same base">
+    </testcase>
+    <testcase name="DeleteQuery immutability" time="0.000" classname="DeleteQuery immutability">
+    </testcase>
+    <testcase name="safeIdentifier accepts valid names" time="0.001" classname="safeIdentifier accepts valid names">
+    </testcase>
+    <testcase name="safeIdentifier rejects empty string" time="0.000" classname="safeIdentifier rejects empty string">
+    </testcase>
+    <testcase name="safeIdentifier rejects leading digit" time="0.000" classname="safeIdentifier rejects leading digit">
+    </testcase>
+    <testcase name="safeIdentifier rejects SQL metacharacters" time="0.000" classname="safeIdentifier rejects SQL metacharacters">
+    </testcase>
+    <testcase name="TableDef field lookup - found" time="0.000" classname="TableDef field lookup - found">
+    </testcase>
+    <testcase name="TableDef field lookup - not found bubbles" time="0.000" classname="TableDef field lookup - not found bubbles">
+    </testcase>
+    <testcase name="FieldDef nullable flag" time="0.000" classname="FieldDef nullable flag">
+    </testcase>
+    <testcase name="pkName defaults to id when primaryKey is null" time="0.000" classname="pkName defaults to id when primaryKey is null">
+    </testcase>
+    <testcase name="pkName returns custom primary key" time="0.000" classname="pkName returns custom primary key">
+    </testcase>
+    <testcase name="timestamps returns two DateField defs" time="0.000" classname="timestamps returns two DateField defs">
+    </testcase>
+    <testcase name="FieldDef defaultValue field" time="0.001" classname="FieldDef defaultValue field">
+    </testcase>
+    <testcase name="FieldDef virtual flag" time="0.000" classname="FieldDef virtual flag">
+    </testcase>
+    <testcase name="safeIdentifier accepts single character names" time="0.000" classname="safeIdentifier accepts single character names">
+    </testcase>
+    <testcase name="safeIdentifier accepts all-underscore names" time="0.000" classname="safeIdentifier accepts all-underscore names">
+    </testcase>
+    <testcase name="TableDef with empty field list" time="0.000" classname="TableDef with empty field list">
+    </testcase>
+    <testcase name="string escaping" time="0.000" classname="string escaping">
+    </testcase>
+    <testcase name="string edge cases" time="0.000" classname="string edge cases">
+    </testcase>
+    <testcase name="numbers and booleans" time="0.000" classname="numbers and booleans">
+    </testcase>
+    <testcase name="lists" time="0.001" classname="lists">
+    </testcase>
+    <testcase name="SqlFloat64 NaN renders as NULL" time="0.000" classname="SqlFloat64 NaN renders as NULL">
+    </testcase>
+    <testcase name="SqlFloat64 Infinity renders as NULL" time="0.000" classname="SqlFloat64 Infinity renders as NULL">
+    </testcase>
+    <testcase name="SqlFloat64 negative Infinity renders as NULL" time="0.000" classname="SqlFloat64 negative Infinity renders as NULL">
+    </testcase>
+    <testcase name="SqlFloat64 normal values still work" time="0.000" classname="SqlFloat64 normal values still work">
+    </testcase>
+    <testcase name="SqlDate renders with quotes" time="0.000" classname="SqlDate renders with quotes">
+    </testcase>
+    <testcase name="nesting" time="0.000" classname="nesting">
+    </testcase>
+    <testcase name="SqlInt32 negative and zero values" time="0.001" classname="SqlInt32 negative and zero values">
+    </testcase>
+    <testcase name="SqlInt64 negative value" time="0.000" classname="SqlInt64 negative value">
+    </testcase>
+    <testcase name="single element list rendering" time="0.000" classname="single element list rendering">
+    </testcase>
+    <testcase name="SqlDefault renders DEFAULT keyword" time="0.000" classname="SqlDefault renders DEFAULT keyword">
+    </testcase>
+    <testcase name="SqlString with backslash" time="0.000" classname="SqlString with backslash">
+    </testcase>
+  </testsuite>
+</testsuites>
